@@ -9,9 +9,10 @@ import { toast } from "sonner";
 import { NFT as NFTType } from "thirdweb";
 import { tokensOfOwner } from "thirdweb/extensions/erc721";
 import { MediaRenderer, useActiveAccount } from "thirdweb/react";
+import { Cross } from "lucide-react";
+import BackButton from "@/components/common/back-button";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function Sell() {
   const [loading, setLoading] = useState(false);
@@ -28,8 +29,11 @@ export default function Sell() {
       })
         .then(setOwnedTokenIds)
         .catch((err) => {
+          // Log the full error object for debugging
+          console.error("Error fetching NFTs:", err);
+
+          // Display a user-friendly error message
           toast.error("Something went wrong while fetching your NFTs!");
-          console.log(err);
         })
         .finally(() => {
           setLoading(false);
@@ -38,8 +42,14 @@ export default function Sell() {
   }, [account]);
 
   return (
-    <div>
-      <h1 className="text-4xl">Sell NFTs</h1>
+    <div className={"mt-10"}>
+      <div className={"flex w-full items-center justify-between"}>
+        <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+          Sell NFTs
+        </h1>
+        <BackButton className={"h-fit"} />
+      </div>
+
       <div className="my-8">
         {!selectedNft ? (
           <>
@@ -76,7 +86,7 @@ export default function Sell() {
                   }}
                   className="absolute right-0 top-0 m-3 cursor-pointer transition-all hover:scale-110"
                 >
-                  {/* <Cross1Icon className="h-6 w-6" /> */}
+                  <Cross size={24} />
                 </button>
               </div>
             </div>

@@ -1,11 +1,10 @@
 import React from "react";
-import { MediaRenderer } from "thirdweb/react";
+import { Blobbie, MediaRenderer } from "thirdweb/react";
 import {
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import randomColor from "@/lib/utils";
 import { getNFT } from "thirdweb/extensions/erc721";
 import client from "@/lib/client";
 import BuyListingButton from "@/components/token/buy-listing-button";
@@ -14,8 +13,6 @@ import Events from "@/components/token/events";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-
-const [randomColor1, randomColor2] = [randomColor(), randomColor()];
 
 export default async function Page({
   params,
@@ -43,6 +40,10 @@ export default async function Page({
     auctionsPromise,
     nftPromise,
   ]);
+
+  if (nft.owner === null) {
+    nft.owner = "0x"
+    }
 
   const directListing = listings?.find(
     (l) =>
@@ -73,11 +74,9 @@ export default async function Page({
           </div>
 
           <div className="flex cursor-pointer items-center gap-4 transition-all hover:opacity-80">
-            <div
+            <Blobbie
+              address={nft.owner}
               className="h-10 w-10 overflow-hidden rounded-full opacity-90 md:h-12 md:w-12"
-              style={{
-                background: `linear-gradient(90deg, ${randomColor1}, ${randomColor2})`,
-              }}
             />
             {nft.owner && (
               <div className="flex flex-col">

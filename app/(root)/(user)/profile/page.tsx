@@ -117,7 +117,7 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <div>
-      <BackButton className="h-fit" />
+      <BackButton className="h-fit my-4" />
       {/* Header Section */}
 
       {/* Cover Section */}
