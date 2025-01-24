@@ -16,7 +16,7 @@ export default function Page() {
   const [files, setFiles] = useState<File>();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [supply, setSupply] = useState<number>(1);
+  // const [supply, setSupply] = useState<number>(1);
   const account = useActiveAccount();
 
   const handleFileUpload = (files: File) => {
@@ -57,7 +57,7 @@ export default function Page() {
                 e.preventDefault();
                 setName("");
                 setDescription("");
-                setSupply(1);
+                // setSupply(1);
                 setFiles(undefined);
               }}
             >
@@ -105,26 +105,26 @@ export default function Page() {
                 </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="supply"
-                  className="text-sm/6 font-bold dark:text-text-dark"
-                >
-                  Supply*
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="number"
-                    name="supply"
-                    id="supply"
-                    placeholder="1"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    required
-                    value={supply}
-                    onChange={(e) => setSupply(Number(e.target.value))}
-                  />
-                </div>
-              </div>
+              {/*<div>*/}
+              {/*  <label*/}
+              {/*    htmlFor="supply"*/}
+              {/*    className="text-sm/6 font-bold dark:text-text-dark"*/}
+              {/*  >*/}
+              {/*    Supply**/}
+              {/*  </label>*/}
+              {/*  <div className="mt-2">*/}
+              {/*    <input*/}
+              {/*      type="number"*/}
+              {/*      name="supply"*/}
+              {/*      id="supply"*/}
+              {/*      placeholder="1"*/}
+              {/*      className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"*/}
+              {/*      required*/}
+              {/*      value={supply}*/}
+              {/*      onChange={(e) => setSupply(Number(e.target.value))}*/}
+              {/*    />*/}
+              {/*  </div>*/}
+              {/*</div>*/}
 
               <div>
                 <label
