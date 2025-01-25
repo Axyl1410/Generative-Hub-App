@@ -1,16 +1,16 @@
 "use client";
 
+import NFTGrid, { NFTGridLoading } from "@/components/nft/nft-grid";
+import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { NFT as NFTType, ThirdwebContract } from "thirdweb";
 import {
   DirectListing,
   EnglishAuction,
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
-import { NFT as NFTType, ThirdwebContract } from "thirdweb";
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import NFTGrid, { NFTGridLoading } from "@/components/nft/nft-grid";
-import { toast } from "sonner";
 
 type Props = {
   marketplace: ThirdwebContract;

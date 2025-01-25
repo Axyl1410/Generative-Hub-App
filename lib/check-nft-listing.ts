@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useReadContract } from "thirdweb/react";
-import {
-  getAllValidListings,
-  getAllValidAuctions,
-} from "thirdweb/extensions/marketplace";
 import { MARKETPLACE } from "@/contracts";
+import { useEffect, useState } from "react";
+import {
+  getAllValidAuctions,
+  getAllValidListings,
+} from "thirdweb/extensions/marketplace";
+import { useReadContract } from "thirdweb/react";
 
 export default function CheckNFTListing({
   contractAddress,

@@ -1,16 +1,15 @@
-import React from "react";
-import { Blobbie, MediaRenderer } from "thirdweb/react";
+import BackButton from "@/components/common/back-button";
+import BuyListingButton from "@/components/token/buy-listing-button";
+import Events from "@/components/token/events";
+import MakeOfferButton from "@/components/token/make-offer-button";
+import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import client from "@/lib/client";
+import { getNFT } from "thirdweb/extensions/erc721";
 import {
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import { getNFT } from "thirdweb/extensions/erc721";
-import client from "@/lib/client";
-import BuyListingButton from "@/components/token/buy-listing-button";
-import MakeOfferButton from "@/components/token/make-offer-button";
-import Events from "@/components/token/events";
-import BackButton from "@/components/common/back-button";
+import { Blobbie, MediaRenderer } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

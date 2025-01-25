@@ -1,9 +1,8 @@
 "use client";
 
 import type { NFT as NFTType } from "thirdweb";
-import React from "react";
-import NFT, { LoadingNFTComponent } from "./nft";
 import { DirectListing, EnglishAuction } from "thirdweb/extensions/marketplace";
+import NFT, { LoadingNFTComponent } from "./nft";
 
 type Props = {
   nftData: {

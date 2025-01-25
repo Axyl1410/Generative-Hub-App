@@ -1,11 +1,11 @@
 "use client";
 
-import { useActiveWallet, useDisconnect } from "thirdweb/react";
-import { toast } from "sonner";
-import { ThirdwebButtonProps } from "@/type";
-import React from "react";
-import { Unplug } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThirdwebButtonProps } from "@/type";
+import { Unplug } from "lucide-react";
+import React from "react";
+import { toast } from "sonner";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
 
 const DisconnectButton: React.FC<ThirdwebButtonProps> = ({
   type = "text",
