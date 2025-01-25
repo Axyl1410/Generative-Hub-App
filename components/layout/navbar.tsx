@@ -90,7 +90,7 @@ const Navbar = () => {
                     onClick={dialog.close}
                   >
                     <Link
-                      href="/src/public"
+                      href="/"
                       className="w-full p-2.5 pl-0 transition-all ease-out hover:pl-2"
                     >
                       <div className="flex items-center gap-2.5 text-link">

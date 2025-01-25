@@ -16,6 +16,7 @@ import {
 } from "thirdweb/react";
 import BackButton from "@/components/common/back-button";
 import Loading from "@/components/common/loading";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +54,12 @@ export default function Sell() {
             ) : Error ? (
               <p>Error loading NFTs: {Error.message}</p>
             ) : (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div
+                className={cn(
+                  "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
+                  NFTs && NFTs.length > 0 && "grid"
+                )}
+              >
                 {NFTs && NFTs.length > 0 ? (
                   <>
                     {NFTs.map((nft: NFTType) => (
