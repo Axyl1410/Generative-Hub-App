@@ -1,4 +1,5 @@
 "use client";
+
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
 import {
   bidInAuction,

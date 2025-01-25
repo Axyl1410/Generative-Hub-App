@@ -2,8 +2,9 @@
 
 import { useContractEvents } from "thirdweb/react";
 import { transferEvent } from "thirdweb/extensions/erc721";
-import { POLYGONSCAN_URL, NFT_COLLECTION } from "@/contracts";
+import { NFT_COLLECTION } from "@/contracts";
 import Link from "next/link";
+import { POLYGONSCAN_URL } from "@/lib/client";
 
 export default function Events({ tokenId }: { tokenId: bigint }) {
   const { data: transferEvents } = useContractEvents({
