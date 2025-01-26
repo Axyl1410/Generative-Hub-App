@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
+import { EmptyText } from "@/app/(root)/(user)/sell/page";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -100,14 +101,18 @@ const ProfilePage: React.FC = () => {
         return <p>Displaying Deals...</p>;
       case "Created":
         return <p>Displaying Created items...</p>;
-      case "Favorited":
-        return <p>Displaying Favorited items...</p>;
+      case "Favorite":
+        return <p>Displaying Favorite items...</p>;
       case "Activity":
         return <p>Displaying Activity...</p>;
       default:
         return <p>No items found for this menu.</p>;
     }
   };
+
+  if (!account)
+    return <EmptyText text="Please connect your wallet to see your profile" />;
+
   return (
     <div>
       <BackButton className="my-4 h-fit" />

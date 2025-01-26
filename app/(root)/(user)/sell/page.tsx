@@ -1,12 +1,6 @@
 "use client";
 
-import BackButton from "@/components/common/back-button";
-import Loading from "@/components/common/loading";
-import SaleInfo from "@/components/sale-info";
-import { NFT_COLLECTION } from "@/contracts";
-import client from "@/lib/client";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { Component, useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
 import {
@@ -17,6 +11,12 @@ import {
   useActiveAccount,
   useReadContract,
 } from "thirdweb/react";
+import BackButton from "@/components/common/back-button";
+import Loading from "@/components/common/loading";
+import SaleInfo from "@/components/sale-info";
+import { NFT_COLLECTION } from "@/contracts";
+import client from "@/lib/client";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -26,8 +26,8 @@ export default function Sell() {
 
   const {
     data: NFTs,
-    error: Error,
-    isLoading: isLoading,
+    error,
+    isLoading,
   } = useReadContract(getOwnedNFTs, {
     contract: NFT_COLLECTION,
     owner: account?.address as Hex,
@@ -35,19 +35,18 @@ export default function Sell() {
       enabled: !!account?.address,
     },
   });
-  console.log("NFTs", NFTs);
 
   if (!account) {
-    return <EmptyText text={"Connect your wallet to view your NFTs."} />;
+    return <EmptyText text="Connect your wallet to view your NFTs." />;
   }
 
   return (
-    <div className={"mt-10"}>
-      <div className={"flex w-full items-center justify-between"}>
+    <div className="mt-10">
+      <div className="flex w-full items-center justify-between">
         <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">
           Sell NFTs
         </h1>
-        {!selectedNft && <BackButton className={"h-fit"} />}
+        {!selectedNft && <BackButton className="h-fit" />}
       </div>
 
       <div className="my-8">
@@ -55,8 +54,8 @@ export default function Sell() {
           <>
             {isLoading ? (
               <Loading />
-            ) : Error ? (
-              <p>Error loading NFTs: {Error.message}</p>
+            ) : error ? (
+              <p>Error loading NFTs: {error.message}</p>
             ) : (
               <div
                 className={cn(
@@ -65,32 +64,26 @@ export default function Sell() {
                 )}
               >
                 {NFTs && NFTs.length > 0 ? (
-                  <>
-                    {NFTs.map((nft: NFTType) => (
-                      <div
-                        key={nft.id.toString()}
-                        className="cursor-pointer rounded-lg border p-4"
-                        onClick={() => setSelectedNft(nft)}
-                      >
-                        <NFTProvider contract={NFT_COLLECTION} tokenId={nft.id}>
-                          <NFTMedia className="h-48 w-full rounded-lg object-cover" />
-                          <h2 className="mt-2 text-lg font-semibold">
-                            {nft.metadata.name}
-                          </h2>
-                          <p className="text-sm text-gray-600 dark:text-gray-200">
-                            Token ID: {nft.id.toString()}
-                          </p>
-                          <NFTDescription className="mt-2 text-sm" />
-                        </NFTProvider>
-                      </div>
-                    ))}
-                  </>
+                  NFTs.map((nft: NFTType) => (
+                    <div
+                      key={nft.id.toString()}
+                      className="cursor-pointer rounded-lg border p-4"
+                      onClick={() => setSelectedNft(nft)}
+                    >
+                      <NFTProvider contract={NFT_COLLECTION} tokenId={nft.id}>
+                        <NFTMedia className="h-48 w-full rounded-lg object-cover" />
+                        <h2 className="mt-2 text-lg font-semibold">
+                          {nft.metadata.name}
+                        </h2>
+                        <p className="text-sm text-gray-600 dark:text-gray-200">
+                          Token ID: {nft.id.toString()}
+                        </p>
+                        <NFTDescription className="mt-2 text-sm" />
+                      </NFTProvider>
+                    </div>
+                  ))
                 ) : (
-                  <EmptyText
-                    text={
-                      "Looks like you don&#39;t own any NFTs in this collection. Head to the buy page to buy some!"
-                    }
-                  />
+                  <EmptyText text="Looks like you don't own any NFTs in this collection. Head to the buy page to buy some!" />
                 )}
               </div>
             )}
@@ -122,12 +115,8 @@ export default function Sell() {
                 <SaleInfo nft={selectedNft} />
               </div>
               <div
-                className={
-                  "flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
-                }
-                onClick={() => {
-                  setSelectedNft(undefined);
-                }}
+                className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
+                onClick={() => setSelectedNft(undefined)}
               >
                 Cancel
               </div>
@@ -139,12 +128,15 @@ export default function Sell() {
   );
 }
 
-const EmptyText = ({ text }: { text: string }) => {
-  return (
-    <div className="flex h-[500px] justify-center">
-      <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-        {text}
-      </p>
-    </div>
-  );
-};
+export class EmptyText extends Component<{ text: string }> {
+  render() {
+    const { text } = this.props;
+    return (
+      <div className="mt-10 flex h-[500px] justify-center">
+        <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
+          {text}
+        </p>
+      </div>
+    );
+  }
+}

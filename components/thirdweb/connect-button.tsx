@@ -12,8 +12,10 @@ import {
   AccountBalance,
   AccountProvider,
   useActiveAccount,
+  useActiveWallet,
   useConnectModal,
 } from "thirdweb/react";
+import { Chain } from "thirdweb";
 
 const ConnectButton: React.FC<ThirdwebButtonProps> = ({
   type = "text",

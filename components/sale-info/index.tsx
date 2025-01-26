@@ -1,7 +1,7 @@
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { ADDRESS_ZERO, NFT as NFTType } from "thirdweb";
+import { NFT as NFTType } from "thirdweb";
 import { isApprovedForAll } from "thirdweb/extensions/erc721";
 import { useActiveAccount, useReadContract } from "thirdweb/react";
 import ApprovalButton from "./approve-button";
@@ -12,16 +12,13 @@ type Props = {
   nft: NFTType;
 };
 
-const INPUT_STYLES =
-  "block w-full py-3 px-4 mb-4 bg-transparent border dark:border-white text-base box-shadow-md rounded-lg mb-4";
-const LEGEND_STYLES = "mb-2 text-text dark:text-white/80";
 export default function SaleInfo({ nft }: Props) {
   const account = useActiveAccount();
   const [tab, setTab] = useState<"direct" | "auction">("direct");
 
   const { data: hasApproval } = useReadContract(isApprovedForAll, {
     contract: NFT_COLLECTION,
-    owner: account?.address || ADDRESS_ZERO,
+    owner: (account?.address as string) || "0x",
     operator: MARKETPLACE.address,
   });
 
@@ -60,9 +57,9 @@ export default function SaleInfo({ nft }: Props) {
         {/* Direct listing fields */}
         <div className={cn(tab === "direct" ? "flex" : "hidden", "flex-col")}>
           {/* Input field for buyout price */}
-          <legend className={cn(LEGEND_STYLES)}> Price per token</legend>
+          <legend className={"legend-styles"}> Price per token</legend>
           <input
-            className={cn(INPUT_STYLES)}
+            className={"input-styles"}
             type="number"
             step={0.000001}
             value={directListingState.price}
@@ -80,12 +77,12 @@ export default function SaleInfo({ nft }: Props) {
 
         {/* Auction listing fields */}
         <div className={cn(tab === "auction" ? "flex" : "hidden", "flex-col")}>
-          <legend className={cn(LEGEND_STYLES)}>
+          <legend className={"legend-styles"}>
             {" "}
             Allow bids starting from{" "}
           </legend>
           <input
-            className={cn(INPUT_STYLES)}
+            className={"input-styles"}
             step={0.000001}
             type="number"
             value={auctionListingState.minimumBidAmount}
@@ -97,9 +94,9 @@ export default function SaleInfo({ nft }: Props) {
             }
           />
 
-          <legend className={cn(LEGEND_STYLES)}> Buyout price </legend>
+          <legend className={"legend-styles"}> Buyout price </legend>
           <input
-            className={cn(INPUT_STYLES)}
+            className={"input-styles"}
             type="number"
             step={0.000001}
             value={auctionListingState.buyoutPrice}
