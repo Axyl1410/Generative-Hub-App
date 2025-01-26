@@ -9,6 +9,7 @@ import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
 import Link from "next/link";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
+import DisconnectButton from "@/components/thirdweb/disconnect-button";
 
 const Navbar = () => {
   const dialog = useToggle();
@@ -161,6 +162,9 @@ const Navbar = () => {
                             <p>Create</p>
                           </div>
                         </Link>
+                      </div>
+                      <div onClick={dialog.close}>
+                        <DisconnectButton className="ml-0.5 pl-3" />
                       </div>
                     </>
                   ) : (
