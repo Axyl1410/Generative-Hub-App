@@ -72,6 +72,7 @@ export default function NFTComponent({
           <p className="text-sm font-semibold text-text dark:text-white/60">
             #{nft.id.toString()}
           </p>
+          <p className={"mt-2 text-sm"}>{nft.metadata.description}</p>
         </div>
 
         {(directListing || auctionListing) && (

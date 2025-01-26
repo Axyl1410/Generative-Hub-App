@@ -16,8 +16,8 @@ export const FORMA_SKETCHPAD = defineChain({
   id: 984123,
   name: "Forma Sketchpad",
   nativeCurrency: {
-    name: "FORMA",
-    symbol: "FORMA",
+    name: "TIA",
+    symbol: "TIA",
     decimals: 18,
   },
   rpcUrls: {
@@ -34,6 +34,6 @@ export const FORMA_SKETCHPAD = defineChain({
   testnet: true,
 });
 
-export const FORMASCAN_URL = "https://explorer.sketchpad-1.forma.art/";
+export const FORMASCAN_URL = "https://explorer.sketchpad-1.forma.art";
 
 export default createThirdwebClient(secretKey ? { secretKey } : { clientId });

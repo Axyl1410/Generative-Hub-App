@@ -3,14 +3,13 @@
 import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ThemeSwitcher from "@/components/theme/theme-switcher";
 import CustomConnectButton from "@/components/thirdweb/connect-button";
-import DisconnectButton from "@/components/thirdweb/disconnect-button";
-import NetworkSwitcher from "@/components/thirdweb/network-switcher";
 import Dialog from "@/components/ui/dialog";
 import useToggle from "@/hooks/use-state-toggle";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
 import Link from "next/link";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
+import DisconnectButton from "@/components/thirdweb/disconnect-button";
 
 const Navbar = () => {
   const dialog = useToggle();
@@ -163,9 +162,6 @@ const Navbar = () => {
                             <p>Create</p>
                           </div>
                         </Link>
-                      </div>
-                      <div onClick={dialog.close}>
-                        <NetworkSwitcher className="ml-0.5 pl-3" />
                       </div>
                       <div onClick={dialog.close}>
                         <DisconnectButton className="ml-0.5 pl-3" />

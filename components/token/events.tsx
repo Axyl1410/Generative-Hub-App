@@ -45,7 +45,7 @@ export default function Events({ tokenId }: { tokenId: bigint }) {
           <div className="flex flex-col gap-1">
             <Link
               className="h-6 w-6 p-2"
-              href={`${FORMASCAN_URL}tx/${event.transactionHash}`}
+              href={`${FORMASCAN_URL}/tx/${event.transactionHash}`}
               target="_blank"
             >
               ↗

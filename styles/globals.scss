@@ -28,3 +28,13 @@ html {
   src: url("../font/NeueMontreal.woff");
   font-family: NeueMontreal;
 }
+
+@layer utilities {
+  .input-styles {
+    @apply shadow-md mb-4 block w-full rounded-lg border bg-transparent px-4 py-3 text-base dark:border-white;
+  }
+
+  .legend-styles {
+    @apply mb-2 text-text dark:text-white/80;
+  }
+}
