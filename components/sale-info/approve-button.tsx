@@ -1,7 +1,7 @@
-import { TransactionButton } from "thirdweb/react";
-import { setApprovalForAll } from "thirdweb/extensions/erc721";
-import { NFT_COLLECTION, MARKETPLACE } from "@/contracts";
+import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
 import { toast } from "sonner";
+import { setApprovalForAll } from "thirdweb/extensions/erc721";
+import { TransactionButton } from "thirdweb/react";
 
 export default function ApprovalButton() {
   return (

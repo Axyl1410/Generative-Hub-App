@@ -1,19 +1,19 @@
 "use client";
 
-import client, { POLYGON_ZKEVM_CARDONA_TESTNET } from "@/lib/client";
+import Loading from "@/components/common/loading";
+import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { cn } from "@/lib/utils";
+import { ThirdwebButtonProps } from "@/type";
+import { motion } from "framer-motion";
+import { Wallet } from "lucide-react";
+import React from "react";
+import { toast } from "sonner";
 import {
   AccountBalance,
   AccountProvider,
   useActiveAccount,
   useConnectModal,
 } from "thirdweb/react";
-import { toast } from "sonner";
-import React from "react";
-import { ThirdwebButtonProps } from "@/type";
-import { Wallet } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Loading from "@/components/common/loading";
-import { motion } from "framer-motion";
 
 const ConnectButton: React.FC<ThirdwebButtonProps> = ({
   type = "text",
@@ -26,7 +26,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
   const handleConnect = async () => {
     const wallet = await connect({
       client,
-      chain: POLYGON_ZKEVM_CARDONA_TESTNET,
+      chain: FORMA_SKETCHPAD,
       showThirdwebBranding: false,
       appMetadata: {
         name: "Generative Hub App",
@@ -79,7 +79,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
             <AccountProvider address={`${account?.address}`} client={client}>
               <motion.div layout>
                 <AccountBalance
-                  chain={POLYGON_ZKEVM_CARDONA_TESTNET}
+                  chain={FORMA_SKETCHPAD}
                   loadingComponent={<Loading />}
                   fallbackComponent={<div>Failed to load</div>}
                 />

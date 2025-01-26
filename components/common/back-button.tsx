@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { ArrowLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface BackButtonProps {
   text?: string;

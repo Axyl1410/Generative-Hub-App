@@ -1,8 +1,8 @@
-import { NFTGridLoading } from "@/components/nft/nft-grid";
-import React, { Suspense } from "react";
-import ListingGrid from "@/components/nft/listing-grid";
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
 import BackButton from "@/components/common/back-button";
+import ListingGrid from "@/components/nft/listing-grid";
+import { NFTGridLoading } from "@/components/nft/nft-grid";
+import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

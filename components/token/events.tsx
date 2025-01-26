@@ -4,7 +4,7 @@ import { useContractEvents } from "thirdweb/react";
 import { transferEvent } from "thirdweb/extensions/erc721";
 import { NFT_COLLECTION } from "@/contracts";
 import Link from "next/link";
-import { POLYGONSCAN_URL } from "@/lib/client";
+import { FORMASCAN_URL } from "@/lib/client";
 
 export default function Events({ tokenId }: { tokenId: bigint }) {
   const { data: transferEvents } = useContractEvents({
@@ -45,7 +45,7 @@ export default function Events({ tokenId }: { tokenId: bigint }) {
           <div className="flex flex-col gap-1">
             <Link
               className="h-6 w-6 p-2"
-              href={`${POLYGONSCAN_URL}/tx/${event.transactionHash}`}
+              href={`${FORMASCAN_URL}tx/${event.transactionHash}`}
               target="_blank"
             >
               ↗

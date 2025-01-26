@@ -1,13 +1,12 @@
-import { NFT as NFTType } from "thirdweb";
-import React, { useState } from "react";
-import { useActiveAccount, useReadContract } from "thirdweb/react";
-import { ADDRESS_ZERO } from "thirdweb";
-import { isApprovedForAll } from "thirdweb/extensions/erc721";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { ADDRESS_ZERO, NFT as NFTType } from "thirdweb";
+import { isApprovedForAll } from "thirdweb/extensions/erc721";
+import { useActiveAccount, useReadContract } from "thirdweb/react";
+import ApprovalButton from "./approve-button";
 import AuctionListingButton from "./auction-listing-button";
 import DirectListingButton from "./direct-listing-button";
-import { cn } from "@/lib/utils";
-import ApprovalButton from "./approve-button";
 
 type Props = {
   nft: NFTType;

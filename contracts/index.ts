@@ -1,7 +1,7 @@
 import client, {
   address_collection_contract,
   address_marketplace_contract,
-  POLYGON_ZKEVM_CARDONA_TESTNET,
+  FORMA_SKETCHPAD,
 } from "@/lib/client";
 import { getContract } from "thirdweb";
 
@@ -11,13 +11,12 @@ import { getContract } from "thirdweb";
 
 export const MARKETPLACE = getContract({
   client,
-  chain: POLYGON_ZKEVM_CARDONA_TESTNET,
+  chain: FORMA_SKETCHPAD,
   address: address_marketplace_contract,
 });
 
 export const NFT_COLLECTION = getContract({
   client,
-  chain: POLYGON_ZKEVM_CARDONA_TESTNET,
+  chain: FORMA_SKETCHPAD,
   address: address_collection_contract,
 });
-

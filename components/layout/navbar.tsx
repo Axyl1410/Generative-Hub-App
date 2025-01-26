@@ -1,16 +1,16 @@
 "use client";
 
-import ThemeSwitcher from "@/components/theme/theme-switcher";
 import SkeletonImage from "@/components/skeleton/skeleton-image";
+import ThemeSwitcher from "@/components/theme/theme-switcher";
+import CustomConnectButton from "@/components/thirdweb/connect-button";
+import DisconnectButton from "@/components/thirdweb/disconnect-button";
+import NetworkSwitcher from "@/components/thirdweb/network-switcher";
+import Dialog from "@/components/ui/dialog";
 import useToggle from "@/hooks/use-state-toggle";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
 import Link from "next/link";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
-import Dialog from "@/components/ui/dialog";
-import DisconnectButton from "@/components/thirdweb/disconnect-button";
-import CustomConnectButton from "@/components/thirdweb/connect-button";
-import NetworkSwitcher from "@/components/thirdweb/network-switcher";
 
 const Navbar = () => {
   const dialog = useToggle();
@@ -90,7 +90,7 @@ const Navbar = () => {
                     onClick={dialog.close}
                   >
                     <Link
-                      href="/src/public"
+                      href="/"
                       className="w-full p-2.5 pl-0 transition-all ease-out hover:pl-2"
                     >
                       <div className="flex items-center gap-2.5 text-link">

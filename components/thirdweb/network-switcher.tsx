@@ -1,12 +1,12 @@
 "use client";
 
-import { useActiveWallet, useNetworkSwitcherModal } from "thirdweb/react";
-import client, {FORMA_SKETCHPAD, POLYGON_ZKEVM_CARDONA_TESTNET} from "@/lib/client";
-import { toast } from "sonner";
-import React from "react";
+import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/type";
 import { ArrowLeftRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React from "react";
+import { toast } from "sonner";
+import { useActiveWallet, useNetworkSwitcherModal } from "thirdweb/react";
 
 const NetworkSwitcher: React.FC<ThirdwebButtonProps> = ({
   type = "text",
@@ -28,8 +28,8 @@ const NetworkSwitcher: React.FC<ThirdwebButtonProps> = ({
         theme: "dark",
         sections: [
           {
-            label: "Popular",
-            chains: [POLYGON_ZKEVM_CARDONA_TESTNET, FORMA_SKETCHPAD],
+            label: "Our Network",
+            chains: [FORMA_SKETCHPAD],
           },
         ],
       })

@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { NFT } from "thirdweb";
-import { DirectListing, EnglishAuction } from "thirdweb/extensions/marketplace";
-import { MediaRenderer } from "thirdweb/react";
-import { getNFT } from "thirdweb/extensions/erc721";
-import { useRouter } from "next/navigation";
+import Skeleton from "@/components/skeleton/skeleton";
 import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
-import Skeleton from "@/components/skeleton/skeleton";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { NFT } from "thirdweb";
+import { getNFT } from "thirdweb/extensions/erc721";
+import { DirectListing, EnglishAuction } from "thirdweb/extensions/marketplace";
+import { MediaRenderer } from "thirdweb/react";
 
 type Props = {
   tokenId: bigint;

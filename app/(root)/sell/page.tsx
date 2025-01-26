@@ -1,8 +1,11 @@
 "use client";
 
+import BackButton from "@/components/common/back-button";
+import Loading from "@/components/common/loading";
 import SaleInfo from "@/components/sale-info";
 import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
@@ -14,8 +17,6 @@ import {
   useActiveAccount,
   useReadContract,
 } from "thirdweb/react";
-import BackButton from "@/components/common/back-button";
-import Loading from "@/components/common/loading";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,10 @@ export default function Sell() {
   });
   console.log("NFTs", NFTs);
 
+  if (!account) {
+    return <EmptyText text={"Connect your wallet to view your NFTs."} />;
+  }
+
   return (
     <div className={"mt-10"}>
       <div className={"flex w-full items-center justify-between"}>
@@ -53,7 +58,12 @@ export default function Sell() {
             ) : Error ? (
               <p>Error loading NFTs: {Error.message}</p>
             ) : (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div
+                className={cn(
+                  "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
+                  NFTs && NFTs.length > 0 && "grid"
+                )}
+              >
                 {NFTs && NFTs.length > 0 ? (
                   <>
                     {NFTs.map((nft: NFTType) => (
@@ -76,12 +86,11 @@ export default function Sell() {
                     ))}
                   </>
                 ) : (
-                  <div className="flex h-[500px] justify-center">
-                    <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-                      Looks like you don&#39;t own any NFTs in this collection.
-                      Head to the buy page to buy some!
-                    </p>
-                  </div>
+                  <EmptyText
+                    text={
+                      "Looks like you don&#39;t own any NFTs in this collection. Head to the buy page to buy some!"
+                    }
+                  />
                 )}
               </div>
             )}
@@ -129,3 +138,13 @@ export default function Sell() {
     </div>
   );
 }
+
+const EmptyText = ({ text }: { text: string }) => {
+  return (
+    <div className="flex h-[500px] justify-center">
+      <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
+        {text}
+      </p>
+    </div>
+  );
+};

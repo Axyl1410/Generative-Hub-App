@@ -1,7 +1,8 @@
 "use client";
 
+import CollectedPage from "@/app/(root)/(user)/profile/collection";
+import BackButton from "@/components/common/back-button";
 import MenuSection from "@/components/ui/menu-section";
-import client, { POLYGON_ZKEVM_CARDONA_TESTNET } from "@/lib/client";
 import "@/styles/profile.module.scss";
 import {
   Button,
@@ -14,18 +15,10 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
-import { Blobbie, useActiveAccount, useWalletBalance } from "thirdweb/react";
-import CollectedPage from "@/app/(root)/(user)/profile/collection";
-import BackButton from "@/components/common/back-button";
+import { Blobbie, useActiveAccount } from "thirdweb/react";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: balance, isLoading: isLoading } = useWalletBalance({
-    client: client,
-    chain: POLYGON_ZKEVM_CARDONA_TESTNET,
-    address: account?.address,
-  });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [joinDate, setJoinDate] = useState<string>("Loading...");
@@ -117,7 +110,7 @@ const ProfilePage: React.FC = () => {
   };
   return (
     <div>
-      <BackButton className="h-fit my-4" />
+      <BackButton className="my-4 h-fit" />
       {/* Header Section */}
 
       {/* Cover Section */}
