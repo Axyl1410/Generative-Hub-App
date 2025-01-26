@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
-import { EmptyText } from "@/app/(root)/(user)/sell/page";
+import EmptyText from "@/components/common/empty-text";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();

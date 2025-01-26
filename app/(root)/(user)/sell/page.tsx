@@ -1,6 +1,6 @@
 "use client";
 
-import { Component, useState } from "react";
+import { useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
 import {
@@ -17,6 +17,7 @@ import SaleInfo from "@/components/sale-info";
 import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
 import { cn } from "@/lib/utils";
+import EmptyText from "@/components/common/empty-text";
 
 export const dynamic = "force-dynamic";
 
@@ -126,17 +127,4 @@ export default function Sell() {
       </div>
     </div>
   );
-}
-
-export class EmptyText extends Component<{ text: string }> {
-  render() {
-    const { text } = this.props;
-    return (
-      <div className="mt-10 flex h-[500px] justify-center">
-        <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-          {text}
-        </p>
-      </div>
-    );
-  }
 }
