@@ -7,6 +7,8 @@ import { useActiveAccount, useReadContract } from "thirdweb/react";
 import ApprovalButton from "./approve-button";
 import AuctionListingButton from "./auction-listing-button";
 import DirectListingButton from "./direct-listing-button";
+import { getListing } from "thirdweb/extensions/marketplace";
+import CheckNFTListing from "@/lib/check-nft-listing";
 
 type Props = {
   nft: NFTType;
@@ -21,6 +23,21 @@ export default function SaleInfo({ nft }: Props) {
     owner: (account?.address as string) || "0x",
     operator: MARKETPLACE.address,
   });
+
+  const { data: isListing } = useReadContract(getListing, {
+    contract: MARKETPLACE,
+    listingId: nft.id,
+  });
+
+  console.log("is listing", isListing, nft.id);
+
+  console.log(
+    "2",
+    CheckNFTListing({
+      contractAddress: NFT_COLLECTION.address,
+      tokenId: nft.id.toString(),
+    })
+  );
 
   const [directListingState, setDirectListingState] = useState({
     price: "0",
