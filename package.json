@@ -3,16 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.11",
-    "@thirdweb-dev/contracts": "^3.15.0",
     "dotted-map": "^2.2.3",
-    "ethers": "^6.13.5",
     "next": "15.1.1",
     "p5": "^1.11.3",
     "react": "^19.0.0",

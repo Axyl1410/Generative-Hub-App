@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
 import "../styles/globals.scss";
 import React from "react";
-import { NextUIProvider } from "@nextui-org/react";
+// import { NextUIProvider } from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: "Generative Hub App",
@@ -28,9 +28,9 @@ export default function RootLayout({
         <ThemeProvider>
           <ScrollToTop />
           <Toaster closeButton richColors position="top-left" />
-          <NextUIProvider>
-            <ThirdwebProvider>{children}</ThirdwebProvider>
-          </NextUIProvider>
+          {/*<NextUIProvider>*/}
+          <ThirdwebProvider>{children}</ThirdwebProvider>
+          {/*</NextUIProvider>*/}
         </ThemeProvider>
       </body>
     </html>
