@@ -30,16 +30,22 @@ export default function CheckNFTListing({
   useEffect(() => {
     if (listing) {
       // Check if the NFT is listed
-      setIsListed(listing.assetContractAddress === contractAddress);
+      setIsListed(
+        listing.assetContractAddress === contractAddress &&
+          listing.status === "ACTIVE"
+      );
     }
   }, [listing, contractAddress]);
 
   useEffect(() => {
     if (auction) {
       // Check if the NFT is auctioned
-      setIsAuctioned(auction.assetContractAddress === contractAddress);
+      setIsAuctioned(
+        auction.assetContractAddress === contractAddress &&
+          auction.status === "ACTIVE"
+      );
     }
   }, [auction, contractAddress]);
 
-  return isListed || isAuctioned;
+  return { isSell: isListed || isAuctioned, isListed, isAuctioned };
 }

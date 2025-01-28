@@ -18,12 +18,20 @@ import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
 import { cn } from "@/lib/utils";
 import EmptyText from "@/components/common/empty-text";
+import CheckNFTListing from "@/lib/check-nft-listing";
 
 export const dynamic = "force-dynamic";
 
 export default function Sell() {
   const [selectedNft, setSelectedNft] = useState<NFTType>();
   const account = useActiveAccount();
+
+  console.log(
+    CheckNFTListing({
+      contractAddress: NFT_COLLECTION.address,
+      tokenId: "0",
+    })
+  );
 
   const {
     data: NFTs,
@@ -119,7 +127,7 @@ export default function Sell() {
                 className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
                 onClick={() => setSelectedNft(undefined)}
               >
-                Cancel
+                Back
               </div>
             </div>
           </div>
