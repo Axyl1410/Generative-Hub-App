@@ -56,15 +56,11 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
         {loading ? (
           <Loading text={"Cancelling..."} />
         ) : (
-          `Cancel ${type.charAt(0).toUpperCase() + type.slice(1)}`
+          `Cancel Listing or Auction`
         )}
       </motion.button>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && (
-        <p
-          style={{ color: "green" }}
-        >{`${type.charAt(0).toUpperCase() + type.slice(1)} cancelled successfully!`}</p>
-      )}
+      {success && <p style={{ color: "green" }}>{`Cancelled successfully!`}</p>}
     </div>
   );
 };

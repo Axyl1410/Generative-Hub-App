@@ -3,7 +3,10 @@
 import { MARKETPLACE } from "@/contracts";
 import { useEffect, useState } from "react";
 import { useReadContract } from "thirdweb/react";
-import { getAuction, getListing } from "thirdweb/extensions/marketplace";
+import {
+  getAllValidAuctions,
+  getAllValidListings,
+} from "thirdweb/extensions/marketplace";
 
 export default function CheckNFTListing({
   contractAddress,
@@ -12,40 +15,44 @@ export default function CheckNFTListing({
   contractAddress: string;
   tokenId: string;
 }) {
-  const [isListed, setIsListed] = useState<boolean>(false);
-  const [isAuctioned, setIsAuctioned] = useState<boolean>(false);
+  const [isListed, setIsListed] = useState(false);
+  const [isAuctioned, setIsAuctioned] = useState(false);
 
   // Using useReadContract to fetch listing for a specific NFT
-  const { data: listing } = useReadContract(getListing, {
+  const { data: listings } = useReadContract(getAllValidListings, {
     contract: MARKETPLACE,
-    listingId: BigInt(tokenId),
   });
-
-  // Using useReadContract to fetch auction for a specific NFT
-  const { data: auction } = useReadContract(getAuction, {
+  // Using useReadContract to fetch all valid auctions
+  const { data: auctions } = useReadContract(getAllValidAuctions, {
     contract: MARKETPLACE,
-    auctionId: BigInt(tokenId),
   });
 
   useEffect(() => {
-    if (listing) {
+    if (listings) {
       // Check if the NFT is listed
-      setIsListed(
-        listing.assetContractAddress === contractAddress &&
-          listing.status === "ACTIVE"
+      const listing = listings.find(
+        (l) =>
+          l.assetContractAddress === contractAddress &&
+          l.tokenId === BigInt(tokenId) &&
+          l.status === "ACTIVE"
       );
+      setIsListed(!!listing);
     }
-  }, [listing, contractAddress]);
-
-  useEffect(() => {
-    if (auction) {
+    if (auctions) {
       // Check if the NFT is auctioned
-      setIsAuctioned(
-        auction.assetContractAddress === contractAddress &&
-          auction.status === "ACTIVE"
+      const auction = auctions.find(
+        (a) =>
+          a.assetContractAddress === contractAddress &&
+          a.tokenId === BigInt(tokenId) &&
+          a.status === "ACTIVE"
       );
+      setIsAuctioned(!!auction);
     }
-  }, [auction, contractAddress]);
+  }, [listings, contractAddress, auctions, tokenId]);
 
-  return { isSell: isListed || isAuctioned, isListed, isAuctioned };
+  return {
+    isSell: isListed || isAuctioned,
+    listed: isListed,
+    auctioned: isAuctioned,
+  };
 }
