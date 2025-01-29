@@ -8,11 +8,7 @@ const ThemeSwitcher = () => {
 
   return (
     <button
-      onClick={() => {
-        setTimeout(() => {
-          toggleTheme();
-        }, 300);
-      }}
+      onClick={toggleTheme}
       className="flex w-full items-center gap-2.5 p-2.5 pl-0"
     >
       <span>

@@ -71,14 +71,6 @@ const ListingGrid: React.FC<Props> = (props) => {
     fetchData()
       .then(() => {})
       .catch((Error) => toast.error("Error fetch data") + Error); // Fetch data initially
-
-    const interval = setInterval(() => {
-      fetchData()
-        .then(() => {})
-        .catch((Error) => toast.error("Error fetch data") + Error);
-    }, 10000); // Fetch data every 10 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   return loading ? (

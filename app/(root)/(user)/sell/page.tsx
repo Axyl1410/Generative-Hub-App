@@ -119,7 +119,7 @@ export default function Sell() {
                 className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
                 onClick={() => setSelectedNft(undefined)}
               >
-                Cancel
+                Back
               </div>
             </div>
           </div>

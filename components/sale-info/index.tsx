@@ -7,6 +7,9 @@ import { useActiveAccount, useReadContract } from "thirdweb/react";
 import ApprovalButton from "./approve-button";
 import AuctionListingButton from "./auction-listing-button";
 import DirectListingButton from "./direct-listing-button";
+import CheckNFTListing from "@/lib/check-nft-listing";
+import CancelButton from "@/components/sale-info/cancel-button";
+import { motion } from "framer-motion";
 
 type Props = {
   nft: NFTType;
@@ -22,38 +25,46 @@ export default function SaleInfo({ nft }: Props) {
     operator: MARKETPLACE.address,
   });
 
+  const listingStatus = CheckNFTListing({
+    contractAddress: NFT_COLLECTION.address,
+    tokenId: nft.id.toString(),
+  });
+
   const [directListingState, setDirectListingState] = useState({
     price: "0",
   });
+
   const [auctionListingState, setAuctionListingState] = useState({
     minimumBidAmount: "0",
     buyoutPrice: "0",
   });
 
+  if (!account) return null;
+
   return (
     <>
-      <div className="">
-        <div className="mb-6 flex w-full justify-start border-b dark:border-white/60">
-          <h3
-            className={cn(
-              "flex h-12 cursor-pointer items-center justify-center px-4 text-base font-semibold transition-all hover:text-gray-700 dark:hover:text-white/80",
-              tab === "direct" && "border-b-2 border-[#0294fe] text-[#0294fe]"
-            )}
-            onClick={() => setTab("direct")}
-          >
-            Direct
-          </h3>
-          <h3
-            className={cn(
-              "flex h-12 cursor-pointer items-center justify-center px-4 text-base font-semibold transition-all hover:text-gray-700 dark:hover:text-white/80",
-              tab === "auction" && "border-b-2 border-[#0294fe] text-[#0294fe]"
-            )}
-            onClick={() => setTab("auction")}
-          >
-            Auction
-          </h3>
-        </div>
+      <div className="mb-6 flex w-full justify-start border-b dark:border-white/60">
+        <h3
+          className={cn(
+            "flex h-12 cursor-pointer items-center justify-center px-4 text-base font-semibold transition-all hover:text-gray-700 dark:hover:text-white/80",
+            tab === "direct" && "border-b-2 border-[#0294fe] text-[#0294fe]"
+          )}
+          onClick={() => setTab("direct")}
+        >
+          Direct
+        </h3>
+        <h3
+          className={cn(
+            "flex h-12 cursor-pointer items-center justify-center px-4 text-base font-semibold transition-all hover:text-gray-700 dark:hover:text-white/80",
+            tab === "auction" && "border-b-2 border-[#0294fe] text-[#0294fe]"
+          )}
+          onClick={() => setTab("auction")}
+        >
+          Auction
+        </h3>
+      </div>
 
+      <motion.div layout style={{ height: "auto" }}>
         {/* Direct listing fields */}
         <div className={cn(tab === "direct" ? "flex" : "hidden", "flex-col")}>
           {/* Input field for buyout price */}
@@ -67,6 +78,12 @@ export default function SaleInfo({ nft }: Props) {
           />
           {!hasApproval ? (
             <ApprovalButton />
+          ) : listingStatus.isSell ? (
+            <CancelButton
+              id={listingStatus.listingId}
+              account={account}
+              type={"listing"}
+            />
           ) : (
             <DirectListingButton
               nft={nft}
@@ -93,7 +110,6 @@ export default function SaleInfo({ nft }: Props) {
               })
             }
           />
-
           <legend className={"legend-styles"}> Buyout price </legend>
           <input
             className={"input-styles"}
@@ -107,9 +123,10 @@ export default function SaleInfo({ nft }: Props) {
               })
             }
           />
-
           {!hasApproval ? (
             <ApprovalButton />
+          ) : listingStatus.isSell ? (
+            <CancelButton id={nft.id} account={account} type={"auction"} />
           ) : (
             <AuctionListingButton
               nft={nft}
@@ -118,7 +135,7 @@ export default function SaleInfo({ nft }: Props) {
             />
           )}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

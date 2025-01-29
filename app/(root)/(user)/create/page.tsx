@@ -1,12 +1,11 @@
 import BackButton from "@/components/common/back-button";
-import SkeletonImage from "@/components/skeleton/skeleton-image";
 import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className={"grid w-full lg:grid-cols-2"}>
-      <div className={"flex flex-col gap-4 pt-10 lg:px-16"}>
+    <div className={"grid w-full place-items-center"}>
+      <div className={"flex max-w-2xl flex-col gap-4 pt-10 lg:px-16"}>
         <BackButton href={"/"} className={"w-fit"} />
         <h1 className={"text-3xl font-bold"}>Create</h1>
         <div className={"flex flex-col gap-4"}>
@@ -69,16 +68,6 @@ export default function Page() {
           <span className={"cursor-not-allowed text-link"}>Learn more </span>
           about each option.
         </div>
-      </div>
-
-      <div className={"hidden h-[calc(100vh-66px)] lg:block"}>
-        <SkeletonImage
-          src={
-            "https://images.unsplash.com/photo-1736187273002-13054c9d140a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          }
-          height={"h-[calc(100vh-66px)]"}
-          className={"h-[calc(100vh-66px)]"}
-        />
       </div>
     </div>
   );

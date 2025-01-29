@@ -8,7 +8,6 @@ import styles from "../../styles/rounded-button.module.scss";
 interface RoundedButtonProps {
   children: React.ReactNode;
   backgroundColor?: string;
-
   [key: string]: unknown;
 }
 

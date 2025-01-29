@@ -10,6 +10,7 @@ import { mintTo } from "thirdweb/extensions/erc721";
 import { NFT_COLLECTION } from "@/contracts";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Page() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function Page() {
                     <Plus />
                   </div>
                   <p className="text-sm/6 font-bold">
-                    Select a collection to mint your NFT.
+                    Select a collection to mint your NFT. (Coming soon)
                   </p>
                 </div>
                 <p className="mt-3 text-sm/6">
@@ -123,35 +124,48 @@ export default function Page() {
                 </div>
                 <p className="mt-3 text-sm/6">Write a few description about.</p>
               </div>
-              <TransactionButton
-                transaction={() => {
-                  toast.info("Minting NFT...");
-                  const metadata = {
-                    name,
-                    description,
-                    image: files,
-                  };
-                  return mintTo({
-                    contract: NFT_COLLECTION,
-                    to: address,
-                    nft: metadata,
-                  });
-                }}
-                onTransactionSent={() => {
-                  toast.info("Offer Sent!");
-                }}
-                onTransactionConfirmed={() => {
-                  toast.success("Offer Placed Successfully!");
-                  setTimeout(() => {
-                    router.push("/profile");
-                  }, 2000);
-                }}
-                onError={(error) => {
-                  toast.error("Error making offer: " + error.message);
-                }}
-              >
-                Mint NFT
-              </TransactionButton>
+              <div className={"h-[45px]"}>
+                <AnimatePresence>
+                  {!(name === "" || description === "") && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <TransactionButton
+                        className={"!w-full"}
+                        transaction={() => {
+                          toast.info("Minting NFT...");
+                          const metadata = {
+                            name,
+                            description,
+                            image: files,
+                          };
+                          return mintTo({
+                            contract: NFT_COLLECTION,
+                            to: address,
+                            nft: metadata,
+                          });
+                        }}
+                        onTransactionSent={() => {
+                          toast.info("Offer Sent!");
+                        }}
+                        onTransactionConfirmed={() => {
+                          toast.success("Offer Placed Successfully!");
+                          setTimeout(() => {
+                            router.push("/sell");
+                          }, 2000);
+                        }}
+                        onError={(error) => {
+                          toast.error("Error making offer: " + error.message);
+                        }}
+                      >
+                        Mint NFT
+                      </TransactionButton>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </form>
           </div>
         </div>
