@@ -18,7 +18,6 @@ import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
 import { cn } from "@/lib/utils";
 import EmptyText from "@/components/common/empty-text";
-import CheckNFTListing from "@/lib/check-nft-listing";
 
 export const dynamic = "force-dynamic";
 
