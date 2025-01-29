@@ -17,6 +17,8 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  console.log(id);
+
   const handleCancel = async () => {
     setLoading(true);
     setError(null);
