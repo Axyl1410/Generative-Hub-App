@@ -79,7 +79,11 @@ export default function SaleInfo({ nft }: Props) {
           {!hasApproval ? (
             <ApprovalButton />
           ) : listingStatus.isSell ? (
-            <CancelButton id={nft.id} account={account} type={"listing"} />
+            <CancelButton
+              id={listingStatus.listingId}
+              account={account}
+              type={"listing"}
+            />
           ) : (
             <DirectListingButton
               nft={nft}

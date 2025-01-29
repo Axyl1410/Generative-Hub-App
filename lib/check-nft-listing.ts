@@ -70,7 +70,7 @@ export default function CheckNFTListing({
       listed: !!activeListing,
       auctioned: !!activeAuction,
       isSell: !!(activeListing || activeAuction),
-      listingId: activeListing?.tokenId,
+      listingId: activeListing?.id,
     }),
     [activeListing, activeAuction]
   );

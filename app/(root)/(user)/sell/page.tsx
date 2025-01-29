@@ -26,13 +26,6 @@ export default function Sell() {
   const [selectedNft, setSelectedNft] = useState<NFTType>();
   const account = useActiveAccount();
 
-  console.log(
-    CheckNFTListing({
-      contractAddress: NFT_COLLECTION.address,
-      tokenId: "0",
-    })
-  );
-
   const {
     data: NFTs,
     error,

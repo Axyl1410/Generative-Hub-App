@@ -7,7 +7,7 @@ import { Account } from "thirdweb/wallets";
 import { motion } from "framer-motion";
 
 interface CancelButtonProps {
-  id: bigint; // Could be listingId or auctionId
+  id?: bigint; // Could be listingId or auctionId
   account: Account;
   type: "listing" | "auction"; // Type of the operation to cancel
 }
@@ -18,6 +18,7 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
   const [success, setSuccess] = useState(false);
 
   console.log(id);
+  if (id === undefined) return null;
 
   const handleCancel = async () => {
     setLoading(true);
