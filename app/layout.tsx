@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
 import "../styles/globals.scss";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 // import { NextUIProvider } from "@nextui-org/react";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
           <ThirdwebProvider>{children}</ThirdwebProvider>
           {/*</NextUIProvider>*/}
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

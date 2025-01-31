@@ -24,7 +24,7 @@ export default function Page() {
           }
           return newCooldown;
         });
-      }, 5000);
+      }, 1000);
       return () => clearInterval(timer);
     }
   }, [cooldown]);
@@ -81,7 +81,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col items-center p-4 text-base">
+    <form className="flex flex-col items-center p-4 text-base">
       <input
         type="text"
         value={prompt}
@@ -98,9 +98,9 @@ export default function Page() {
       </button>
 
       {loading && (
-        <p className="mt-4">
+        <div className="mt-4">
           <Loading />
-        </p>
+        </div>
       )}
 
       {/* Hiển thị lỗi hoặc thời gian cooldown */}
@@ -125,6 +125,6 @@ export default function Page() {
           </span>
         </div>
       )}
-    </div>
+    </form>
   );
 }
