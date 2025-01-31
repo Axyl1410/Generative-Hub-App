@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-
+import "@/styles/p5-art-creator.scss";
 const P5ArtCreator = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState(null);
@@ -20,12 +20,12 @@ const P5ArtCreator = () => {
       setError(null);
       
       if (!code.trim()) {
-        setError("Vui lòng nhập mã p5.js");
+        setError("Please enter code p5.js");
         return;
       }
 
       if (!previewRef.current) {
-        setError("Không tìm thấy khu vực hiển thị!");
+        setError("Not error preview!");
         return;
       }
 
@@ -76,7 +76,7 @@ const P5ArtCreator = () => {
 
     } catch (e) {
       console.error("Lỗi khi chạy mã:", e);
-      setError("Lỗi hệ thống! Vui lòng thử lại.");
+      setError("System error! Please again.");
     }
   };
 
@@ -110,7 +110,7 @@ const P5ArtCreator = () => {
         <h2>Preview</h2>
         {error && (
           <div className="error-message">
-            <h3>Lỗi:</h3>
+            <h3>Error: </h3>
             <pre>{error}</pre>
           </div>
         )}
@@ -118,73 +118,22 @@ const P5ArtCreator = () => {
       </div>
 
       <div className="code-editor">
-        <h2>Mã nguồn</h2>
+        <h2>Source code</h2>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
           className="code-textarea"
-          placeholder="Nhập mã p5.js của bạn ở đây..."
+          placeholder="Enter your p5.js code here..."
         />
       </div>
 
-      <button onClick={runCode} className="run-button">Chạy Mã</button>
+      <button onClick={runCode} className="run-button">Run code</button>
 
       <div className="download-buttons">
-        <button onClick={() => handleDownload("png")} className="download-button">Tải PNG</button>
-        <button onClick={() => handleDownload("jpg")} className="download-button">Tải JPG</button>
-        <button onClick={() => handleDownload("gif")} className="download-button">Tải GIF</button>
+        <button onClick={() => handleDownload("png")} className="download-button">Download PNG</button>
+        <button onClick={() => handleDownload("jpg")} className="download-button">Download JPG</button>
+        <button onClick={() => handleDownload("gif")} className="download-button">Download GIF</button>
       </div>
-
-      <style jsx>{`
-        .container {
-          padding: 20px;
-          max-width: 800px;
-          margin: 0 auto;
-        }
-        .file-input {
-          margin: 20px 0;
-        }
-        .preview-container {
-          margin: 20px 0;
-          border: 2px solid #ccc;
-          padding: 15px;
-        }
-        .code-textarea {
-          width: 100%;
-          height: 300px;
-          font-family: monospace;
-          padding: 10px;
-          margin: 10px 0;
-        }
-        .run-button {
-          background: #28a745;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          cursor: pointer;
-          border-radius: 5px;
-          margin: 10px 0;
-        }
-        .download-buttons {
-          display: flex;
-          gap: 10px;
-        }
-        .download-button {
-          background: #0070f3;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          cursor: pointer;
-          border-radius: 5px;
-        }
-        .error-message {
-          color: #ff0000;
-          background: #ffecec;
-          padding: 10px;
-          border-radius: 4px;
-          margin: 10px 0;
-        }
-      `}</style>
     </div>
   );
 };
