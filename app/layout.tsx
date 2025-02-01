@@ -6,6 +6,7 @@ import { ThirdwebProvider } from "thirdweb/react";
 import "../styles/globals.scss";
 import React from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 // import { NextUIProvider } from "@nextui-org/react";
 
 export const metadata: Metadata = {
@@ -26,6 +27,12 @@ export default function RootLayout({
       <body
         className={`bg-background text-text antialiased transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark`}
       >
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="https://unpkg.com/react-scan/dist/auto.global.js"
+            async
+          />
+        )}
         <ThemeProvider>
           <ScrollToTop />
           <Toaster closeButton richColors position="top-left" />
