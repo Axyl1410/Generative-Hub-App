@@ -9,6 +9,7 @@ interface DialogProps {
   onClose: () => void;
   children: React.ReactNode;
   type?: "modal" | "sidebar";
+  [key: string]: unknown;
 }
 
 const Dialog: React.FC<DialogProps> = ({
@@ -16,6 +17,7 @@ const Dialog: React.FC<DialogProps> = ({
   onClose,
   children,
   type = "modal",
+  ...props
 }) => {
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -46,6 +48,7 @@ const Dialog: React.FC<DialogProps> = ({
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
+              {...props}
             >
               <div
                 className="flex h-full w-full items-center justify-center bg-black/80 backdrop-blur-md"
@@ -81,9 +84,10 @@ const Dialog: React.FC<DialogProps> = ({
               aria-modal="true"
               aria-labelledby="modal-title"
               className="fixed inset-0 z-40 bg-black/80 px-5 backdrop-blur-md"
+              {...props}
             >
               <div
-                className="container mt-[80px] flex h-full w-full justify-end"
+                className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end overflow-y-scroll"
                 onClick={handleBackdropClick}
               >
                 <motion.div
@@ -95,7 +99,7 @@ const Dialog: React.FC<DialogProps> = ({
                     type: "spring",
                     ease: "easeOut",
                   }}
-                  className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background shadow-lg dark:bg-background-dark"
+                  className="justify-centerrounded relative flex h-fit w-[250px] items-center bg-background shadow-lg dark:bg-background-dark"
                 >
                   {children}
                 </motion.div>

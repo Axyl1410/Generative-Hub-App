@@ -119,7 +119,7 @@ const ProfilePage: React.FC = () => {
       {/* Header Section */}
 
       {/* Cover Section */}
-      <div className="overflow-hidde relative h-64 rounded-b-md md:h-16 lg:h-80">
+      <div className="overflow-hidde relative h-32 rounded-b-md md:h-16 md:h-64 lg:h-80">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={coverPhoto}
@@ -144,7 +144,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* Avatar Section */}
-      <div className="relative -mt-32 ml-6 flex">
+      <div className="relative -mt-16 flex md:-mt-32 md:ml-6">
         <div className="relative">
           {/*<img*/}
           {/*  src={avatar}*/}
@@ -155,7 +155,7 @@ const ProfilePage: React.FC = () => {
           <Blobbie
             address={`${account?.address}`}
             className={
-              "h-48 w-48 rounded-full border-4 border-white object-cover sm:h-48 sm:w-48"
+              "h-32 w-32 rounded-full border-4 border-white object-cover md:h-48 md:w-48"
             }
           />
           <input

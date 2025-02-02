@@ -11,22 +11,22 @@ import Link from "next/link";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import DisconnectButton from "@/components/thirdweb/disconnect-button";
 import { GradientText } from "../ui/gradient-text";
-import { useState } from "react";
-import RoundedButton from "../ui/rounded-button";
 import { usePathname } from "next/navigation";
+
 const Navbar = () => {
   const dialog = useToggle();
   const account = useActiveAccount();
-  const [menuItems, setMenuItems] = useState([
+  const menuItems = [
     { title: "Buy NFT", icon: "", href: "/buy" },
     { title: "Sell NFT", icon: "", href: "/sell" },
-  ]);
+  ];
   const pathname = usePathname();
+
   return (
     <>
       <div className="fixed z-50 h-[66px] w-full border-b border-border bg-background px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
-        <div className="container flex w-full items-center justify-between">
-          <section className="flex items-center gap-[5rem]">
+        <div className="container flex w-full items-center justify-between text-nowrap">
+          <section className="flex items-center gap-6">
             {/* Avartar */}
             <Link href="/" className="flex items-center gap-2.5">
               <SkeletonImage
@@ -36,14 +36,14 @@ const Navbar = () => {
                 className="aspect-square rounded-full shadow"
                 isPriority
               />
-              <span className="hidden items-center justify-center gap-1.5 font-bold md:flex">
+              <span className="hidden items-center justify-center gap-1.5 font-bold sm:flex">
                 {" "}
                 <GradientText
                   className="text-xl"
                   colors={["#ff8a00", "#e52e71", "#e52e71", "#ff8a00"]}
                   duration={2}
                 >
-                  Generative{" "}
+                  Generative
                 </GradientText>{" "}
                 Hub App
               </span>
@@ -54,8 +54,10 @@ const Navbar = () => {
                 <Link
                   key={index}
                   href={item.href}
-                  className={`text-base transition-colors hover:text-sky-500 hover:font-semibold ${
-                    pathname === item.href ? "text-sky-500 font-semibold decoration-solid underline" : ""
+                  className={`text-base transition-colors hover:text-sky-500 ${
+                    pathname === item.href
+                      ? "font-semibold text-sky-500 underline decoration-solid"
+                      : ""
                   }`}
                 >
                   {item.title}
@@ -69,7 +71,7 @@ const Navbar = () => {
             {/* Display Button Create NFT when login success*/}
             {account ? (
               <Link href="/create" className="">
-                <button className="relative hidden items-center justify-center gap-1.5 gap-2 whitespace-nowrap rounded-lg rounded-md bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium font-semibold text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex">
+                <button className="relative hidden items-center justify-center gap-1.5 whitespace-nowrap rounded-lg bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex md:gap-2 md:rounded-md md:font-semibold">
                   {" "}
                   <Plus size={18} strokeWidth={2} />
                   <p>Create</p>
@@ -123,23 +125,26 @@ const Navbar = () => {
             {
               content: (
                 <>
-                 {/* Avartar mobile*/}
-                  <Link href="/" className="pl-6 py-3 flex items-center gap-2.5">
+                  {/* Avartar mobile*/}
+                  <Link
+                    href="/"
+                    className="flex items-center gap-2.5 py-3 pl-6"
+                  >
                     <SkeletonImage
                       src="/logo.png"
-                      width="18px"
-                      height="18px"
+                      width="22px"
+                      height="22px"
                       className="aspect-square rounded-full shadow"
                       isPriority
                     />
-                    <span className=" items-center justify-center gap-1.5 font-bold flex">
+                    <span className="flex items-center justify-center gap-1.5 font-bold">
                       {" "}
                       <GradientText
                         className="text-md"
                         colors={["#ff8a00", "#e52e71", "#e52e71", "#ff8a00"]}
                         duration={2}
                       >
-                        Generative{" "}
+                        Generative
                       </GradientText>{" "}
                       Hub App
                     </span>
@@ -251,6 +256,55 @@ const Navbar = () => {
                       <CustomConnectButton className="ml-0.5 pl-3" />
                     </div>
                   )}
+                </>
+              ),
+            },
+            {
+              title: "Navigation",
+              content: (
+                <>
+                  <div
+                    className="flex items-center pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    onClick={dialog.close}
+                  >
+                    <Link
+                      href="/"
+                      className="w-full p-2.5 pl-0 transition-all ease-out hover:pl-2"
+                    >
+                      <div className="flex items-center gap-2.5 text-link">
+                        <ArrowRight size={22} strokeWidth={1} />
+                        <p>Home</p>
+                      </div>
+                    </Link>
+                  </div>
+                  <div
+                    className="flex items-center pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    onClick={dialog.close}
+                  >
+                    <Link
+                      href="/buy"
+                      className="w-full p-2.5 pl-0 transition-all ease-out hover:pl-2"
+                    >
+                      <div className="flex items-center gap-2.5 text-link">
+                        <ArrowRight size={22} strokeWidth={1} />
+                        <p>Buy NFT</p>
+                      </div>
+                    </Link>
+                  </div>
+                  <div
+                    className="flex items-center pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    onClick={dialog.close}
+                  >
+                    <Link
+                      href="/sell"
+                      className="w-full p-2.5 pl-0 transition-all ease-out hover:pl-2"
+                    >
+                      <div className="flex items-center gap-2.5 text-link">
+                        <ArrowRight size={22} strokeWidth={1} />
+                        <p>Sell NFT</p>
+                      </div>
+                    </Link>
+                  </div>
                 </>
               ),
             },
