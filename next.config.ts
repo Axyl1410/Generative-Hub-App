@@ -11,14 +11,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  webpack: (config) => {
-    config.experiments = {
-      asyncWebAssembly: true,
-      layers: true,
-    };
-    return config;
-  },
-
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
