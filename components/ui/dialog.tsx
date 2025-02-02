@@ -87,7 +87,7 @@ const Dialog: React.FC<DialogProps> = ({
               {...props}
             >
               <div
-                className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end overflow-y-scroll"
+                className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end pb-3.5"
                 onClick={handleBackdropClick}
               >
                 <motion.div
@@ -99,7 +99,7 @@ const Dialog: React.FC<DialogProps> = ({
                     type: "spring",
                     ease: "easeOut",
                   }}
-                  className="justify-centerrounded relative flex h-fit w-[250px] items-center bg-background shadow-lg dark:bg-background-dark"
+                  className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background shadow-lg dark:bg-background-dark"
                 >
                   {children}
                 </motion.div>

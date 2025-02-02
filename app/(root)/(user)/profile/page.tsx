@@ -2,6 +2,7 @@
 
 import CollectedPage from "@/app/(root)/(user)/profile/collection";
 import BackButton from "@/components/common/back-button";
+import EmptyText from "@/components/common/empty-text";
 import MenuSection from "@/components/ui/menu-section";
 import "@/styles/profile.module.scss";
 import {
@@ -16,7 +17,6 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
-import EmptyText from "@/components/common/empty-text";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -119,8 +119,7 @@ const ProfilePage: React.FC = () => {
       {/* Header Section */}
 
       {/* Cover Section */}
-      <div className="overflow-hidde relative h-32 rounded-b-md md:h-16 md:h-64 lg:h-80">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+      <div className="overflow-hidde relative h-32 rounded-b-md md:h-64 lg:h-80">
         <img
           src={coverPhoto}
           alt="Cover"
