@@ -10,39 +10,90 @@ import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
 import Link from "next/link";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import DisconnectButton from "@/components/thirdweb/disconnect-button";
-
+import { GradientText } from "../ui/gradient-text";
+import { useState } from "react";
+import RoundedButton from "../ui/rounded-button";
+import { usePathname } from "next/navigation";
 const Navbar = () => {
   const dialog = useToggle();
   const account = useActiveAccount();
-
+  const [menuItems, setMenuItems] = useState([
+    { title: "Buy NFT", icon: "", href: "/buy" },
+    { title: "Sell NFT", icon: "", href: "/sell" },
+  ]);
+  const pathname = usePathname();
   return (
     <>
-      <div className="fixed z-50 h-[66px] w-full border-b border-border bg-background px-5 py-4 text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
+      <div className="fixed z-50 h-[66px] w-full border-b border-border bg-background px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
         <div className="container flex w-full items-center justify-between">
-          <Link href="/">
-            <SkeletonImage
-              src="/logo.png"
-              width="35px"
-              height="35px"
-              className="aspect-square rounded-full shadow"
-              isPriority
-            />
-          </Link>
-          <div className="flex items-center gap-4">
-            <CustomConnectButton type={"icon"} />
+          <section className="flex items-center gap-[5rem]">
+            {/* Avartar */}
+            <Link href="/" className="flex items-center gap-2.5">
+              <SkeletonImage
+                src="/logo.png"
+                width="35px"
+                height="35px"
+                className="aspect-square rounded-full shadow"
+                isPriority
+              />
+              <span className="hidden items-center justify-center gap-1.5 font-bold md:flex">
+                {" "}
+                <GradientText
+                  className="text-xl"
+                  colors={["#ff8a00", "#e52e71", "#e52e71", "#ff8a00"]}
+                  duration={2}
+                >
+                  Generative{" "}
+                </GradientText>{" "}
+                Hub App
+              </span>
+            </Link>
+            {/* Menu */}
+            <div className="hidden gap-6 md:flex">
+              {menuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`text-base transition-colors hover:text-sky-500 hover:font-semibold ${
+                    pathname === item.href ? "text-sky-500 font-semibold decoration-solid underline" : ""
+                  }`}
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </section>
 
+          {/* Infor token, connect wallet , slide bar*/}
+          <div className="flex items-center gap-4">
+            {/* Display Button Create NFT when login success*/}
+            {account ? (
+              <Link href="/create" className="">
+                <button className="relative hidden items-center justify-center gap-1.5 gap-2 whitespace-nowrap rounded-lg rounded-md bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium font-semibold text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex">
+                  {" "}
+                  <Plus size={18} strokeWidth={2} />
+                  <p>Create</p>
+                </button>
+              </Link>
+            ) : (
+              <div></div>
+            )}
+
+            <CustomConnectButton type={"icon"} />
             <div
               className={
                 "flex h-[35px] w-10 items-center justify-center rounded-lg bg-nav shadow dark:bg-nav-dark"
               }
             >
               {account ? (
-                <Link href={"/profile"} onClick={dialog.close}>
-                  <Blobbie
-                    address={`${account?.address}`}
-                    className="h-6 w-6 rounded-full shadow"
-                  />
-                </Link>
+                <>
+                  <Link href={"/profile"} onClick={dialog.close}>
+                    <Blobbie
+                      address={`${account?.address}`}
+                      className="h-6 w-6 rounded-full shadow"
+                    />
+                  </Link>
+                </>
               ) : (
                 <div
                   className={
@@ -69,6 +120,34 @@ const Navbar = () => {
       <Dialog isOpen={dialog.isOpen} onClose={dialog.close} type="sidebar">
         <div className="flex w-full flex-col">
           {[
+            {
+              content: (
+                <>
+                 {/* Avartar mobile*/}
+                  <Link href="/" className="pl-6 py-3 flex items-center gap-2.5">
+                    <SkeletonImage
+                      src="/logo.png"
+                      width="18px"
+                      height="18px"
+                      className="aspect-square rounded-full shadow"
+                      isPriority
+                    />
+                    <span className=" items-center justify-center gap-1.5 font-bold flex">
+                      {" "}
+                      <GradientText
+                        className="text-md"
+                        colors={["#ff8a00", "#e52e71", "#e52e71", "#ff8a00"]}
+                        duration={2}
+                      >
+                        Generative{" "}
+                      </GradientText>{" "}
+                      Hub App
+                    </span>
+                  </Link>
+                </>
+              ),
+            },
+
             {
               title: "Actions",
               content: (
