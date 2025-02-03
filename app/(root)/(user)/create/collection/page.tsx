@@ -210,21 +210,21 @@ const splitDescription = (description: string) => {
   ));
 };
 
-const DialogContent: React.FC<DialogContentProps> = ({
-  title,
-  description,
-  onClose,
-}) => {
-  return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-bold sm:text-3xl">{title}</h1>
-      {splitDescription(description)}
-      <button
-        onClick={onClose}
-        className="rounded-md bg-gray-200 p-4 transition-colors hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600"
-      >
-        OK
-      </button>
-    </div>
-  );
-};
+// const DialogContent: React.FC<DialogContentProps> = ({
+//   title,
+//   description,
+//   onClose,
+// }) => {
+//   return (
+//     <div className="flex flex-col gap-4">
+//       <h1 className="text-xl font-bold sm:text-3xl">{title}</h1>
+//       {splitDescription(description)}
+//       <button
+//         onClick={onClose}
+//         className="rounded-md bg-gray-200 p-4 transition-colors hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+//       >
+//         OK
+//       </button>
+//     </div>
+//   );
+// };

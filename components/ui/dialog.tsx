@@ -36,79 +36,76 @@ const Dialog: React.FC<DialogProps> = ({
   }, [isOpen]);
 
   return ReactDOM.createPortal(
-    <>
-      {isOpen && (
-        <AnimatePresence>
-          {type === "modal" ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-50"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="modal-title"
-              {...props}
+    <AnimatePresence>
+      {isOpen &&
+        (type === "modal" ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            {...props}
+          >
+            <div
+              className="flex h-full w-full items-center justify-center bg-black/80 backdrop-blur-md"
+              onClick={handleBackdropClick}
             >
-              <div
-                className="flex h-full w-full items-center justify-center bg-black/80 backdrop-blur-md"
-                onClick={handleBackdropClick}
+              <motion.div
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+                transition={{ duration: 0.3, type: "spring" }}
+                className="relative mx-4 flex items-center justify-center rounded border bg-background p-8 text-text shadow-lg dark:bg-black dark:text-white md:max-w-[60vw]"
               >
-                <motion.div
-                  initial={{ scale: 0.5 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0.8 }}
-                  transition={{ duration: 0.3, type: "spring" }}
-                  className="relative mx-4 flex items-center justify-center rounded border bg-background p-8 text-text shadow-lg dark:bg-black dark:text-white md:max-w-[60vw]"
+                <button
+                  onClick={onClose}
+                  className="absolute right-1 top-1 flex aspect-square text-center text-4xl"
+                  aria-label="Close modal"
                 >
-                  <button
-                    onClick={onClose}
-                    className="absolute right-1 top-1 flex aspect-square text-center text-4xl"
-                    aria-label="Close modal"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
+                  <X className="h-5 w-5" />
+                </button>
 
-                  {children}
-                </motion.div>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="modal-title"
-              className="fixed inset-0 z-40 bg-black/80 px-5 backdrop-blur-md"
-              {...props}
+                {children}
+              </motion.div>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            className="fixed inset-0 z-40 bg-black/80 px-5 backdrop-blur-md"
+            {...props}
+          >
+            <div
+              className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end pb-3.5"
+              onClick={handleBackdropClick}
             >
-              <div
-                className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end pb-3.5"
-                onClick={handleBackdropClick}
+              <motion.div
+                initial={{ scale: 0.7 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.9 }}
+                transition={{
+                  duration: 0.5,
+                  type: "spring",
+                  ease: "easeOut",
+                }}
+                className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background shadow-lg dark:bg-background-dark"
               >
-                <motion.div
-                  initial={{ scale: 0.7 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0.9 }}
-                  transition={{
-                    duration: 0.5,
-                    type: "spring",
-                    ease: "easeOut",
-                  }}
-                  className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background shadow-lg dark:bg-background-dark"
-                >
-                  {children}
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
-    </>,
+                {children}
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
+    </AnimatePresence>,
     document.body
   );
 };

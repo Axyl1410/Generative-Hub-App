@@ -7,7 +7,7 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function Buy() {
+export default async function Buy() {
   return (
     <div className="mt-10">
       <div className={"flex w-full items-center justify-between"}>
