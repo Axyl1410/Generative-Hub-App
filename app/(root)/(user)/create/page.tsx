@@ -9,32 +9,34 @@ export default function Page() {
         <BackButton href={"/"} className={"w-fit"} />
         <h1 className={"text-3xl font-bold"}>Create</h1>
         <div className={"flex flex-col gap-4"}>
-          {/*<Link href={"/create/collection"} className={"cursor-not-allowed"}>*/}
-          <div
-            className={
-              "group relative flex w-full cursor-not-allowed items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
-            }
-          >
-            <span className="absolute inset-0 -z-10 h-full w-full rounded-lg bg-gradient-to-br from-sky-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[6px]" />
+          <Link href={"/create/collection"}>
+            <div
+              className={
+                "group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+              }
+            >
+              <span className="absolute inset-0 -z-10 h-full w-full rounded-lg bg-gradient-to-br from-sky-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[6px]" />
 
-            <div className={"flex flex-col gap-4"}>
-              <div className={"flex items-center gap-2 text-lg font-semibold"}>
-                <div className={"h-6 w-6"}>
-                  <LayoutGrid size={24} />
+              <div className={"flex flex-col gap-4"}>
+                <div
+                  className={"flex items-center gap-2 text-lg font-semibold"}
+                >
+                  <div className={"h-6 w-6"}>
+                    <LayoutGrid size={24} />
+                  </div>
+                  <p>Drop</p>
                 </div>
-                <p>Drop</p>
+                <div>
+                  A drop is the release of a new project. This usually happens
+                  on a specified date and time. Items will be revealed after
+                  they have been purchased.
+                </div>
               </div>
-              <div>
-                A drop is the release of a new project. This usually happens on
-                a specified date and time. Items will be revealed after they
-                have been purchased.
+              <div className={"h-6 w-6"}>
+                <ArrowRight size={24} />
               </div>
             </div>
-            <div className={"h-6 w-6"}>
-              <ArrowRight size={24} />
-            </div>
-          </div>
-          {/*</Link>*/}
+          </Link>
           <Link href={"/create/mint"}>
             <div
               className={

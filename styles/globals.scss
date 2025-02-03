@@ -31,17 +31,24 @@ html {
 
 @layer utilities {
   .input-styles {
-    @apply shadow-md mb-4 block w-full rounded-lg border bg-transparent px-4 py-3 text-base dark:border-white;
+    @apply mb-4 block w-full rounded-lg border bg-transparent px-4 py-3 text-base shadow-md dark:border-white;
   }
 
   .legend-styles {
     @apply mb-2 text-text dark:text-white/80;
   }
 }
+
 @keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .animate-gradient {

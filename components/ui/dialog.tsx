@@ -1,7 +1,7 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useCallback, useEffect } from "react";
-import { X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 import ReactDOM from "react-dom";
 
 interface DialogProps {
@@ -36,9 +36,10 @@ const Dialog: React.FC<DialogProps> = ({
   }, [isOpen]);
 
   return ReactDOM.createPortal(
-    <AnimatePresence>
-      {type === "modal"
-        ? isOpen && (
+    <>
+      {isOpen && (
+        <AnimatePresence>
+          {type === "modal" ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -73,8 +74,7 @@ const Dialog: React.FC<DialogProps> = ({
                 </motion.div>
               </div>
             </motion.div>
-          )
-        : isOpen && (
+          ) : (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -106,7 +106,9 @@ const Dialog: React.FC<DialogProps> = ({
               </div>
             </motion.div>
           )}
-    </AnimatePresence>,
+        </AnimatePresence>
+      )}
+    </>,
     document.body
   );
 };
