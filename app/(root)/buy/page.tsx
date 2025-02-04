@@ -2,16 +2,22 @@ import BackButton from "@/components/common/back-button";
 import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import { getCollection } from "@/lib/mongodb";
+import axios from "@/lib/axiosConfig";
 import { Suspense } from "react";
+import { toast } from "sonner";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function Buy() {
-  const collection = await getCollection();
-  const documents = await collection.find().toArray();
-  console.log(documents);
+export default function Buy() {
+  const handleToast = () => {
+    toast.success("Hello World");
+  };
+
+  axios.get("/hello").then((res) => {
+    console.log(res.data);
+    handleToast();
+  });
 
   return (
     <div className="mt-10">

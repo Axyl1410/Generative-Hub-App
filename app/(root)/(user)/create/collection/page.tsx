@@ -3,6 +3,7 @@
 import BackButton from "@/components/common/back-button";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import { FileUpload } from "@/components/ui/file-upload";
+import axios from "@/lib/axiosConfig";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { Eye, EyeOff, Newspaper } from "lucide-react";
 import React, { useState } from "react";
@@ -46,6 +47,14 @@ export default function Page() {
       .then((contractAddress) => {
         try {
           console.log("Contract deployed at:", contractAddress);
+          axios
+            .post("/api/add-address", {
+              username: account,
+              address: contractAddress,
+            })
+            .then((res) => {
+              console.log(res.data);
+            });
         } catch (error) {
           console.error("Failed to add address to user:", error);
         }
