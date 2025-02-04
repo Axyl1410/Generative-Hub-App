@@ -27,25 +27,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
-export const OPTIONS = async (request: Request) => {
-  const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(",")
-    : ["http://localhost:3000"];
-  const origin = request.headers.get("origin") || "*";
-
-  if (allowedOrigins.includes(origin) || origin === "*") {
-    return new NextResponse(null, {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": origin,
-        "Access-Control-Allow-Methods": "POST, OPTIONS", // Include OPTIONS
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
-  } else {
-    return new NextResponse(null, {
-      status: 403,
-    });
-  }
-};
