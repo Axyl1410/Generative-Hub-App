@@ -6,8 +6,8 @@ import { FileUpload } from "@/components/ui/file-upload";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { Eye, EyeOff, Newspaper } from "lucide-react";
 import React, { useState } from "react";
-import { useActiveAccount } from "thirdweb/react";
 import { deployERC721Contract } from "thirdweb/deploys";
+import { useActiveAccount } from "thirdweb/react";
 
 interface DialogContentProps {
   title: string;
@@ -44,7 +44,11 @@ export default function Page() {
       },
     })
       .then((contractAddress) => {
-        console.log(contractAddress);
+        try {
+          console.log("Contract deployed at:", contractAddress);
+        } catch (error) {
+          console.error("Failed to add address to user:", error);
+        }
       })
       .catch((error) => {
         console.error("Failed to deploy contract:", error);

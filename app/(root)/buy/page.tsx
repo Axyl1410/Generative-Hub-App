@@ -2,12 +2,17 @@ import BackButton from "@/components/common/back-button";
 import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { getCollection } from "@/lib/mongodb";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function Buy() {
+  const collection = await getCollection();
+  const documents = await collection.find().toArray();
+  console.log(documents);
+
   return (
     <div className="mt-10">
       <div className={"flex w-full items-center justify-between"}>
