@@ -12,14 +12,12 @@ const cors = Cors({
 function runMiddleware(
   req: NextApiRequest,
   res: NextApiResponse,
-  fn: (
-    req: NextApiRequest,
-    res: NextApiResponse,
-    cb: (result: Error | unknown) => void
-  ) => void
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  fn: Function
 ) {
   return new Promise((resolve, reject) => {
-    fn(req, res, (result: Error | unknown) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fn(req, res, (result: any) => {
       if (result instanceof Error) {
         return reject(result);
       }
