@@ -1,6 +1,6 @@
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NFT as NFTType } from "thirdweb";
 import { isApprovedForAll } from "thirdweb/extensions/erc721";
 import { useActiveAccount, useReadContract } from "thirdweb/react";
@@ -10,6 +10,7 @@ import DirectListingButton from "./direct-listing-button";
 import CheckNFTListing from "@/lib/check-nft-listing";
 import CancelButton from "@/components/sale-info/cancel-button";
 import { motion } from "framer-motion";
+import Loading from "../common/loading";
 
 type Props = {
   nft: NFTType;
@@ -18,6 +19,7 @@ type Props = {
 export default function SaleInfo({ nft }: Props) {
   const account = useActiveAccount();
   const [tab, setTab] = useState<"direct" | "auction">("direct");
+  const [loading, setLoading] = useState(true);
 
   const { data: hasApproval } = useReadContract(isApprovedForAll, {
     contract: NFT_COLLECTION,
@@ -39,7 +41,17 @@ export default function SaleInfo({ nft }: Props) {
     buyoutPrice: "0",
   });
 
+  useEffect(() => {
+    if (hasApproval !== undefined && listingStatus !== undefined) {
+      setLoading(false);
+    }
+  }, [hasApproval, listingStatus]);
+
   if (!account) return null;
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>

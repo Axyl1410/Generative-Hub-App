@@ -1,12 +1,13 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import React, { useState } from "react";
-import { FileUpload } from "@/components/ui/file-upload";
-import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import ButtonGradiant from "@/components/ui/button-gradiant";
-import useToggle from "@/hooks/use-state-toggle";
-import Dialog from "@/components/ui/dialog";
+import { FileUpload } from "@/components/ui/file-upload";
+import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { Eye, EyeOff, Newspaper } from "lucide-react";
+import React, { useState } from "react";
+import { useActiveAccount } from "thirdweb/react";
+import { deployERC721Contract } from "thirdweb/deploys";
 
 interface DialogContentProps {
   title: string;
@@ -22,9 +23,33 @@ export default function Page() {
     console.log(files);
   };
 
-  const logoInfo = useToggle();
-  const contractInfo = useToggle();
-  const tokenInfo = useToggle();
+  const account = useActiveAccount();
+
+  if (!account) return <div>Please connect your wallet</div>;
+
+  // const logoInfo = useToggle();
+  // const contractInfo = useToggle();
+  // const tokenInfo = useToggle();
+
+  const handle = async () => {
+    await deployERC721Contract({
+      chain: FORMA_SKETCHPAD,
+      client,
+      account: account,
+      type: "TokenERC721",
+      params: {
+        name: "NFT",
+        description: "My NFT contract",
+        symbol: "NFT",
+      },
+    })
+      .then((contractAddress) => {
+        console.log(contractAddress);
+      })
+      .catch((error) => {
+        console.error("Failed to deploy contract:", error);
+      });
+  };
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -47,20 +72,20 @@ export default function Page() {
             <div>
               <p className="mb-2 flex items-center font-bold dark:text-text-dark">
                 Logo image
-                <span className="ml-1 cursor-pointer" onClick={logoInfo.open}>
+                {/* <span className="ml-1 cursor-pointer" onClick={logoInfo.open}>
                   <Info size={16} />
-                </span>
+                </span> */}
               </p>
               <div className="mx-auto rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
                 <FileUpload onChange={handleFileUpload} />
               </div>
-              <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
+              {/* <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
                 <DialogContent
                   title="Logo image"
                   description="Your logo should be a representation of your items and will appear next to your collection name throughout. You can change your logo even after you deploy your contract."
                   onClose={logoInfo.close}
                 />
-              </Dialog>
+              </Dialog> */}
             </div>
             <div className="grid gap-4 sm:grid-cols-5">
               <div className="sm:col-span-3">
@@ -69,12 +94,12 @@ export default function Page() {
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
                   Contract name
-                  <span
+                  {/* <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
                   >
                     <Info size={16} />
-                  </span>
+                  </span> */}
                 </label>
                 <div className="mt-2">
                   <input
@@ -86,7 +111,7 @@ export default function Page() {
                     required
                   />
                 </div>
-                <Dialog
+                {/* <Dialog
                   isOpen={contractInfo.isOpen}
                   onClose={contractInfo.close}
                 >
@@ -95,7 +120,7 @@ export default function Page() {
                     description="The contract name is the name of your NFT collection, which is visible on chain, this is usually your project or collection name. Contract names cannot be changed after your contract is deployed."
                     onClose={contractInfo.close}
                   />
-                </Dialog>
+                </Dialog> */}
               </div>
               <div className={"sm:col-span-2"}>
                 <label
@@ -103,12 +128,12 @@ export default function Page() {
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
                   Token symbol
-                  <span
+                  {/* <span
                     className="ml-1 cursor-pointer"
                     onClick={tokenInfo.open}
                   >
                     <Info size={16} />
-                  </span>
+                  </span> */}
                 </label>
                 <div className="mt-2">
                   <input
@@ -120,16 +145,16 @@ export default function Page() {
                     required
                   />
                 </div>
-                <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
+                {/* <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
                   <DialogContent
                     title="Token symbol"
                     description="The token symbol is the shorthand way to identify your contract, which is visible on chain. For example, Azuki uses AZUKI and Bored Ape Yacht Club uses BAYC as their respective token symbols, token symbols cannot be changed after your contract is deployed."
                     onClose={tokenInfo.close}
                   />
-                </Dialog>
+                </Dialog> */}
               </div>
             </div>
-            <ButtonGradiant text="Continue" />
+            <ButtonGradiant text="Continue" onClick={handle} />
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">
@@ -185,6 +210,7 @@ const splitDescription = (description: string) => {
   ));
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DialogContent: React.FC<DialogContentProps> = ({
   title,
   description,

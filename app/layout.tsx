@@ -5,7 +5,8 @@ import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
 import "../styles/globals.scss";
 import React from "react";
-// import { NextUIProvider } from "@nextui-org/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Generative Hub App",
@@ -25,13 +26,21 @@ export default function RootLayout({
       <body
         className={`bg-background text-text antialiased transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark`}
       >
+        {process.env.NODE_ENV === "development" && (
+          <>
+            <Script
+              crossOrigin="anonymous"
+              src="//unpkg.com/react-scan/dist/auto.global.js"
+              async
+            />
+          </>
+        )}
         <ThemeProvider>
           <ScrollToTop />
           <Toaster closeButton richColors position="top-left" />
-          {/*<NextUIProvider>*/}
           <ThirdwebProvider>{children}</ThirdwebProvider>
-          {/*</NextUIProvider>*/}
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

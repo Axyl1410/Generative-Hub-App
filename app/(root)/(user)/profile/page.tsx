@@ -2,6 +2,7 @@
 
 import CollectedPage from "@/app/(root)/(user)/profile/collection";
 import BackButton from "@/components/common/back-button";
+import EmptyText from "@/components/common/empty-text";
 import MenuSection from "@/components/ui/menu-section";
 import "@/styles/profile.module.scss";
 import {
@@ -16,7 +17,6 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
-import EmptyText from "@/components/common/empty-text";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -119,8 +119,7 @@ const ProfilePage: React.FC = () => {
       {/* Header Section */}
 
       {/* Cover Section */}
-      <div className="overflow-hidde relative h-64 rounded-b-md md:h-16 lg:h-80">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+      <div className="overflow-hidde relative h-32 rounded-b-md md:h-64 lg:h-80">
         <img
           src={coverPhoto}
           alt="Cover"
@@ -144,7 +143,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* Avatar Section */}
-      <div className="relative -mt-32 ml-6 flex">
+      <div className="relative -mt-16 flex md:-mt-32 md:ml-6">
         <div className="relative">
           {/*<img*/}
           {/*  src={avatar}*/}
@@ -155,7 +154,7 @@ const ProfilePage: React.FC = () => {
           <Blobbie
             address={`${account?.address}`}
             className={
-              "h-48 w-48 rounded-full border-4 border-white object-cover sm:h-48 sm:w-48"
+              "h-32 w-32 rounded-full border-4 border-white object-cover md:h-48 md:w-48"
             }
           />
           <input

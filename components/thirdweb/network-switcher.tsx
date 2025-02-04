@@ -2,7 +2,7 @@
 
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { cn } from "@/lib/utils";
-import { ThirdwebButtonProps } from "@/type";
+import { ThirdwebButtonProps } from "@/types";
 import { ArrowLeftRight } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";

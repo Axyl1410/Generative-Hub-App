@@ -55,6 +55,9 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
         disabled={loading}
         layout
         style={{ width: "auto" }}
+        className={
+          "flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
+        }
       >
         {loading ? (
           <Loading text={"Cancelling..."} />

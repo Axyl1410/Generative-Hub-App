@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ThirdwebButtonProps } from "@/type";
+import { ThirdwebButtonProps } from "@/types";
 import { Unplug } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";

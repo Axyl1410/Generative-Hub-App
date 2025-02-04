@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="border-t py-8 dark:border-border-dark">
       <div className="px-5">
-        <div className="container flex items-center justify-between">
+        <div className="!container flex items-center justify-between">
           <span className="text-sm/6">
             © {currentYear} Generative Hub App. All rights reserved.
           </span>

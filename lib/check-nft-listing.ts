@@ -1,12 +1,12 @@
 "use client";
 
 import { MARKETPLACE } from "@/contracts";
-import { useEffect, useState, useMemo } from "react";
-import { useReadContract } from "thirdweb/react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
+import { useReadContract } from "thirdweb/react";
 
 interface NFTListingStatus {
   isSell: boolean;
@@ -70,7 +70,7 @@ export default function CheckNFTListing({
       listed: !!activeListing,
       auctioned: !!activeAuction,
       isSell: !!(activeListing || activeAuction),
-      listingId: activeListing?.id,
+      listingId: activeListing?.id || activeAuction?.id,
     }),
     [activeListing, activeAuction]
   );
