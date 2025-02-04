@@ -2,8 +2,8 @@ import { Db, MongoClient } from "mongodb";
 
 const uri = process.env.DB_URI;
 
-let client: MongoClient;
-let db: Db;
+let client: MongoClient | null;
+let db: Db | null;
 
 if (!uri) throw new Error("Please define DB_URI in your environment variables");
 
@@ -23,7 +23,7 @@ async function connectToDatabase(dbname: string = "genhub") {
 
 export async function getCollection(collectionName: string = "genhub") {
   await connectToDatabase();
-  return db.collection(collectionName);
+  return db!.collection(collectionName);
 }
 
 export async function getCollectionbyusername(username: string) {
@@ -31,9 +31,7 @@ export async function getCollectionbyusername(username: string) {
 
   const user = await collection.findOne({ username });
 
-  if (user) return user;
-
-  return "User not found";
+  return user || null;
 }
 
 export async function addAddressToUser(username: string, address: string) {

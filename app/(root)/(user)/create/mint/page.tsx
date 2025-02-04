@@ -1,16 +1,16 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { FileUpload } from "@/components/ui/file-upload";
-import Loading from "@/components/common/loading";
-import { Plus } from "lucide-react";
 import BackButton from "@/components/common/back-button";
-import { TransactionButton, useActiveAccount } from "thirdweb/react";
-import { mintTo } from "thirdweb/extensions/erc721";
+import Loading from "@/components/common/loading";
+import { FileUpload } from "@/components/ui/file-upload";
 import { NFT_COLLECTION } from "@/contracts";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
+import { mintTo } from "thirdweb/extensions/erc721";
+import { TransactionButton, useActiveAccount } from "thirdweb/react";
 
 export default function Page() {
   const router = useRouter();
@@ -19,12 +19,9 @@ export default function Page() {
   const [description, setDescription] = useState<string>("");
   const account = useActiveAccount();
 
-  const handleFileUpload = (files: File) => {
-    setFiles(files);
-    console.log(files);
-  };
+  const handleFileUpload = (files: File) => setFiles(files);
 
-  if (!account) return <div>Please connect your wallet</div>;
+  if (!account) return <Loading />;
 
   const address: string = account.address;
 

@@ -1,23 +1,27 @@
+"use client";
+
 import BackButton from "@/components/common/back-button";
 import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import axios from "@/lib/axiosConfig";
-import { Suspense } from "react";
+import axios from "@/lib/axios-config";
+import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const revalidate = 0;
 
 export default function Buy() {
-  const handleToast = () => {
-    toast.success("Hello World");
-  };
-
-  axios.get("/hello").then((res) => {
-    console.log(res.data);
-    handleToast();
-  });
+  useEffect(() => {
+    axios
+      .get("/api/hello")
+      .then((res) => {
+        toast(res.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.response.data.error);
+      });
+  }, []);
 
   return (
     <div className="mt-10">

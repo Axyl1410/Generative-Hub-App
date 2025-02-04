@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 
     const user = await getCollectionbyusername(username);
 
-    if (user === "User not found") {
+    if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
