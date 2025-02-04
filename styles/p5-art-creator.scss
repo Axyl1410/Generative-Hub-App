@@ -3,14 +3,17 @@
   max-width: 800px;
   margin: 0 auto;
 }
+
 .file-input {
   margin: 20px 0;
 }
+
 .preview-container {
   margin: 20px 0;
   border: 2px solid #ccc;
   padding: 15px;
 }
+
 .code-textarea {
   width: 100%;
   height: 300px;
@@ -18,6 +21,7 @@
   padding: 10px;
   margin: 10px 0;
 }
+
 .run-button {
   background: #28a745;
   color: white;
@@ -27,10 +31,12 @@
   border-radius: 5px;
   margin: 10px 0;
 }
+
 .download-buttons {
   display: flex;
   gap: 10px;
 }
+
 .download-button {
   background: #0070f3;
   color: white;
@@ -39,6 +45,7 @@
   cursor: pointer;
   border-radius: 5px;
 }
+
 .error-message {
   color: #ff0000;
   background: #ffecec;

@@ -1,13 +1,18 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
+import Loading from "@/components/common/loading";
 import ButtonGradiant from "@/components/ui/button-gradiant";
+import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
+import useToggle from "@/hooks/use-state-toggle";
+import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
-import { Eye, EyeOff, Newspaper } from "lucide-react";
+import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import React, { useState } from "react";
-import { useActiveAccount } from "thirdweb/react";
+import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
+import { useActiveAccount } from "thirdweb/react";
 
 interface DialogContentProps {
   title: string;
@@ -16,20 +21,18 @@ interface DialogContentProps {
 }
 
 export default function Page() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [description, setDescription] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [symbol, setSymbol] = useState<string>("");
   const [files, setFiles] = useState<File>();
-  const handleFileUpload = (files: File) => {
-    setFiles(files);
-    console.log(files);
-  };
+  const handleFileUpload = (files: File) => setFiles(files);
 
+  const logoInfo = useToggle();
+  const contractInfo = useToggle();
+  const tokenInfo = useToggle();
   const account = useActiveAccount();
 
-  if (!account) return <div>Please connect your wallet</div>;
-
-  // const logoInfo = useToggle();
-  // const contractInfo = useToggle();
-  // const tokenInfo = useToggle();
+  if (!account) return <Loading />;
 
   const handle = async () => {
     await deployERC721Contract({
@@ -38,13 +41,27 @@ export default function Page() {
       account: account,
       type: "TokenERC721",
       params: {
-        name: "NFT",
-        description: "My NFT contract",
-        symbol: "NFT",
+        name: name,
+        description: description,
+        symbol: symbol,
+        image: files,
       },
     })
-      .then((contractAddress) => {
-        console.log(contractAddress);
+      .then(async (contractAddress) => {
+        console.log("Contract deployed at:", contractAddress);
+        toast("Contract deployed successfully");
+        await axios
+          .post("/api/add-address", {
+            username: account,
+            address: contractAddress,
+          })
+          .then((res) => {
+            console.log(res.data);
+            toast("Address added to user successfully");
+          })
+          .catch((error) => {
+            toast.error(error.response.data.error);
+          });
       })
       .catch((error) => {
         console.error("Failed to deploy contract:", error);
@@ -55,7 +72,7 @@ export default function Page() {
     <div className="mt-10 flex w-full justify-center">
       <div className="flex w-full flex-col">
         <BackButton href="/create" className="mb-8 w-fit" />
-        <div className="flex grid-cols-6 flex-col-reverse gap-12 md:grid">
+        <div className="mb-8 flex grid-cols-6 flex-col-reverse gap-12 md:grid">
           <div className="col-span-4 flex flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h1 className="text-xl font-bold sm:text-3xl">
@@ -72,20 +89,40 @@ export default function Page() {
             <div>
               <p className="mb-2 flex items-center font-bold dark:text-text-dark">
                 Logo image
-                {/* <span className="ml-1 cursor-pointer" onClick={logoInfo.open}>
+                <span className="ml-1 cursor-pointer" onClick={logoInfo.open}>
                   <Info size={16} />
-                </span> */}
+                </span>
               </p>
               <div className="mx-auto rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
                 <FileUpload onChange={handleFileUpload} />
               </div>
-              {/* <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
+              <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
                 <DialogContent
                   title="Logo image"
                   description="Your logo should be a representation of your items and will appear next to your collection name throughout. You can change your logo even after you deploy your contract."
                   onClose={logoInfo.close}
                 />
-              </Dialog> */}
+              </Dialog>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="description"
+                className="mb-2 flex items-center font-bold dark:text-text-dark"
+              >
+                Description
+              </label>
+              <div className="mt-2">
+                <textarea
+                  name="description"
+                  id="description"
+                  rows={3}
+                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                  required
+                  placeholder="Write a few description about."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-5">
               <div className="sm:col-span-3">
@@ -94,12 +131,12 @@ export default function Page() {
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
                   Contract name
-                  {/* <span
+                  <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
                   >
                     <Info size={16} />
-                  </span> */}
+                  </span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -109,9 +146,11 @@ export default function Page() {
                     placeholder="My collection name"
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                {/* <Dialog
+                <Dialog
                   isOpen={contractInfo.isOpen}
                   onClose={contractInfo.close}
                 >
@@ -120,7 +159,7 @@ export default function Page() {
                     description="The contract name is the name of your NFT collection, which is visible on chain, this is usually your project or collection name. Contract names cannot be changed after your contract is deployed."
                     onClose={contractInfo.close}
                   />
-                </Dialog> */}
+                </Dialog>
               </div>
               <div className={"sm:col-span-2"}>
                 <label
@@ -128,30 +167,32 @@ export default function Page() {
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
                   Token symbol
-                  {/* <span
+                  <span
                     className="ml-1 cursor-pointer"
                     onClick={tokenInfo.open}
                   >
                     <Info size={16} />
-                  </span> */}
+                  </span>
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
                     name="mcn"
-                    id="mcv"
+                    id="mcn"
                     placeholder="MCN"
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
+                    value={symbol}
+                    onChange={(e) => setSymbol(e.target.value)}
                   />
                 </div>
-                {/* <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
+                <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
                   <DialogContent
                     title="Token symbol"
                     description="The token symbol is the shorthand way to identify your contract, which is visible on chain. For example, Azuki uses AZUKI and Bored Ape Yacht Club uses BAYC as their respective token symbols, token symbols cannot be changed after your contract is deployed."
                     onClose={tokenInfo.close}
                   />
-                </Dialog> */}
+                </Dialog>
               </div>
             </div>
             <ButtonGradiant text="Continue" onClick={handle} />
@@ -210,7 +251,6 @@ const splitDescription = (description: string) => {
   ));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DialogContent: React.FC<DialogContentProps> = ({
   title,
   description,

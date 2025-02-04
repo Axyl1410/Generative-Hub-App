@@ -1,11 +1,11 @@
 import ScrollToTop from "@/components/common/scroll-to-top";
 import { ThemeProvider } from "@/components/theme/theme-context";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import React from "react";
 import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
 import "../styles/globals.scss";
-import React from "react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 
 export const metadata: Metadata = {

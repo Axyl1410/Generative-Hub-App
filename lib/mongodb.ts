@@ -2,22 +2,18 @@ import { Db, MongoClient } from "mongodb";
 
 const uri = process.env.DB_URI;
 
-let client: MongoClient;
-let db: Db;
+let client: MongoClient | null;
+let db: Db | null;
 
-if (!uri) {
-  throw new Error("Please define DB_URI in your environment variables");
-}
+if (!uri) throw new Error("Please define DB_URI in your environment variables");
 
-async function connectToDatabase() {
-  if (client) {
-    return;
-  }
+async function connectToDatabase(dbname: string = "genhub") {
+  if (client && db) return;
 
   try {
     client = new MongoClient(uri as string);
     await client.connect();
-    db = client.db("genhub");
+    db = client.db(dbname);
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error(error);
@@ -25,9 +21,17 @@ async function connectToDatabase() {
   }
 }
 
-export async function getCollection() {
+export async function getCollection(collectionName: string = "genhub") {
   await connectToDatabase();
-  return db.collection("genhub");
+  return db!.collection(collectionName);
+}
+
+export async function getCollectionbyusername(username: string) {
+  const collection = await getCollection();
+
+  const user = await collection.findOne({ username });
+
+  return user || null;
 }
 
 export async function addAddressToUser(username: string, address: string) {
@@ -39,15 +43,13 @@ export async function addAddressToUser(username: string, address: string) {
     // User exists, update the address array. Use $addToSet to avoid duplicates.
     await collection.updateOne(
       { username },
-      { $addToSet: { addresses: address } }
+      { $addToSet: { address: address } }
     );
-    console.log(`Address added to user ${username}`);
   } else {
     // User doesn't exist, create a new user with the address.
     await collection.insertOne({
       username,
-      addresses: [address], // Initialize addresses as an array
+      address: [address], // Initialize addresses as an array
     });
-    console.log(`User ${username} created with address`);
   }
 }
