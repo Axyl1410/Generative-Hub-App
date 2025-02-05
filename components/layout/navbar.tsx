@@ -68,8 +68,8 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* Display Button Create NFT when login success*/}
             {account ? (
-              <Link href="/create" className="">
-                <button className="relative hidden items-center justify-center gap-1.5 gap-2 whitespace-nowrap rounded-lg rounded-md bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium font-semibold text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex">
+              <Link href="/create" className=" hover:shadow-md ">
+                <button className="relative hidden items-center justify-center gap-1.5 gap-2 whitespace-nowrap rounded-lg rounded-md bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium font-semibold text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex hover:translate-6">
                   {" "}
                   <Plus size={18} strokeWidth={2} />
                   <p>Create</p>
