@@ -6,24 +6,24 @@ export async function POST(request: Request) {
     const { username, address } = await request.json();
 
     if (!username || !address) {
-      return new NextResponse(
-        JSON.stringify({ error: "Username and address are required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+      return NextResponse.json(
+        { error: "Username and address are required" },
+        { status: 400 }
       );
     }
 
     await addAddressToUser(username, address);
 
-    return new NextResponse(
-      JSON.stringify({ message: "Address added successfully" }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+    return NextResponse.json(
+      { message: "Address added successfully" },
+      { status: 200 }
     );
   } catch (error) {
     console.error("Error adding address:", error);
 
-    return new NextResponse(
-      JSON.stringify({ error: `Internal Server Error: ${error}` }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+    return NextResponse.json(
+      { error: `Internal Server Error: ${error}` },
+      { status: 500 }
     );
   }
 }

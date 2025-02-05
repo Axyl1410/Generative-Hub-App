@@ -23,6 +23,12 @@
       "@/styles/*": ["./styles/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/(root)/(user)/profile/p5js/page.jsx"
+  ],
   "exclude": ["node_modules"]
 }

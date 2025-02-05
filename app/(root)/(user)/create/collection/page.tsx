@@ -52,7 +52,7 @@ export default function Page() {
         toast("Contract deployed successfully");
         await axios
           .post("/api/add-address", {
-            username: account,
+            username: account?.address,
             address: contractAddress,
           })
           .then((res) => {
@@ -103,26 +103,6 @@ export default function Page() {
                   onClose={logoInfo.close}
                 />
               </Dialog>
-            </div>
-            <div className="w-full">
-              <label
-                htmlFor="description"
-                className="mb-2 flex items-center font-bold dark:text-text-dark"
-              >
-                Description
-              </label>
-              <div className="mt-2">
-                <textarea
-                  name="description"
-                  id="description"
-                  rows={3}
-                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                  required
-                  placeholder="Write a few description about."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-5">
               <div className="sm:col-span-3">
@@ -193,6 +173,26 @@ export default function Page() {
                     onClose={tokenInfo.close}
                   />
                 </Dialog>
+              </div>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="description"
+                className="mb-2 flex items-center font-bold dark:text-text-dark"
+              >
+                Description
+              </label>
+              <div className="mt-2">
+                <textarea
+                  name="description"
+                  id="description"
+                  rows={3}
+                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                  required
+                  placeholder="Write a few description about."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
               </div>
             </div>
             <ButtonGradiant text="Continue" onClick={handle} />
