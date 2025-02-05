@@ -1,5 +1,6 @@
 "use client";
 
+import walletLogoutAPI from "@/app/api/my-sql/walletLogoutAPI";
 import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/types";
 import { Unplug } from "lucide-react";
@@ -21,6 +22,7 @@ const DisconnectButton: React.FC<ThirdwebButtonProps> = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       disconnect(wallet);
+      walletLogoutAPI();
       toast.success("Disconnected from wallet");
     } else toast.error("No wallet connected");
   };
