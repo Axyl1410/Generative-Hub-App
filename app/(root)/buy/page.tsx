@@ -4,25 +4,11 @@ import BackButton from "@/components/common/back-button";
 import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
-import axios from "@/lib/axios-config";
-import { Suspense, useEffect } from "react";
-import { toast } from "sonner";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
-// export const revalidate = 0;
 
 export default function Buy() {
-  useEffect(() => {
-    axios
-      .get("/api/hello")
-      .then((res) => {
-        toast(res.data.message);
-      })
-      .catch((error) => {
-        toast.error(error.response.data.error);
-      });
-  }, []);
-
   return (
     <div className="mt-10">
       <div className={"flex w-full items-center justify-between"}>

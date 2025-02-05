@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Db, MongoClient } from "mongodb";
 
 const uri = process.env.DB_URI;
 
 let client: MongoClient | null;
 let db: Db | null;
+
+type NFT = {
+  contract: string;
+  tokenId: string;
+};
 
 if (!uri) throw new Error("Please define DB_URI in your environment variables");
 
@@ -52,4 +58,67 @@ export async function addAddressToUser(username: string, address: string) {
       address: [address], // Initialize addresses as an array
     });
   }
+}
+
+export async function addNftToUser(
+  username: string,
+  contract: string,
+  tokenId: string
+) {
+  const collection = await getCollection();
+
+  const user = await collection.findOne({ username });
+
+  if (!user) throw new Error("User not found");
+
+  const nftExists = user.nft?.some(
+    (nft: NFT): boolean => nft.contract === contract && nft.tokenId === tokenId
+  );
+
+  if (nftExists) {
+    console.log("NFT already exists for this user");
+    return null;
+  }
+
+  await collection.updateOne(
+    { username: username },
+    {
+      $addToSet: {
+        nft: {
+          contract: contract,
+          tokenId: tokenId,
+        },
+      },
+    }
+  );
+}
+
+export async function RemoveNftToUser(
+  username: string,
+  contract: string,
+  tokenId: string
+) {
+  const collection = await getCollection();
+
+  const user = await collection.findOne({ username });
+
+  if (!user) throw new Error("User not found");
+
+  const nftExists = user.nft?.some(
+    (nft: NFT): boolean => nft.contract === contract && nft.tokenId === tokenId
+  );
+
+  if (!nftExists) {
+    console.log("NFT does not exist for this user");
+    return null;
+  }
+
+  await collection.updateOne({ username: username }, {
+    $pull: {
+      nft: {
+        contract: contract,
+        tokenId: tokenId,
+      },
+    },
+  } as any);
 }
