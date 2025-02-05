@@ -10,3 +10,4 @@ const CollectionContract = (address: string) => {
 };
 
 export default CollectionContract;
+ 
