@@ -4,7 +4,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export type GradientTextProps = {
-  children: string;
+  children?: string;
   as?: React.ElementType;
   className?: string;
   duration?: number;
