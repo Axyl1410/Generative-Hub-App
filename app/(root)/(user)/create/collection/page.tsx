@@ -51,7 +51,7 @@ export default function Page() {
         console.log("Contract deployed at:", contractAddress);
         toast("Contract deployed successfully");
         await axios
-          .post("/api/add-address", {
+          .post("/api/user/add-address", {
             username: account?.address,
             address: contractAddress,
           })

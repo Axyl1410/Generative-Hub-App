@@ -1,4 +1,4 @@
-import { RemoveNftToUser } from "@/lib/mongodb";
+import { removeNftFromUser } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await RemoveNftToUser(username, address, token);
+    await removeNftFromUser(username, address, token);
 
     return NextResponse.json(
       { message: "Token removed successfully" },

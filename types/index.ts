@@ -4,7 +4,7 @@ export type ThirdwebButtonProps = {
   [key: string]: unknown;
 };
 
-type NFT = {
+export type NFT = {
   contract: string;
   tokenId: string;
 };
