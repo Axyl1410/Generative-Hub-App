@@ -23,6 +23,13 @@
       "@/styles/*": ["./styles/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/my-sql/loginAPI.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/(root)/(user)/profile/p5js/page.jsx",
+    "app/api/my-sql/loginAPI.jsx"
+  ],
   "exclude": ["node_modules"]
 }
