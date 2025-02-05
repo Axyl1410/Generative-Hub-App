@@ -1,12 +1,18 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import React, { useState } from "react";
-import { FileUpload } from "@/components/ui/file-upload";
-import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
+import Loading from "@/components/common/loading";
 import ButtonGradiant from "@/components/ui/button-gradiant";
-import useToggle from "@/hooks/use-state-toggle";
 import Dialog from "@/components/ui/dialog";
+import { FileUpload } from "@/components/ui/file-upload";
+import useToggle from "@/hooks/use-state-toggle";
+import axios from "@/lib/axios-config";
+import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
+import React, { useState } from "react";
+import { toast } from "sonner";
+import { deployERC721Contract } from "thirdweb/deploys";
+import { useActiveAccount } from "thirdweb/react";
 
 interface DialogContentProps {
   title: string;
@@ -15,22 +21,58 @@ interface DialogContentProps {
 }
 
 export default function Page() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [description, setDescription] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [symbol, setSymbol] = useState<string>("");
   const [files, setFiles] = useState<File>();
-  const handleFileUpload = (files: File) => {
-    setFiles(files);
-    console.log(files);
-  };
+  const handleFileUpload = (files: File) => setFiles(files);
 
   const logoInfo = useToggle();
   const contractInfo = useToggle();
   const tokenInfo = useToggle();
+  const account = useActiveAccount();
+
+  if (!account) return <Loading />;
+
+  const handle = async () => {
+    await deployERC721Contract({
+      chain: FORMA_SKETCHPAD,
+      client,
+      account: account,
+      type: "TokenERC721",
+      params: {
+        name: name,
+        description: description,
+        symbol: symbol,
+        image: files,
+      },
+    })
+      .then(async (contractAddress) => {
+        console.log("Contract deployed at:", contractAddress);
+        toast("Contract deployed successfully");
+        await axios
+          .post("/api/add-address", {
+            username: account,
+            address: contractAddress,
+          })
+          .then((res) => {
+            console.log(res.data);
+            toast("Address added to user successfully");
+          })
+          .catch((error) => {
+            toast.error(error.response.data.error);
+          });
+      })
+      .catch((error) => {
+        console.error("Failed to deploy contract:", error);
+      });
+  };
 
   return (
     <div className="mt-10 flex w-full justify-center">
       <div className="flex w-full flex-col">
         <BackButton href="/create" className="mb-8 w-fit" />
-        <div className="flex grid-cols-6 flex-col-reverse gap-12 md:grid">
+        <div className="mb-8 flex grid-cols-6 flex-col-reverse gap-12 md:grid">
           <div className="col-span-4 flex flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h1 className="text-xl font-bold sm:text-3xl">
@@ -62,6 +104,26 @@ export default function Page() {
                 />
               </Dialog>
             </div>
+            <div className="w-full">
+              <label
+                htmlFor="description"
+                className="mb-2 flex items-center font-bold dark:text-text-dark"
+              >
+                Description
+              </label>
+              <div className="mt-2">
+                <textarea
+                  name="description"
+                  id="description"
+                  rows={3}
+                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                  required
+                  placeholder="Write a few description about."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="grid gap-4 sm:grid-cols-5">
               <div className="sm:col-span-3">
                 <label
@@ -84,6 +146,8 @@ export default function Page() {
                     placeholder="My collection name"
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <Dialog
@@ -114,10 +178,12 @@ export default function Page() {
                   <input
                     type="text"
                     name="mcn"
-                    id="mcv"
+                    id="mcn"
                     placeholder="MCN"
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
+                    value={symbol}
+                    onChange={(e) => setSymbol(e.target.value)}
                   />
                 </div>
                 <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
@@ -129,7 +195,7 @@ export default function Page() {
                 </Dialog>
               </div>
             </div>
-            <ButtonGradiant text="Continue" />
+            <ButtonGradiant text="Continue" onClick={handle} />
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">

@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/components/common/loading";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function Page() {
@@ -89,13 +90,15 @@ export default function Page() {
         placeholder="Enter prompt..."
         className="w-full max-w-md rounded border bg-background p-2 px-3 py-1.5 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
       />
-      <button
+      <motion.button
         onClick={query}
         disabled={loading || !prompt || cooldown > 0}
+        layout
+        style={{ width: "auto" }}
         className="mt-4 rounded bg-blue-500 px-4 py-2 text-white disabled:opacity-50"
       >
         {loading ? "Generating..." : "Generate Image"}
-      </button>
+      </motion.button>
 
       {loading && (
         <div className="mt-4">
