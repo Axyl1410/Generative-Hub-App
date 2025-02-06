@@ -2,6 +2,7 @@ import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getContractMetadata } from "thirdweb/extensions/common";
 import { MediaRenderer, useReadContract } from "thirdweb/react";
 
@@ -15,6 +16,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   ...props
 }) => {
   const contract = CollectionContract(address);
+  if (!contract) notFound();
 
   const { data: metadata } = useReadContract(getContractMetadata, {
     contract: contract,

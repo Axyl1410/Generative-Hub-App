@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/components/common/loading";
+import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,12 @@ export default function Page() {
     `api/user/get-user?username=${account?.address}`
   );
 
-  if (loading || !account) return <Loading />;
+  if (loading || !account)
+    return (
+      <div className="mt-4">
+        <NFTGridLoading />
+      </div>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/components/common/loading";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { notFound } from "next/navigation";
@@ -23,12 +22,15 @@ export function Metadata({ address }: { address: string }) {
     },
   });
 
-  if (isLoading) return <Loading />;
+  if (isLoading)
+    return (
+      <div className="mt-4 h-[146px] w-full animate-pulse rounded-lg bg-gray-300" />
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="mt-4 flex w-full gap-4 rounded-sm border border-gray-500/50 bg-white/[.04] p-4">
-      <div className="h-32 w-32 rounded-sm">
+    <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
+      <div className="h-32 w-32 rounded-lg">
         {metadata?.image ? (
           <MediaRenderer
             src={metadata.image}

@@ -1,34 +1,40 @@
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import CancelButton from "@/components/sale-info/cancel-button";
+import { MARKETPLACE } from "@/contracts";
+import CheckNFTListing from "@/lib/check-nft-listing";
+import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NFT as NFTType } from "thirdweb";
 import { isApprovedForAll } from "thirdweb/extensions/erc721";
 import { useActiveAccount, useReadContract } from "thirdweb/react";
+import Loading from "../common/loading";
 import ApprovalButton from "./approve-button";
 import AuctionListingButton from "./auction-listing-button";
 import DirectListingButton from "./direct-listing-button";
-import CheckNFTListing from "@/lib/check-nft-listing";
-import CancelButton from "@/components/sale-info/cancel-button";
-import { motion } from "framer-motion";
-import Loading from "../common/loading";
 
 type Props = {
   nft: NFTType;
+  address: string;
 };
 
-export default function SaleInfo({ nft }: Props) {
+export default function SaleInfo({ nft, address }: Props) {
   const account = useActiveAccount();
   const [tab, setTab] = useState<"direct" | "auction">("direct");
   const [loading, setLoading] = useState(true);
 
+  const contract = CollectionContract(address);
+  if (!contract) notFound();
+
   const { data: hasApproval } = useReadContract(isApprovedForAll, {
-    contract: NFT_COLLECTION,
+    contract: contract,
     owner: (account?.address as string) || "0x",
     operator: MARKETPLACE.address,
   });
 
   const listingStatus = CheckNFTListing({
-    contractAddress: NFT_COLLECTION.address,
+    contractAddress: address,
     tokenId: nft.id.toString(),
   });
 
@@ -89,7 +95,7 @@ export default function SaleInfo({ nft }: Props) {
             onChange={(e) => setDirectListingState({ price: e.target.value })}
           />
           {!hasApproval ? (
-            <ApprovalButton />
+            <ApprovalButton address={address} />
           ) : listingStatus.isSell ? (
             <CancelButton
               id={listingStatus.listingId}
@@ -100,6 +106,7 @@ export default function SaleInfo({ nft }: Props) {
             <DirectListingButton
               nft={nft}
               pricePerToken={directListingState.price}
+              address={address}
             />
           )}
         </div>
@@ -136,7 +143,7 @@ export default function SaleInfo({ nft }: Props) {
             }
           />
           {!hasApproval ? (
-            <ApprovalButton />
+            <ApprovalButton address={address} />
           ) : listingStatus.isSell ? (
             <CancelButton id={nft.id} account={account} type={"auction"} />
           ) : (
@@ -144,6 +151,7 @@ export default function SaleInfo({ nft }: Props) {
               nft={nft}
               minimumBidAmount={auctionListingState.minimumBidAmount}
               buyoutBidAmount={auctionListingState.buyoutPrice}
+              address={address}
             />
           )}
         </div>

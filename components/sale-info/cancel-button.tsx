@@ -1,10 +1,9 @@
+import Loading from "@/components/common/loading";
+import { MARKETPLACE } from "@/contracts";
 import React, { useState } from "react";
 import { sendTransaction } from "thirdweb";
 import { cancelAuction, cancelListing } from "thirdweb/extensions/marketplace";
-import { MARKETPLACE } from "@/contracts";
-import Loading from "@/components/common/loading";
 import { Account } from "thirdweb/wallets";
-import { motion } from "framer-motion";
 
 interface CancelButtonProps {
   id?: bigint; // Could be listingId or auctionId
@@ -49,12 +48,10 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
   };
 
   return (
-    <div>
-      <motion.button
+    <>
+      <button
         onClick={handleCancel}
         disabled={loading}
-        layout
-        style={{ width: "auto" }}
         className={
           "flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
         }
@@ -64,10 +61,10 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
         ) : (
           `Cancel Listing or Auction`
         )}
-      </motion.button>
+      </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{`Cancelled successfully!`}</p>}
-    </div>
+    </>
   );
 };
 

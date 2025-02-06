@@ -1,6 +1,6 @@
 "use client";
 
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { MARKETPLACE } from "@/contracts";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { NFT as NFTType } from "thirdweb";
@@ -11,10 +11,12 @@ export default function AuctionListingButton({
   nft,
   minimumBidAmount,
   buyoutBidAmount,
+  address,
 }: {
   nft: NFTType;
   minimumBidAmount: string;
   buyoutBidAmount: string;
+  address: string;
 }) {
   const router = useRouter();
   return (
@@ -22,7 +24,7 @@ export default function AuctionListingButton({
       transaction={() => {
         return createAuction({
           contract: MARKETPLACE,
-          assetContractAddress: NFT_COLLECTION.address,
+          assetContractAddress: address,
           tokenId: nft.id,
           minimumBidAmount,
           buyoutBidAmount,
@@ -38,7 +40,7 @@ export default function AuctionListingButton({
       onTransactionConfirmed={(txResult) => {
         toast.success("Listed Successfully!");
         console.log(txResult);
-        router.push(`/token/${NFT_COLLECTION.address}/${nft.id.toString()}`);
+        router.push(`/token/${address}/${nft.id.toString()}`);
       }}
     >
       List for Auction

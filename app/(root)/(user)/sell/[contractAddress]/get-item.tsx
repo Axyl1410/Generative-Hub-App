@@ -1,7 +1,7 @@
 "use client";
 
 import EmptyText from "@/components/common/empty-text";
-import Loading from "@/components/common/loading";
+import { NFTGridLoading } from "@/components/nft/nft-grid";
 import SaleInfo from "@/components/sale-info";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
@@ -39,7 +39,12 @@ export function GetItem({ address }: { address: string }) {
     },
   });
 
-  if (!account || isLoading) return <Loading />;
+  if (!account || isLoading)
+    return (
+      <div className="mt-6">
+        <NFTGridLoading />
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -121,7 +126,7 @@ export function GetItem({ address }: { address: string }) {
               </p>
 
               <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg bg-transparent py-4">
-                <SaleInfo nft={selectedNft} />
+                <SaleInfo nft={selectedNft} address={address} />
               </div>
               <div
                 className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"

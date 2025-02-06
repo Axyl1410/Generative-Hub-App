@@ -13,13 +13,13 @@ export default async function Page({
   const { contractAddress } = await params;
 
   return (
-    <>
+    <div className="flex flex-col">
       <Suspense fallback={<Loading />}>
         <Metadata address={contractAddress} />
       </Suspense>
       <Suspense fallback={<Loading />}>
         <GetItem address={contractAddress} />
       </Suspense>
-    </>
+    </div>
   );
 }

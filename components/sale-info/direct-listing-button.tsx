@@ -1,6 +1,6 @@
 "use client";
 
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { MARKETPLACE } from "@/contracts";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { NFT as NFTType } from "thirdweb";
@@ -10,9 +10,11 @@ import { TransactionButton } from "thirdweb/react";
 export default function DirectListingButton({
   nft,
   pricePerToken,
+  address,
 }: {
   nft: NFTType;
   pricePerToken: string;
+  address: string;
 }) {
   const router = useRouter();
   return (
@@ -20,7 +22,7 @@ export default function DirectListingButton({
       transaction={() => {
         return createListing({
           contract: MARKETPLACE,
-          assetContractAddress: NFT_COLLECTION.address,
+          assetContractAddress: address,
           tokenId: nft.id,
           pricePerToken,
         });
@@ -35,7 +37,7 @@ export default function DirectListingButton({
       onTransactionConfirmed={(txResult) => {
         toast.success("Listed Successfully!");
         console.log(txResult);
-        router.push(`/token/${NFT_COLLECTION.address}/${nft.id.toString()}`);
+        router.push(`/token/${address}/${nft.id.toString()}`);
       }}
     >
       List for Sale
