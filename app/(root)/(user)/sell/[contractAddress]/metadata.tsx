@@ -1,19 +1,30 @@
 "use client";
 
+import Loading from "@/components/common/loading";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
+import { notFound } from "next/navigation";
 import { getContractMetadata } from "thirdweb/extensions/common";
 import { MediaRenderer, useReadContract } from "thirdweb/react";
 
 export function Metadata({ address }: { address: string }) {
   const contract = CollectionContract(address);
 
-  const { data: metadata } = useReadContract(getContractMetadata, {
+  if (!contract) notFound();
+
+  const {
+    data: metadata,
+    isLoading,
+    error,
+  } = useReadContract(getContractMetadata, {
     contract: contract,
     queryOptions: {
       enabled: !!contract,
     },
   });
+
+  if (isLoading) return <Loading />;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="mt-4 flex w-full gap-4 rounded-sm border border-gray-500/50 bg-white/[.04] p-4">

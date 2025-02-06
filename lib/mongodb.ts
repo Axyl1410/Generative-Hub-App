@@ -166,3 +166,21 @@ export async function removeNftFromUser(
       });
   }
 }
+
+export async function addCollectionToDatabase(address: string) {
+  const collection = await getCollection("collection");
+
+  try {
+    await collection
+      .updateOne(
+        { _id: { $exists: true } },
+        { $addToSet: { allCollection: address } },
+        { upsert: true }
+      )
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } catch (error) {
+    throw error;
+  }
+}

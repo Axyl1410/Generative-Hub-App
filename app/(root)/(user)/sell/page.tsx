@@ -17,7 +17,7 @@ export default function Page() {
     `api/user/get-user?username=${account?.address}`
   );
 
-  if (loading) return <Loading />;
+  if (loading || !account) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
 
   return (

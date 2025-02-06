@@ -6,6 +6,8 @@ import SaleInfo from "@/components/sale-info";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { notFound } from "next/navigation";
 import { useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
@@ -19,10 +21,11 @@ import {
 } from "thirdweb/react";
 
 export function GetItem({ address }: { address: string }) {
-  const [selectedNft, setSelectedNft] = useState<NFTType>();
+  const [selectedNft, setSelectedNft] = useState<NFTType | null>(null);
   const account = useActiveAccount();
-
   const contract = CollectionContract(address);
+
+  if (!contract) notFound();
 
   const {
     data: NFTs,
@@ -36,77 +39,100 @@ export function GetItem({ address }: { address: string }) {
     },
   });
 
-  if (isLoading) return <Loading />;
+  if (!account || isLoading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
-  if (!account) return <Loading />;
 
   return (
-    <div className="my-4">
-      {!selectedNft ? (
-        <div
-          className={cn(
-            "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
-            NFTs && NFTs.length > 0 && "grid"
-          )}
-        >
-          {NFTs && NFTs.length > 0 ? (
-            NFTs.map((nft: NFTType) => (
-              <div
-                key={nft.id.toString()}
-                className="max-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4"
-                onClick={() => setSelectedNft(nft)}
-              >
-                <NFTProvider contract={contract} tokenId={nft.id}>
-                  <NFTMedia className="w-full rounded-lg object-cover" />
-                  <h2 className="mt-2 text-lg font-semibold">
-                    {nft.metadata.name}
-                  </h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-200">
-                    Token ID: {nft.id.toString()}
-                  </p>
-                  <NFTDescription className="mt-2 line-clamp-2 truncate text-sm" />
-                </NFTProvider>
-              </div>
-            ))
-          ) : (
-            <EmptyText text="Looks like you don't own any NFTs in this collection. Head to the buy page to buy some!" />
-          )}
-        </div>
-      ) : (
-        <div className="mt-0 flex max-w-full gap-8">
-          <div className="flex w-full flex-col">
-            <div>
+    <motion.div className="my-6" layout style={{ height: "auto" }}>
+      <AnimatePresence>
+        {!selectedNft ? (
+          <motion.div
+            className={cn(
+              "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
+              NFTs && NFTs.length > 0 && "grid"
+            )}
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {NFTs && NFTs.length > 0 ? (
+              NFTs.map((nft: NFTType) => (
+                <motion.div
+                  key={nft.id.toString()}
+                  className="max-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
+                  onClick={() => setSelectedNft(nft)}
+                  layout
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                >
+                  <NFTProvider contract={contract} tokenId={nft.id}>
+                    <NFTMedia className="w-full rounded-lg object-cover" />
+                    <h2 className="mt-2 text-lg font-semibold">
+                      {nft.metadata.name}
+                    </h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-200">
+                      Token ID: {nft.id.toString()}
+                    </p>
+                    <NFTDescription className="mt-2 line-clamp-2 truncate text-sm" />
+                  </NFTProvider>
+                </motion.div>
+              ))
+            ) : (
+              <EmptyText text="Looks like you don't own any NFTs in this collection. Head to the buy page to buy some!" />
+            )}
+          </motion.div>
+        ) : (
+          <motion.div
+            className="mt-0 flex max-w-full gap-8"
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="flex w-full flex-col"
+              layoutId={`image-${selectedNft.id}`}
+            >
               <MediaRenderer
                 client={client}
                 src={selectedNft.metadata.image}
                 className="!h-auto !w-full rounded-lg bg-white/[.04]"
               />
-            </div>
-          </div>
+            </motion.div>
 
-          <div className="relative top-0 w-full max-w-full">
-            <h1 className="mb-1 break-words text-3xl font-semibold">
-              {selectedNft.metadata.name}
-            </h1>
-            <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
-              #{selectedNft.id.toString()}
-            </p>
-            <p className="text-text dark:text-white/60">
-              You&rsquo;re about to list the following item for sale.
-            </p>
-
-            <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg bg-transparent py-4">
-              <SaleInfo nft={selectedNft} />
-            </div>
-            <div
-              className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
-              onClick={() => setSelectedNft(undefined)}
+            <motion.div
+              className="relative top-0 w-full max-w-full"
+              layoutId={`content-${selectedNft.id}`}
             >
-              Back
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+              <h1 className="mb-1 break-words text-3xl font-semibold">
+                {selectedNft.metadata.name}
+              </h1>
+              <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                {selectedNft.metadata.description}
+              </p>
+              <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                #{selectedNft.id.toString()}
+              </p>
+              <p className="text-text dark:text-white/60">
+                You&rsquo;re about to list the following item for sale.
+              </p>
+
+              <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg bg-transparent py-4">
+                <SaleInfo nft={selectedNft} />
+              </div>
+              <div
+                className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
+                onClick={() => setSelectedNft(null)}
+              >
+                Back
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

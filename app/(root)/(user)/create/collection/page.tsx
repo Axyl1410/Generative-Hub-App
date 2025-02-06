@@ -35,37 +35,37 @@ export default function Page() {
   if (!account) return <Loading />;
 
   const handle = async () => {
-    await deployERC721Contract({
-      chain: FORMA_SKETCHPAD,
-      client,
-      account: account,
-      type: "TokenERC721",
-      params: {
-        name: name,
-        description: description,
-        symbol: symbol,
-        image: files,
-      },
-    })
-      .then(async (contractAddress) => {
-        console.log("Contract deployed at:", contractAddress);
-        toast("Contract deployed successfully");
-        await axios
-          .post("/api/user/add-address", {
-            username: account?.address,
-            address: contractAddress,
-          })
-          .then((res) => {
-            console.log(res.data);
-            toast("Address added to user successfully");
-          })
-          .catch((error) => {
-            toast.error(error.response.data.error);
-          });
-      })
-      .catch((error) => {
-        console.error("Failed to deploy contract:", error);
+    try {
+      const contractAddress = await deployERC721Contract({
+        chain: FORMA_SKETCHPAD,
+        client,
+        account: account,
+        type: "TokenERC721",
+        params: {
+          name,
+          description,
+          symbol,
+          image: files,
+        },
       });
+
+      console.log("Contract deployed at:", contractAddress);
+      toast("Contract deployed successfully");
+
+      await Promise.all([
+        axios.post("/api/user/add-address", {
+          username: account?.address,
+          address: contractAddress,
+        }),
+        axios.post("/api/add-collection", {
+          address: contractAddress,
+        }),
+      ]);
+
+      toast("Collection created successfully");
+    } catch (error) {
+      toast.error("Failed to create collection" + error);
+    }
   };
 
   return (
