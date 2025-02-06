@@ -48,7 +48,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg text-black dark:text-white">
             {metadata?.name}
           </p>
-          <p className="text-sm font-semibold text-text dark:text-white/60">
+          <p className="text-sm font-semibold text-text dark:text-white/80">
             Symbol: {metadata?.symbol || "N/A"}
           </p>
           <p className={"mt-2 line-clamp-2 truncate text-sm"}>
