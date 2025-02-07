@@ -4,11 +4,26 @@ import BackButton from "@/components/common/back-button";
 import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
 export default function Buy() {
+  const { data, error, loading } = useAutoFetch<string>(
+    `/api/collection/get-collection`
+  );
+
+  if (loading)
+    return (
+      <div className="mt-10">
+        <NFTGridLoading />
+      </div>
+    );
+  if (error) return <p>Error: {error.message}</p>;
+
+  console.log(data);
+
   return (
     <div className="mt-10">
       <div className={"flex w-full items-center justify-between"}>

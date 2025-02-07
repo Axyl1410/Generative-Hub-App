@@ -106,7 +106,7 @@ export default function Page() {
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
-                  Description*
+                  Description
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -123,7 +123,7 @@ export default function Page() {
               </div>
               <div className={"h-[45px]"}>
                 <AnimatePresence>
-                  {!(name === "" || description === "") && (
+                  {!(name === "") && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

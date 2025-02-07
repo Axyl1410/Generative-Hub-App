@@ -1,7 +1,6 @@
-import Loading from "@/components/common/loading";
 import { Suspense } from "react";
-import { GetItem } from "./get-item";
-import { Metadata } from "./metadata";
+import { GetItem, GetItemLoading } from "./get-item";
+import { Metadata, MetadataLoading } from "./metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -14,10 +13,10 @@ export default async function Page({
 
   return (
     <div className="flex flex-col">
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<MetadataLoading />}>
         <Metadata address={contractAddress} />
       </Suspense>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<GetItemLoading />}>
         <GetItem address={contractAddress} />
       </Suspense>
     </div>

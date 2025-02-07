@@ -57,16 +57,20 @@ export default function Page() {
           username: account?.address,
           address: contractAddress,
         }),
-        axios.post("/api/add-collection", {
+        axios.post("/api/collection/add-collection", {
           address: contractAddress,
         }),
       ]);
 
       toast("Collection created successfully");
     } catch (error) {
-      toast.error("Failed to create collection" + error);
+      toast.error("Failed to create collection", {
+        description: error instanceof Error ? error.message : undefined,
+      });
     }
   };
+
+  const handleToast = () => toast.warning("Name is required");
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -110,7 +114,7 @@ export default function Page() {
                   htmlFor="contract"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
-                  Contract name
+                  Contract name*
                   <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
@@ -195,7 +199,10 @@ export default function Page() {
                 />
               </div>
             </div>
-            <ButtonGradiant text="Continue" onClick={handle} />
+            <ButtonGradiant
+              text="Continue"
+              onClick={name ? handle : handleToast}
+            />
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">

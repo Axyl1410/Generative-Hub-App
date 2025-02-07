@@ -39,12 +39,7 @@ export function GetItem({ address }: { address: string }) {
     },
   });
 
-  if (!account || isLoading)
-    return (
-      <div className="mt-6">
-        <NFTGridLoading />
-      </div>
-    );
+  if (!account || isLoading) return <GetItemLoading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -139,5 +134,13 @@ export function GetItem({ address }: { address: string }) {
         )}
       </AnimatePresence>
     </motion.div>
+  );
+}
+
+export function GetItemLoading() {
+  return (
+    <div className="mt-6">
+      <NFTGridLoading />
+    </div>
   );
 }

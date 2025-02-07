@@ -26,8 +26,7 @@ export default function ApprovalButton({ address }: Props) {
         toast.info("Approving...");
       }}
       onError={(error) => {
-        toast.error(`Approval Failed!`);
-        console.error(error);
+        toast.error(`Approval Failed!`, { description: error.message });
       }}
       onTransactionConfirmed={(txResult) => {
         toast.success("Approval successful.");

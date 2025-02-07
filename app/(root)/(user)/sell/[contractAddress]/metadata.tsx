@@ -22,10 +22,7 @@ export function Metadata({ address }: { address: string }) {
     },
   });
 
-  if (isLoading)
-    return (
-      <div className="mt-4 h-[146px] w-full animate-pulse rounded-lg bg-gray-300" />
-    );
+  if (isLoading) return <MetadataLoading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -54,5 +51,11 @@ export function Metadata({ address }: { address: string }) {
         </p>
       </div>
     </div>
+  );
+}
+
+export function MetadataLoading() {
+  return (
+    <div className="mt-4 h-[146px] w-full animate-pulse rounded-lg bg-gray-300" />
   );
 }

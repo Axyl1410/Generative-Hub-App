@@ -30,7 +30,7 @@ const CancelButton: React.FC<CancelButtonProps> = ({ id, type }) => {
         toast.info("Cancelling...");
       }}
       onError={(error) => {
-        toast.error(`Cancellation Failed!` + error);
+        toast.error(`Cancellation Failed!`, { description: error.message });
       }}
       onTransactionConfirmed={() => {
         toast.success("Cancelled Successfully!");

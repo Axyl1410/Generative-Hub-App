@@ -184,3 +184,9 @@ export async function addCollectionToDatabase(address: string) {
     throw error;
   }
 }
+
+export async function getAllCollections() {
+  const collection = await getCollection("collection");
+  const result = await collection.findOne({ _id: { $exists: true } });
+  return result?.allCollection || [];
+}
