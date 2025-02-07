@@ -31,8 +31,7 @@ export default function DirectListingButton({
         toast.info("Listing...");
       }}
       onError={(error) => {
-        toast.error(`Listing Failed!`);
-        console.error(error);
+        toast.error(`Listing Failed!` + error);
       }}
       onTransactionConfirmed={(txResult) => {
         toast.success("Listed Successfully!");

@@ -1,70 +1,43 @@
-import Loading from "@/components/common/loading";
 import { MARKETPLACE } from "@/contracts";
-import React, { useState } from "react";
-import { sendTransaction } from "thirdweb";
+import React from "react";
+import { toast } from "sonner";
 import { cancelAuction, cancelListing } from "thirdweb/extensions/marketplace";
-import { Account } from "thirdweb/wallets";
+import { TransactionButton } from "thirdweb/react";
 
 interface CancelButtonProps {
-  id?: bigint; // Could be listingId or auctionId
-  account: Account;
-  type: "listing" | "auction"; // Type of the operation to cancel
+  id?: bigint;
+  type: "listing" | "auction";
 }
 
-const CancelButton: React.FC<CancelButtonProps> = ({ id, account, type }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  console.log(id);
+const CancelButton: React.FC<CancelButtonProps> = ({ id, type }) => {
   if (id === undefined) return null;
 
-  const handleCancel = async () => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      let transaction;
-      if (type === "listing") {
-        transaction = cancelListing({
-          contract: MARKETPLACE,
-          listingId: id,
-        });
-      } else {
-        transaction = cancelAuction({
+  return (
+    <TransactionButton
+      transaction={() => {
+        if (type === "listing") {
+          return cancelListing({
+            contract: MARKETPLACE,
+            listingId: id,
+          });
+        }
+        return cancelAuction({
           contract: MARKETPLACE,
           auctionId: id,
         });
-      }
-
-      await sendTransaction({ transaction, account });
-      setSuccess(true);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <button
-        onClick={handleCancel}
-        disabled={loading}
-        className={
-          "flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
-        }
-      >
-        {loading ? (
-          <Loading text={"Cancelling..."} />
-        ) : (
-          `Cancel Listing or Auction`
-        )}
-      </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{`Cancelled successfully!`}</p>}
-    </>
+      }}
+      onTransactionSent={() => {
+        toast.info("Cancelling...");
+      }}
+      onError={(error) => {
+        toast.error(`Cancellation Failed!` + error);
+      }}
+      onTransactionConfirmed={() => {
+        toast.success("Cancelled Successfully!");
+      }}
+    >
+      Cancel Listing or Auction
+    </TransactionButton>
   );
 };
 
