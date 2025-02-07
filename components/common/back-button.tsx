@@ -33,7 +33,7 @@ const BackButton: React.FC<BackButtonProps> = ({
   return (
     <button
       onClick={href ? () => router.push(href) : handleBackClick}
-      className={cn("flex items-center hover:underline", className)}
+      className={cn("flex items-center bg-[#ebe9e9] px-[1rem] py-[0.25rem] rounded-md hover:underline hover:bg-[#adadad] text-base dark:text-black ", className)}
       {...props}
     >
       <ArrowLeft size={16} />

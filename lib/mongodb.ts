@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NFT } from "@/types";
 import { Db, MongoClient } from "mongodb";
 
 const uri = process.env.DB_URI;
@@ -29,7 +31,9 @@ export async function getCollection(collectionName: string = "genhub") {
 export async function getCollectionbyusername(username: string) {
   const collection = await getCollection();
 
-  const user = await collection.findOne({ username });
+  const user = await collection.findOne({ username }).catch((error) => {
+    throw new Error(error);
+  });
 
   return user || null;
 }
@@ -40,16 +44,143 @@ export async function addAddressToUser(username: string, address: string) {
   const user = await collection.findOne({ username });
 
   if (user) {
-    // User exists, update the address array. Use $addToSet to avoid duplicates.
-    await collection.updateOne(
-      { username },
-      { $addToSet: { address: address } }
-    );
+    await collection
+      .updateOne({ username }, { $addToSet: { address: address } })
+      .catch((error) => {
+        throw new Error(error);
+      });
   } else {
-    // User doesn't exist, create a new user with the address.
-    await collection.insertOne({
-      username,
-      address: [address], // Initialize addresses as an array
-    });
+    await collection
+      .insertOne({
+        username,
+        address: [address],
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+}
+
+export async function addNftToUser(
+  username: string,
+  contract: string,
+  tokenId: string
+) {
+  const collection = await getCollection();
+
+  const user = await collection.findOne({ username });
+
+  if (!user) throw new Error("User not found");
+
+  const nftIndex = user.nft?.findIndex(
+    (nft: NFT): boolean => nft.contract === contract
+  );
+
+  if (nftIndex === -1) {
+    await collection
+      .updateOne(
+        { username },
+        {
+          $addToSet: {
+            nft: {
+              contract,
+              tokenId: [tokenId],
+            },
+          },
+        }
+      )
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    const nft = user.nft[nftIndex];
+    if (nft.tokenId.includes(tokenId)) {
+      throw new Error("NFT already exists for this user");
+    }
+
+    await collection
+      .updateOne(
+        { username, "nft.contract": contract },
+        {
+          $addToSet: {
+            "nft.$.tokenId": tokenId,
+          },
+        }
+      )
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+}
+
+export async function removeNftFromUser(
+  username: string,
+  contract: string,
+  tokenId: string
+) {
+  const collection = await getCollection();
+
+  const user = await collection.findOne({ username });
+
+  if (!user) throw new Error("User not found");
+
+  const nftIndex = user.nft?.findIndex(
+    (nft: NFT): boolean => nft.contract === contract
+  );
+
+  if (nftIndex === -1) {
+    throw new Error("NFT not found for this user");
+  }
+
+  const nft = user.nft[nftIndex];
+  const tokenIdIndex = nft.tokenId.indexOf(tokenId);
+
+  if (tokenIdIndex === -1) {
+    throw new Error("Token ID not found for this contract");
+  }
+
+  nft.tokenId.splice(tokenIdIndex, 1);
+
+  if (nft.tokenId.length === 0) {
+    await collection
+      .updateOne({ username }, {
+        $pull: {
+          nft: { contract },
+        },
+      } as any)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    await collection
+      .updateOne(
+        { username, "nft.contract": contract },
+        {
+          $set: {
+            "nft.$.tokenId": nft.tokenId,
+          },
+        }
+      )
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+}
+
+export async function addCollectionToDatabase(address: string) {
+  const collection = await getCollection("collection");
+
+  try {
+    await collection
+      .updateOne(
+        { _id: { $exists: true } },
+        { $addToSet: { allCollection: address } },
+        { upsert: true }
+      )
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } catch (error) {
+    throw error;
   }
 }

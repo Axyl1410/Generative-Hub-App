@@ -1,14 +1,23 @@
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { MARKETPLACE } from "@/contracts";
+import CollectionContract from "@/lib/get-collection-contract";
 import { toast } from "sonner";
 import { setApprovalForAll } from "thirdweb/extensions/erc721";
 import { TransactionButton } from "thirdweb/react";
 
-export default function ApprovalButton() {
+type Props = {
+  address: string;
+};
+
+export default function ApprovalButton({ address }: Props) {
+  const contract = CollectionContract(address);
+
+  if (!contract) return null;
+
   return (
     <TransactionButton
       transaction={() => {
         return setApprovalForAll({
-          contract: NFT_COLLECTION,
+          contract: contract,
           operator: MARKETPLACE.address,
           approved: true,
         });

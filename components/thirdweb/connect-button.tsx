@@ -1,12 +1,13 @@
 "use client";
 
+import walletLoginAPI from "@/app/api/my-sql/loginAPI";
 import Loading from "@/components/common/loading";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/types";
 import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import {
   AccountBalance,
@@ -22,7 +23,19 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
 }) => {
   const { connect } = useConnectModal();
   const account = useActiveAccount();
-
+  const hasLoggedIn = useRef(false); 
+  useEffect(() => {
+    if (!account) {
+      hasLoggedIn.current = false; // Reset khi logout
+    }
+  }, [account]);
+  useEffect(() => {
+    if (!hasLoggedIn.current && account?.address) {
+      const walletAddress = account.address;
+      walletLoginAPI(walletAddress);
+      hasLoggedIn.current = true; // Đánh dấu đã gọi API
+    }
+  }, [account?.address]);
   const handleConnect = async () => {
     const wallet = await connect({
       client,
@@ -43,6 +56,8 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
     console.log("connected to", wallet);
     toast.success("Connected to wallet");
   };
+ 
+  
 
   return (
     <>
