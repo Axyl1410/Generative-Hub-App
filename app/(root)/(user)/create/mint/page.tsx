@@ -93,6 +93,7 @@ export default function Page() {
                 setDescription("");
                 setFiles(undefined);
                 setSelectedOption(null);
+                setSelectAddress(null);
               }}
             >
               <div>
