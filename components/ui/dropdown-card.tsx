@@ -1,14 +1,18 @@
 "use client";
 
-import EmptyText from "@/components/common/empty-text";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getContractMetadata } from "thirdweb/extensions/common";
 import { MediaRenderer, useReadContract } from "thirdweb/react";
+import Loading from "../common/loading";
 
-export function Metadata({ address }: { address: string }) {
+type Props = {
+  address: string;
+};
+
+const DropdownCard: React.FC<Props> = ({ address }) => {
   const contract = CollectionContract(address);
 
   if (!contract) notFound();
@@ -24,12 +28,12 @@ export function Metadata({ address }: { address: string }) {
     },
   });
 
-  if (isLoading) return <MetadataLoading />;
-  if (error) return <EmptyText text={`Error: ${error.message}`} />;
+  if (isLoading) return <Loading />;
+  if (error) return <p>{error.message}</p>;
 
   return (
-    <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
-      <div className="h-32 w-32 rounded-lg">
+    <div className="flex h-24 w-full items-center px-4">
+      <div className="grid aspect-square h-16 w-16 place-items-center overflow-hidden rounded-md bg-gray-200 dark:bg-neutral-800">
         {metadata?.image ? (
           <MediaRenderer
             src={metadata.image}
@@ -43,23 +47,10 @@ export function Metadata({ address }: { address: string }) {
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-center py-3">
-        <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg text-black dark:text-white">
-          {metadata?.name}
-        </p>
-        <p className="text-sm font-semibold text-text dark:text-white/80">
-          Symbol: {metadata?.symbol || "N/A"}
-        </p>
-        <p className={"mt-2 line-clamp-2 truncate text-sm"}>
-          {metadata?.description}
-        </p>
-      </div>
+
+      <p className="ml-4 text-sm/6 font-bold">{metadata?.name}</p>
     </div>
   );
-}
+};
 
-export function MetadataLoading() {
-  return (
-    <div className="mt-4 h-[146px] w-full animate-pulse rounded-lg bg-gray-300" />
-  );
-}
+export default DropdownCard;

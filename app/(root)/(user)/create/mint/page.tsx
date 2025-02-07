@@ -1,9 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import BackButton from "@/components/common/back-button";
+import EmptyText from "@/components/common/empty-text";
 import Loading from "@/components/common/loading";
+import LoadingScreen from "@/components/common/loading-screen";
+import DropdownCard from "@/components/ui/dropdown-card";
 import { FileUpload } from "@/components/ui/file-upload";
-import { NFT_COLLECTION } from "@/contracts";
+import useAutoFetch from "@/hooks/use-auto-fetch";
+import CollectionContract from "@/lib/get-collection-contract";
+import { cn } from "@/lib/utils";
+import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,12 +26,41 @@ export default function Page() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const account = useActiveAccount();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectAddress, setSelectAddress] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
+    null
+  );
 
   const handleFileUpload = (files: File) => setFiles(files);
 
-  if (!account) return <Loading />;
+  const { data, error, loading } = useAutoFetch<User>(
+    `api/user/get-user?username=${account?.address}`
+  );
 
-  const address: string = account.address;
+  if (!account || loading) return <LoadingScreen />;
+  if (error) return <EmptyText text="Error loading user" />;
+
+  interface OptionContent {
+    content: React.ReactNode;
+    address: string;
+  }
+
+  const handleOptionSelect = (option: OptionContent): void => {
+    setSelectAddress(option.address);
+    setSelectedOption(option.content);
+    setShowDropdown(false);
+  };
+
+  const handleContract = (contract: string) => {
+    return CollectionContract(contract);
+  };
+
+  const options =
+    data?.address?.map((address) => ({
+      content: <DropdownCard address={address} />,
+      address: address,
+    })) || [];
 
   return (
     <div className="my-10 flex w-full justify-center">
@@ -55,6 +92,7 @@ export default function Page() {
                 setName("");
                 setDescription("");
                 setFiles(undefined);
+                setSelectedOption(null);
               }}
             >
               <div>
@@ -64,14 +102,56 @@ export default function Page() {
                 >
                   Collection*
                 </label>
-                <div className="mt-2 flex h-24 w-full cursor-not-allowed items-center gap-4 rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900">
-                  <div className="grid h-16 w-16 place-items-center rounded-md bg-gray-200 dark:bg-neutral-800">
-                    <Plus />
-                  </div>
-                  <p className="text-sm/6 font-bold">
-                    Select a collection to mint your NFT. (Coming soon)
-                  </p>
+                <div
+                  className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  {selectedOption || (
+                    <>
+                      <div className="grid h-16 w-16 place-items-center rounded-md bg-gray-200 dark:bg-neutral-800">
+                        <Plus />
+                      </div>
+
+                      <p className="text-sm/6 font-bold">
+                        Select a collection to mint your NFT.
+                      </p>
+                    </>
+                  )}
                 </div>
+
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div
+                        className={cn(
+                          "z-10 w-full rounded-md bg-white shadow-lg dark:bg-neutral-900",
+                          options.length > 2 &&
+                            "max-h-[300px] overflow-y-scroll"
+                        )}
+                      >
+                        {options.map((option, index) => (
+                          <div
+                            key={index}
+                            className={cn(
+                              "w-full cursor-pointer border-y px-4 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800",
+                              index === 0 && "border-t-0"
+                            )}
+                            onClick={() => handleOptionSelect(option)}
+                          >
+                            {option.content}
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <p className="mt-3 text-sm/6">
                   Not all collections are eligible.
                   <span className="cursor-not-allowed text-link">
@@ -114,7 +194,6 @@ export default function Page() {
                     id="description"
                     rows={3}
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
@@ -123,7 +202,7 @@ export default function Page() {
               </div>
               <div className={"h-[45px]"}>
                 <AnimatePresence>
-                  {!(name === "") && (
+                  {name && selectedOption && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -139,8 +218,10 @@ export default function Page() {
                             image: files,
                           };
                           return mintTo({
-                            contract: NFT_COLLECTION,
-                            to: address,
+                            contract: handleContract(
+                              selectAddress as string
+                            ) as any,
+                            to: account.address,
                             nft: metadata,
                           });
                         }}
@@ -154,7 +235,9 @@ export default function Page() {
                           }, 2000);
                         }}
                         onError={(error) => {
-                          toast.error("Error making offer: " + error.message);
+                          toast.error("Error making offer: ", {
+                            description: error.message,
+                          });
                         }}
                       >
                         Mint NFT

@@ -9,7 +9,7 @@ interface FetchResponse<T> {
 
 const useAutoFetch = <T>(
   url: string,
-  interval: number = 50000
+  interval: number = 600000
 ): FetchResponse<T> => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
