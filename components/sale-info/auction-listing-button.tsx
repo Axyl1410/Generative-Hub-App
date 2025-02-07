@@ -19,6 +19,7 @@ export default function AuctionListingButton({
   address: string;
 }) {
   const router = useRouter();
+
   return (
     <TransactionButton
       transaction={() => {

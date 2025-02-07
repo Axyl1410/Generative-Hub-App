@@ -12,40 +12,43 @@ type Props = {
     auctionListing?: EnglishAuction;
   }[];
   overrideOnclickBehavior?: (nft: NFTType) => void;
-  emptyText?: string;
+  address: string;
+  // emptyText?: string;
 };
 
 export default function NFTGrid({
   nftData,
   overrideOnclickBehavior,
-  emptyText = "No NFTs found for this collection.",
+  address,
+  // emptyText = "No NFTs found for this collection.",
 }: Props) {
   if (nftData && nftData.length > 0) {
     return (
-      <div className="grid grid-cols-1 justify-start gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <>
         {nftData.map((nft) => (
           <NFT
             key={nft.tokenId}
             {...nft}
+            address={address}
             overrideOnclickBehavior={overrideOnclickBehavior}
           />
         ))}
-      </div>
+      </>
     );
   }
 
-  return (
-    <div className="flex h-[500px] justify-center">
-      <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-        {emptyText}
-      </p>
-    </div>
-  );
+  // return (
+  //   <div className="flex h-[500px] justify-center">
+  //     <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
+  //       {emptyText}
+  //     </p>
+  //   </div>
+  // );
 }
 
 export function NFTGridLoading() {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       {[...Array(12)].map((_, index) => (
         <LoadingNFTComponent key={index} />
       ))}

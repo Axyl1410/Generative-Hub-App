@@ -40,7 +40,7 @@ export function GetItem({ address }: { address: string }) {
   });
 
   if (!account || isLoading) return <GetItemLoading />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <motion.div className="my-6" layout style={{ height: "auto" }}>

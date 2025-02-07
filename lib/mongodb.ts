@@ -72,6 +72,9 @@ export async function addNftToUser(
 
   if (!user) throw new Error("User not found");
 
+  if (user.address.includes(contract))
+    throw new Error("Contract is already in user's addresses");
+
   const nftIndex = user.nft?.findIndex(
     (nft: NFT): boolean => nft.contract === contract
   );
@@ -123,6 +126,9 @@ export async function removeNftFromUser(
   const user = await collection.findOne({ username });
 
   if (!user) throw new Error("User not found");
+
+  if (user.address.includes(contract))
+    throw new Error("Contract is already in user's addresses");
 
   const nftIndex = user.nft?.findIndex(
     (nft: NFT): boolean => nft.contract === contract

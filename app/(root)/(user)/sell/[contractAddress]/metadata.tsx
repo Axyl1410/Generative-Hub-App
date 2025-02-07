@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyText from "@/components/common/empty-text";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { notFound } from "next/navigation";
@@ -23,7 +24,7 @@ export function Metadata({ address }: { address: string }) {
   });
 
   if (isLoading) return <MetadataLoading />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">

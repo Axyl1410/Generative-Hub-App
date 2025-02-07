@@ -17,6 +17,7 @@ export default function DirectListingButton({
   address: string;
 }) {
   const router = useRouter();
+
   return (
     <TransactionButton
       transaction={() => {
