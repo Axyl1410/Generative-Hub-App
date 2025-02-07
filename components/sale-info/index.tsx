@@ -91,9 +91,7 @@ export default function SaleInfo({ nft, address }: Props) {
             value={directListingState.price}
             onChange={(e) => setDirectListingState({ price: e.target.value })}
           />
-          {!hasApproval || listingStatus === undefined ? (
-            <Loading />
-          ) : !hasApproval ? (
+          {!hasApproval ? (
             <ApprovalButton contract={contract} />
           ) : listingStatus.isSell ? (
             <CancelButton id={listingStatus.listingId} type={"listing"} />
@@ -137,7 +135,7 @@ export default function SaleInfo({ nft, address }: Props) {
               })
             }
           />
-          {!hasApproval || listingStatus === undefined ? (
+          {!hasApproval ? (
             <ApprovalButton contract={contract} />
           ) : listingStatus.isSell ? (
             <CancelButton id={nft.id} type={"auction"} />
