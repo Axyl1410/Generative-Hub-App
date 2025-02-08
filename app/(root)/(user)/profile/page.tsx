@@ -1,8 +1,7 @@
 "use client";
 
-import CollectedPage from "@/app/(root)/(user)/profile/collection";
 import BackButton from "@/components/common/back-button";
-import EmptyText from "@/components/common/empty-text";
+import LoadingScreen from "@/components/common/loading-screen";
 import MenuSection from "@/components/ui/menu-section";
 import "@/styles/profile.module.scss";
 import {
@@ -17,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
+import CollectedPage from "./collection";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -110,8 +110,7 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  if (!account)
-    return <EmptyText text="Please connect your wallet to see your profile" />;
+  if (!account) return <LoadingScreen />;
 
   return (
     <div>
