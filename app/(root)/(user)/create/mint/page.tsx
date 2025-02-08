@@ -136,7 +136,7 @@ export default function Page() {
                             "max-h-[300px] overflow-y-scroll"
                         )}
                       >
-                        {options.length === 3 ? (
+                        {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
                             You don&apos;t have any collections. Create one
                             first.
