@@ -2,8 +2,10 @@ import BackButton from "@/components/common/back-button";
 import BuyListingButton from "@/components/token/buy-listing-button";
 import Events from "@/components/token/events";
 import MakeOfferButton from "@/components/token/make-offer-button";
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
+import CollectionContract from "@/lib/get-collection-contract";
+import { notFound } from "next/navigation";
 import { getNFT } from "thirdweb/extensions/erc721";
 import {
   getAllValidAuctions,
@@ -20,7 +22,9 @@ export default async function Page({
   params: Promise<{ contractAddress: string; id: number }>;
 }) {
   const { contractAddress, id } = await params;
-  console.log(contractAddress + " " + id);
+  const contract = CollectionContract(contractAddress);
+
+  if (!contract) notFound();
 
   const listingsPromise = getAllValidListings({
     contract: MARKETPLACE,
@@ -30,7 +34,7 @@ export default async function Page({
   });
 
   const nftPromise = getNFT({
-    contract: NFT_COLLECTION,
+    contract: contract,
     tokenId: BigInt(id),
     includeOwner: true,
   });
@@ -92,7 +96,7 @@ export default async function Page({
         </div>
         <div className="px-4">
           <h3 className="mt-8">History</h3>
-          <Events tokenId={nft.id} />
+          <Events tokenId={nft.id} address={contractAddress} />
         </div>
       </div>
 

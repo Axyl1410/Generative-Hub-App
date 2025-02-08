@@ -68,7 +68,7 @@ export function GetItem({ address }: { address: string }) {
                   exit={{ scale: 0.9, opacity: 0 }}
                 >
                   <NFTProvider contract={contract} tokenId={nft.id}>
-                    <NFTMedia className="w-full rounded-lg object-cover" />
+                    <NFTMedia className="aspect-square w-full rounded-lg object-cover object-center" />
                     <h2 className="mt-2 text-lg font-semibold">
                       {nft.metadata.name}
                     </h2>

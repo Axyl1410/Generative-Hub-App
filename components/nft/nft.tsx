@@ -61,7 +61,7 @@ export default function NFTComponent({
           <MediaRenderer
             src={nft.metadata.image}
             client={client}
-            className="object-cover object-center"
+            className="aspect-square object-cover object-center"
             style={{ minHeight: "100%", width: "100%" }}
           />
         )}

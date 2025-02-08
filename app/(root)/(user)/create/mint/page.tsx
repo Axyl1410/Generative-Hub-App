@@ -136,18 +136,25 @@ export default function Page() {
                             "max-h-[300px] overflow-y-scroll"
                         )}
                       >
-                        {options.map((option, index) => (
-                          <div
-                            key={index}
-                            className={cn(
-                              "w-full cursor-pointer border-y px-4 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800",
-                              index === 0 && "border-t-0"
-                            )}
-                            onClick={() => handleOptionSelect(option)}
-                          >
-                            {option.content}
+                        {options.length === 3 ? (
+                          <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
+                            You don&apos;t have any collections. Create one
+                            first.
                           </div>
-                        ))}
+                        ) : (
+                          options.map((option, index) => (
+                            <div
+                              key={index}
+                              className={cn(
+                                "w-full cursor-pointer border-y px-4 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800",
+                                index === 0 && "border-t-0"
+                              )}
+                              onClick={() => handleOptionSelect(option)}
+                            >
+                              {option.content}
+                            </div>
+                          ))
+                        )}
                       </div>
                     </motion.div>
                   )}

@@ -1,14 +1,25 @@
 "use client";
 
-import { useContractEvents } from "thirdweb/react";
-import { transferEvent } from "thirdweb/extensions/erc721";
-import { NFT_COLLECTION } from "@/contracts";
-import Link from "next/link";
 import { FORMASCAN_URL } from "@/lib/client";
+import CollectionContract from "@/lib/get-collection-contract";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { transferEvent } from "thirdweb/extensions/erc721";
+import { useContractEvents } from "thirdweb/react";
 
-export default function Events({ tokenId }: { tokenId: bigint }) {
+export default function Events({
+  tokenId,
+  address,
+}: {
+  tokenId: bigint;
+  address: string;
+}) {
+  const contract = CollectionContract(address);
+
+  if (!contract) notFound();
+
   const { data: transferEvents } = useContractEvents({
-    contract: NFT_COLLECTION,
+    contract: contract,
     events: [transferEvent({ tokenId })],
   });
 

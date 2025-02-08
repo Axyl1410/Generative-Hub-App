@@ -4,31 +4,29 @@
   width: 64px;
   height: 64px;
   top: calc(50% - 3.5px);
-  left: 0;
-  right: 0;
   margin: 0 auto;
 }
 
 svg.tea {
   --secondary: #33406f;
-}
 
-svg.tea #teabag {
-  transform-origin: top center;
-  transform: rotate(3deg);
-  animation: swing 2s infinite;
-}
+  #teabag {
+    transform-origin: top center;
+    transform: rotate(3deg);
+    animation: swing 2s infinite;
+  }
 
-svg.tea #steamL {
-  stroke-dasharray: 13;
-  stroke-dashoffset: 13;
-  animation: steamLarge 2s infinite;
-}
+  #steamL {
+    stroke-dasharray: 13;
+    stroke-dashoffset: 13;
+    animation: steamLarge 2s infinite;
+  }
 
-svg.tea #steamR {
-  stroke-dasharray: 9;
-  stroke-dashoffset: 9;
-  animation: steamSmall 2s infinite;
+  #steamR {
+    stroke-dasharray: 9;
+    stroke-dashoffset: 9;
+    animation: steamSmall 2s infinite;
+  }
 }
 
 @keyframes swing {
