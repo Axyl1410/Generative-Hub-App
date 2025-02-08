@@ -48,7 +48,7 @@ export default function SaleInfo({ nft, address }: Props) {
   });
 
   useEffect(() => {
-    if (hasApproval !== undefined && listingStatus !== undefined)
+    if (hasApproval !== undefined && !listingStatus.isLoading)
       setLoading(false);
   }, [hasApproval, listingStatus]);
 

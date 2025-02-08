@@ -1,15 +1,16 @@
 "use client";
 
-import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import { MARKETPLACE } from "@/contracts";
+import axios from "@/lib/axios-config";
+import { useRouter } from "next/router";
+import { toast } from "sonner";
 import {
   buyFromListing,
   buyoutAuction,
   DirectListing,
   EnglishAuction,
 } from "thirdweb/extensions/marketplace";
-import { MARKETPLACE } from "@/contracts";
-import { toast } from "sonner";
-import axios from "@/lib/axios-config";
+import { TransactionButton, useActiveAccount } from "thirdweb/react";
 
 export default function BuyListingButton({
   auctionListing,
@@ -24,6 +25,7 @@ export default function BuyListingButton({
   tokenId: string;
   owner: string;
 }) {
+  const router = useRouter();
   const account = useActiveAccount();
 
   const handle = async () => {
@@ -83,6 +85,7 @@ export default function BuyListingButton({
       onTransactionConfirmed={() => {
         handle();
         toast.success("Purchase Successful!");
+        router.push("/sell");
       }}
     >
       Buy Now
