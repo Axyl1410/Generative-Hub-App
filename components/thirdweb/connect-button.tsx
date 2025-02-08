@@ -23,7 +23,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
 }) => {
   const { connect } = useConnectModal();
   const account = useActiveAccount();
-  const hasLoggedIn = useRef(false); 
+  const hasLoggedIn = useRef(false);
   useEffect(() => {
     if (!account) {
       hasLoggedIn.current = false; // Reset khi logout
@@ -56,8 +56,6 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
     console.log("connected to", wallet);
     toast.success("Connected to wallet");
   };
- 
-  
 
   return (
     <>
