@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
@@ -23,7 +24,7 @@ export default function Page() {
         <NFTGridLoading />
       </div>
     );
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <>
@@ -38,7 +39,7 @@ export default function Page() {
             <h1 className="mb-2 text-xl font-semibold">My Collections</h1>
             <div
               className={cn(
-                "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
+                "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
                 data?.address && data.address.length > 0 && "grid"
               )}
             >
@@ -47,14 +48,14 @@ export default function Page() {
                   <CollectionCard key={address} address={address} />
                 ))
               ) : (
-                <p>No collection found</p>
+                <p className="text-sm font-bold">No collection found</p>
               )}
             </div>
           </div>
           <h1 className="mb-2 text-xl font-bold">Other</h1>
           <div
             className={cn(
-              "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
+              "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
               data?.nft && data.nft.length > 0 && "grid"
             )}
           >
@@ -63,7 +64,7 @@ export default function Page() {
                 <CollectionCard key={nft.contract} address={nft.contract} />
               ))
             ) : (
-              <p>No collection found</p>
+              <p className="text-sm font-bold">No collection found</p>
             )}
           </div>
         </motion.div>

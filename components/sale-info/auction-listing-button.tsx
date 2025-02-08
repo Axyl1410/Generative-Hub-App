@@ -19,6 +19,7 @@ export default function AuctionListingButton({
   address: string;
 }) {
   const router = useRouter();
+
   return (
     <TransactionButton
       transaction={() => {
@@ -34,8 +35,7 @@ export default function AuctionListingButton({
         toast.info("Listing...");
       }}
       onError={(error) => {
-        toast.error(`Listing Failed!`);
-        console.error(error);
+        toast.error(`Listing Failed!`, { description: error.message });
       }}
       onTransactionConfirmed={(txResult) => {
         toast.success("Listed Successfully!");

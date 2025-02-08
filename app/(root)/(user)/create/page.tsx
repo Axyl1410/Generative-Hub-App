@@ -4,10 +4,13 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className={"grid w-full place-items-center"}>
-      <div className={"flex max-w-2xl flex-col gap-4 pt-10 lg:px-16"}>
-        <BackButton href={"/"} className={"w-fit"} />
-        <h1 className={"text-3xl font-bold"}>Create</h1>
+    <div className={"mt-10 flex w-full justify-center"}>
+      <div className={"flex max-w-2xl flex-col gap-4 lg:px-16"}>
+        <div className="flex w-full items-center justify-between">
+          <h1 className={"text-3xl font-bold"}>Create</h1>
+          <BackButton href={"/"} className={"w-fit"} />
+        </div>
+
         <div className={"flex flex-col gap-4"}>
           <Link href={"/create/collection"}>
             <div

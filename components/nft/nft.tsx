@@ -1,9 +1,9 @@
 "use client";
 
 import Skeleton from "@/components/skeleton/skeleton";
-import { NFT_COLLECTION } from "@/contracts";
 import client from "@/lib/client";
-import { useRouter } from "next/navigation";
+import CollectionContract from "@/lib/get-collection-contract";
+import { notFound, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NFT } from "thirdweb";
 import { getNFT } from "thirdweb/extensions/erc721";
@@ -16,6 +16,7 @@ type Props = {
   directListing?: DirectListing;
   auctionListing?: EnglishAuction;
   overrideOnclickBehavior?: (nft: NFT) => void;
+  address: string;
 };
 
 export default function NFTComponent({
@@ -23,22 +24,26 @@ export default function NFTComponent({
   directListing,
   auctionListing,
   overrideOnclickBehavior,
+  address,
   ...props
 }: Props) {
   const router = useRouter();
   const [nft, setNFT] = useState(props.nft);
+  const contract = CollectionContract(address);
+
+  if (!contract) notFound();
 
   useEffect(() => {
     if (nft?.id !== tokenId) {
       getNFT({
-        contract: NFT_COLLECTION,
+        contract: contract,
         tokenId: tokenId,
         includeOwner: true,
       }).then((nft) => {
         setNFT(nft);
       });
     }
-  }, [tokenId, nft?.id]);
+  }, [tokenId, nft?.id, contract]);
 
   if (!nft) return <LoadingNFTComponent />;
 
@@ -48,10 +53,7 @@ export default function NFTComponent({
       onClick={
         overrideOnclickBehavior
           ? () => overrideOnclickBehavior(nft!)
-          : () =>
-              router.push(
-                `/token/${NFT_COLLECTION.address}/${tokenId.toString()}`
-              )
+          : () => router.push(`/token/${address}/${tokenId.toString()}`)
       }
     >
       <div className="relative w-full overflow-hidden bg-white/[.04]">
@@ -59,7 +61,7 @@ export default function NFTComponent({
           <MediaRenderer
             src={nft.metadata.image}
             client={client}
-            className="object-cover object-center"
+            className="aspect-square object-cover object-center"
             style={{ minHeight: "100%", width: "100%" }}
           />
         )}

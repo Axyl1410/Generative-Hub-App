@@ -1,18 +1,14 @@
 import { MARKETPLACE } from "@/contracts";
-import CollectionContract from "@/lib/get-collection-contract";
 import { toast } from "sonner";
+import { ThirdwebContract } from "thirdweb";
 import { setApprovalForAll } from "thirdweb/extensions/erc721";
 import { TransactionButton } from "thirdweb/react";
 
 type Props = {
-  address: string;
+  contract: ThirdwebContract;
 };
 
-export default function ApprovalButton({ address }: Props) {
-  const contract = CollectionContract(address);
-
-  if (!contract) return null;
-
+export default function ApprovalButton({ contract }: Props) {
   return (
     <TransactionButton
       transaction={() => {
@@ -26,8 +22,7 @@ export default function ApprovalButton({ address }: Props) {
         toast.info("Approving...");
       }}
       onError={(error) => {
-        toast.error(`Approval Failed!`);
-        console.error(error);
+        toast.error(`Approval Failed!`, { description: error.message });
       }}
       onTransactionConfirmed={(txResult) => {
         toast.success("Approval successful.");

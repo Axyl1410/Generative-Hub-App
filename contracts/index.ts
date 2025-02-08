@@ -1,5 +1,4 @@
 import client, {
-  address_collection_contract,
   address_marketplace_contract,
   FORMA_SKETCHPAD,
 } from "@/lib/client";
@@ -13,10 +12,4 @@ export const MARKETPLACE = getContract({
   client,
   chain: FORMA_SKETCHPAD,
   address: address_marketplace_contract,
-});
-
-export const NFT_COLLECTION = getContract({
-  client,
-  chain: FORMA_SKETCHPAD,
-  address: address_collection_contract,
 });

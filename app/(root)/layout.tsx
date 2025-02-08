@@ -29,7 +29,7 @@ export default function DashboardLayout({
           <div className="container">{children}</div>
         </motion.div>
       </div>
-      {pathname !== "/create" && <Footer />}
+      <Footer />
     </>
   );
 }

@@ -5,8 +5,6 @@ import { createThirdwebClient, defineChain } from "thirdweb";
 
 export const address_marketplace_contract =
   "0xa7d2c8d1Fd78cc65aaC5DBCfd91A4B7190acf89A";
-export const address_collection_contract =
-  "0x71324fB355dfa06b690CdE8466AadD1f45719306";
 const clientId = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
 const secretKey = process.env.TW_SECRET_KEY;
 

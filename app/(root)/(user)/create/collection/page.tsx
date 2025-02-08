@@ -1,7 +1,7 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import Loading from "@/components/common/loading";
+import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
@@ -32,7 +32,7 @@ export default function Page() {
   const tokenInfo = useToggle();
   const account = useActiveAccount();
 
-  if (!account) return <Loading />;
+  if (!account) return <LoadingScreen />;
 
   const handle = async () => {
     try {
@@ -57,16 +57,20 @@ export default function Page() {
           username: account?.address,
           address: contractAddress,
         }),
-        axios.post("/api/add-collection", {
+        axios.post("/api/collection/add-collection", {
           address: contractAddress,
         }),
       ]);
 
       toast("Collection created successfully");
     } catch (error) {
-      toast.error("Failed to create collection" + error);
+      toast.error("Failed to create collection", {
+        description: error instanceof Error ? error.message : undefined,
+      });
     }
   };
+
+  const handleToast = () => toast.warning("Name is required");
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -110,7 +114,7 @@ export default function Page() {
                   htmlFor="contract"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
-                  Contract name
+                  Contract name*
                   <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
@@ -161,7 +165,6 @@ export default function Page() {
                     id="mcn"
                     placeholder="MCN"
                     className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    required
                     value={symbol}
                     onChange={(e) => setSymbol(e.target.value)}
                   />
@@ -188,14 +191,16 @@ export default function Page() {
                   id="description"
                   rows={3}
                   className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                  required
                   placeholder="Write a few description about."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
             </div>
-            <ButtonGradiant text="Continue" onClick={handle} />
+            <ButtonGradiant
+              text="Continue"
+              onClick={name ? handle : handleToast}
+            />
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">

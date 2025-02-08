@@ -39,13 +39,8 @@ export function GetItem({ address }: { address: string }) {
     },
   });
 
-  if (!account || isLoading)
-    return (
-      <div className="mt-6">
-        <NFTGridLoading />
-      </div>
-    );
-  if (error) return <div>Error: {error.message}</div>;
+  if (!account || isLoading) return <GetItemLoading />;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <motion.div className="my-6" layout style={{ height: "auto" }}>
@@ -73,7 +68,7 @@ export function GetItem({ address }: { address: string }) {
                   exit={{ scale: 0.9, opacity: 0 }}
                 >
                   <NFTProvider contract={contract} tokenId={nft.id}>
-                    <NFTMedia className="w-full rounded-lg object-cover" />
+                    <NFTMedia className="aspect-square w-full rounded-lg object-cover object-center" />
                     <h2 className="mt-2 text-lg font-semibold">
                       {nft.metadata.name}
                     </h2>
@@ -139,5 +134,13 @@ export function GetItem({ address }: { address: string }) {
         )}
       </AnimatePresence>
     </motion.div>
+  );
+}
+
+export function GetItemLoading() {
+  return (
+    <div className="mt-6">
+      <NFTGridLoading />
+    </div>
   );
 }

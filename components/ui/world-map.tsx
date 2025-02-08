@@ -17,11 +17,11 @@ interface MapProps {
 export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
   const { theme } = useTheme();
   const svgRef = useRef<SVGSVGElement>(null);
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
   const [svgMap1, setSvgMap] = useState("");
 
   useEffect(() => {
     // This useEffect ensures that the client-only logic runs after the initial render
+    const map = new DottedMap({ height: 100, grid: "diagonal" });
     const svgMap = map.getSVG({
       radius: 0.22,
       color: theme === "dark" ? "#FFFFFF40" : "#00000040",
@@ -32,7 +32,7 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
     // if (svgRef.current) {
     //   svgRef.current.innerHTML = svgMap;
     // }
-  }, [map, theme]);
+  }, [theme]);
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);

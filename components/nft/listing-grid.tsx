@@ -1,9 +1,8 @@
 "use client";
 
-import NFTGrid, { NFTGridLoading } from "@/components/nft/nft-grid";
-import { MARKETPLACE, NFT_COLLECTION } from "@/contracts";
+import NFTGrid from "@/components/nft/nft-grid";
+import { MARKETPLACE } from "@/contracts";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { NFT as NFTType, ThirdwebContract } from "thirdweb";
 import {
   DirectListing,
@@ -11,12 +10,12 @@ import {
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
+import { LoadingNFTComponent } from "./nft";
 
 type Props = {
   marketplace: ThirdwebContract;
-  collection: ThirdwebContract;
+  collection: string;
   overrideOnclickBehavior?: (nft: NFTType) => void;
-  emptyText: string;
 };
 
 interface NFTData {
@@ -30,7 +29,7 @@ const ListingGrid: React.FC<Props> = (props) => {
   const [nftData, setNftData] = useState<NFTData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     const listingsPromise = getAllValidListings({
       contract: MARKETPLACE,
     });
@@ -47,10 +46,10 @@ const ListingGrid: React.FC<Props> = (props) => {
     const tokenIds = Array.from(
       new Set([
         ...listings
-          .filter((l) => l.assetContractAddress === NFT_COLLECTION.address)
+          .filter((l) => l.assetContractAddress === props.collection)
           .map((l) => l.tokenId),
         ...auctions
-          .filter((a) => a.assetContractAddress === NFT_COLLECTION.address)
+          .filter((a) => a.assetContractAddress === props.collection)
           .map((a) => a.tokenId),
       ])
     );
@@ -65,20 +64,19 @@ const ListingGrid: React.FC<Props> = (props) => {
 
     setNftData(nftData);
     setLoading(false);
-  };
+  }, [props.collection]);
 
   useEffect(() => {
-    fetchData()
-      .then(() => {})
-      .catch((Error) => toast.error("Error fetch data") + Error); // Fetch data initially
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   return loading ? (
-    <NFTGridLoading />
+    <LoadingNFTComponent />
   ) : (
     <NFTGrid
       nftData={nftData}
-      emptyText={props.emptyText}
+      // emptyText={props.emptyText}
+      address={props.collection}
       overrideOnclickBehavior={props.overrideOnclickBehavior}
     />
   );

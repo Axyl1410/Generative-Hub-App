@@ -17,6 +17,7 @@ export default function DirectListingButton({
   address: string;
 }) {
   const router = useRouter();
+
   return (
     <TransactionButton
       transaction={() => {
@@ -31,7 +32,7 @@ export default function DirectListingButton({
         toast.info("Listing...");
       }}
       onError={(error) => {
-        toast.error(`Listing Failed!` + error);
+        toast.error(`Listing Failed!`, { description: error.message });
       }}
       onTransactionConfirmed={(txResult) => {
         toast.success("Listed Successfully!");

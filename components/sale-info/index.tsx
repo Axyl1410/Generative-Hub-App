@@ -48,16 +48,13 @@ export default function SaleInfo({ nft, address }: Props) {
   });
 
   useEffect(() => {
-    if (hasApproval !== undefined && listingStatus !== undefined) {
+    if (hasApproval !== undefined && listingStatus !== undefined)
       setLoading(false);
-    }
   }, [hasApproval, listingStatus]);
 
   if (!account) return null;
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -95,7 +92,7 @@ export default function SaleInfo({ nft, address }: Props) {
             onChange={(e) => setDirectListingState({ price: e.target.value })}
           />
           {!hasApproval ? (
-            <ApprovalButton address={address} />
+            <ApprovalButton contract={contract} />
           ) : listingStatus.isSell ? (
             <CancelButton id={listingStatus.listingId} type={"listing"} />
           ) : (
@@ -139,7 +136,7 @@ export default function SaleInfo({ nft, address }: Props) {
             }
           />
           {!hasApproval ? (
-            <ApprovalButton address={address} />
+            <ApprovalButton contract={contract} />
           ) : listingStatus.isSell ? (
             <CancelButton id={nft.id} type={"auction"} />
           ) : (

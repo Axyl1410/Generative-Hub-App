@@ -1,6 +1,22 @@
-import React from "react";
+"use client";
 
-const CollectedPage: React.FC = () => {
+import Loading from "@/app/loading";
+import EmptyText from "@/components/common/empty-text";
+import DropdownCard from "@/components/ui/dropdown-card";
+import useAutoFetch from "@/hooks/use-auto-fetch";
+import { User } from "@/types";
+import { useActiveAccount } from "thirdweb/react";
+
+const CollectedPage = () => {
+  const account = useActiveAccount();
+
+  const { data, error, loading } = useAutoFetch<User>(
+    `api/user/get-user?username=${account?.address}`
+  );
+
+  if (loading || !account) return <Loading />;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
+
   return (
     <>
       {/* Filters Section */}
@@ -33,14 +49,24 @@ const CollectedPage: React.FC = () => {
         </div>
       </div> */}
 
-      <div className="h-48 rounded-lg border-2 border-gray-200 py-6 text-lg">
-        <p className="text-gray-500">0 items</p>
-        <div className="mt-4">
-          <p className="text-gray-500">No items found for this search</p>
-          <button className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-            Back to all items
-          </button>
-        </div>
+      <div className="rounded-lg border-2 border-gray-200 py-6 text-lg">
+        {data?.address && data.address.length > 0 ? (
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {data.address.map((address: string) => (
+              <DropdownCard key={address} address={address} />
+            ))}
+          </div>
+        ) : (
+          <>
+            <p className="text-gray-500">0 items</p>
+            <div className="mt-4">
+              <p className="text-gray-500">No items found for this search</p>
+              <button className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                Back to all items
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
