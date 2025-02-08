@@ -18,7 +18,16 @@ export async function POST(request: Request) {
       { message: "Token added successfully" },
       { status: 200 }
     );
-  } catch (error) {
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.message === "Contract is already in user's addresses") {
+      return NextResponse.json(
+        { message: "Token added successfully" },
+        { status: 200 }
+      );
+    }
+
     console.error("Error adding address:", error);
     return NextResponse.json(
       { error: `Internal Server Error: ${error}` },
