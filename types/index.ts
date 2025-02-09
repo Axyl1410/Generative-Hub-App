@@ -14,3 +14,17 @@ export interface User {
   address: string[];
   nft: NFT[];
 }
+
+export interface ArtParameters {
+  complexity: number;
+  colorScheme: "random" | "monochrome" | "complementary";
+  size: number;
+}
+
+export interface GeneratedArtwork {
+  id: string;
+  imageUrl: string;
+  parameters: ArtParameters;
+  createdAt: Date;
+  creator: string;
+}

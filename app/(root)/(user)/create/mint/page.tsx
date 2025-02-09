@@ -99,7 +99,7 @@ export default function Page() {
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Collection <span className ="text-red-600"> *</span>
+                  Collection <span className="text-red-600"> *</span>
                 </label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
@@ -176,7 +176,7 @@ export default function Page() {
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Name <span className ="text-red-600"> *</span>
+                  Name <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -197,7 +197,7 @@ export default function Page() {
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
-                  Description <span className ="text-red-600"> *</span>
+                  Description <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -213,7 +213,7 @@ export default function Page() {
               </div>
               <div className={"h-[45px]"}>
                 <AnimatePresence>
-                  {name && selectedOption && files && description &&(
+                  {name && selectedOption && files && description && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
