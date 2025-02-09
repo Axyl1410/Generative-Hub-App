@@ -1,15 +1,16 @@
-import { HfInference } from '@huggingface/inference';
+import { HfInference } from "@huggingface/inference";
 
 export class HuggingFaceService {
   private inference: HfInference;
-  private readonly defaultModel = 'gpt2-medium';
+  private readonly defaultModel = "gpt2-medium";
 
   constructor(apiKey: string) {
     this.inference = new HfInference(apiKey);
   }
 
   async generateCollectionDescription(
-    name: string, 
+    name: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     imageData?: File
   ): Promise<string> {
     try {
@@ -26,31 +27,33 @@ export class HuggingFaceService {
           top_p: 0.6,
           early_stopping: true,
           num_return_sequences: 1,
-          return_full_text: false
-        }
+          return_full_text: false,
+        },
       });
 
       return this.formatDescription(result.generated_text);
-
     } catch (error) {
-      throw new Error('Failed to generate description. Please try again.');
+      throw new Error(
+        "Failed to generate description. Please try again." + error
+      );
     }
   }
 
   private formatDescription(text: string): string {
     // Clean up output
-    let cleaned = text.trim()
-      .replace(/[\n\r]/g, ' ')
-      .replace(/\s+/g, ' ');
+    let cleaned = text
+      .trim()
+      .replace(/[\n\r]/g, " ")
+      .replace(/\s+/g, " ");
 
     // Ensure proper length
     if (cleaned.length > 100) {
-      cleaned = cleaned.substring(0, 97) + '...';
+      cleaned = cleaned.substring(0, 97) + "...";
     }
 
     // Add period if missing
-    if (!cleaned.endsWith('.')) {
-      cleaned += '.';
+    if (!cleaned.endsWith(".")) {
+      cleaned += ".";
     }
 
     // Capitalize first letter

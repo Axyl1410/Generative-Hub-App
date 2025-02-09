@@ -20,7 +20,11 @@ export default function Events({
 
   const { data: transferEvents } = useContractEvents({
     contract: contract,
-    events: [transferEvent({ tokenId })],
+    events: [
+      transferEvent({
+        tokenId: BigInt(tokenId),
+      }),
+    ],
   });
 
   return (

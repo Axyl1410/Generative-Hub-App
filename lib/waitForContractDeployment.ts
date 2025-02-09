@@ -6,7 +6,10 @@ import { BrowserProvider } from "ethers";
 interface EIP1193Provider {
   request(args: { method: string; params?: unknown[] }): Promise<unknown>;
   on?(event: string | symbol, listener: (...args: unknown[]) => void): void;
-  removeListener?(event: string | symbol, listener: (...args: unknown[]) => void): void;
+  removeListener?(
+    event: string | symbol,
+    listener: (...args: unknown[]) => void
+  ): void;
 }
 
 // Mở rộng interface của Window để thêm thuộc tính ethereum

@@ -101,7 +101,7 @@ export default function Page() {
       // Gọi generateDescription với name, category và file
       const generatedDescription = await generateDescription(
         name,
-        randomCategory,
+        randomCategory
       );
 
       if (generatedDescription) {

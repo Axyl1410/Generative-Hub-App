@@ -10,6 +10,7 @@ import {
   EnglishAuction,
 } from "thirdweb/extensions/marketplace";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import { useState, useEffect } from "react";
 
 export default function BuyListingButton({
   auctionListing,
@@ -25,6 +26,11 @@ export default function BuyListingButton({
   owner: string;
 }) {
   const account = useActiveAccount();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handle = async () => {
     try {
@@ -48,6 +54,10 @@ export default function BuyListingButton({
       });
     }
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <TransactionButton
