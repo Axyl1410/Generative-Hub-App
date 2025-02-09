@@ -47,6 +47,11 @@ export default function Page() {
           symbol,
           image: files,
         },
+      }).catch((error) => {
+        toast.error("Failed to deploy contract", {
+          description: error instanceof Error ? error.message : undefined,
+        });
+        throw error;
       });
 
       console.log("Contract deployed at:", contractAddress);

@@ -1,6 +1,5 @@
 "use client";
 
-import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
@@ -14,7 +13,7 @@ export const dynamic = "force-dynamic";
 export default function Page() {
   const account = useActiveAccount();
 
-  const { data, error, loading } = useAutoFetch<User>(
+  const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`
   );
 
@@ -24,7 +23,6 @@ export default function Page() {
         <NFTGridLoading />
       </div>
     );
-  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <>

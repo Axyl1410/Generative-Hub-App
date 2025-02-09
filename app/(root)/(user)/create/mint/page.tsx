@@ -3,7 +3,6 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import EmptyText from "@/components/common/empty-text";
 import Loading from "@/components/common/loading";
 import LoadingScreen from "@/components/common/loading-screen";
 import DropdownCard from "@/components/ui/dropdown-card";
@@ -14,11 +13,17 @@ import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
+
+interface OptionContent {
+  content: React.ReactNode;
+  address: string;
+}
 
 export default function Page() {
   const router = useRouter();
@@ -34,17 +39,11 @@ export default function Page() {
 
   const handleFileUpload = (files: File) => setFiles(files);
 
-  const { data, error, loading } = useAutoFetch<User>(
+  const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`
   );
 
   if (!account || loading) return <LoadingScreen />;
-  if (error) return <EmptyText text="Error loading user" />;
-
-  interface OptionContent {
-    content: React.ReactNode;
-    address: string;
-  }
 
   const handleOptionSelect = (option: OptionContent): void => {
     setSelectAddress(option.address);
@@ -136,10 +135,15 @@ export default function Page() {
                             "max-h-[300px] overflow-y-scroll"
                         )}
                       >
-                        {options.length === 3 ? (
+                        {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
-                            You don&apos;t have any collections. Create one
-                            first.
+                            <p>
+                              You don&apos;t have any collections. Create one
+                              first.{" "}
+                              <span className="text-link">
+                                <Link href={"/create/collection"}>Here</Link>
+                              </span>
+                            </p>
                           </div>
                         ) : (
                           options.map((option, index) => (
