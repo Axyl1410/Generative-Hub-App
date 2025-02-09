@@ -25,7 +25,7 @@ export default function BuyListingButton({
   tokenId: string;
   owner: string;
 }) {
-  const router = useRouter();
+  // const router = useRouter();
   const account = useActiveAccount();
 
   const handle = async () => {
