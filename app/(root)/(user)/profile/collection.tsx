@@ -1,7 +1,6 @@
 "use client";
 
 import Loading from "@/app/loading";
-import EmptyText from "@/components/common/empty-text";
 import DropdownCard from "@/components/ui/dropdown-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { User } from "@/types";
@@ -10,12 +9,11 @@ import { useActiveAccount } from "thirdweb/react";
 const CollectedPage = () => {
   const account = useActiveAccount();
 
-  const { data, error, loading } = useAutoFetch<User>(
+  const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`
   );
 
   if (loading || !account) return <Loading />;
-  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <>
