@@ -8,11 +8,13 @@ import { FileUpload } from "@/components/ui/file-upload";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
+
 
 interface DialogContentProps {
   title: string;
@@ -24,8 +26,10 @@ export default function Page() {
   const [description, setDescription] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
-  const [files, setFiles] = useState<File>();
-  const handleFileUpload = (files: File) => setFiles(files);
+  const [files, setFiles] = useState<File | null>();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleFileUpload = (files: File | null) => setFiles(files);
 
   const logoInfo = useToggle();
   const contractInfo = useToggle();
@@ -34,43 +38,82 @@ export default function Page() {
 
   if (!account) return <LoadingScreen />;
 
+  // Hàm tạo token symbol dựa trên Name
+  const generateTokenSymbol = (name: string): string => {
+    const words = name.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return "";
+    if (words.length === 1) {
+      return words[0].substring(0, 3).toUpperCase();
+    }
+    return words.map(word => word[0]).join("").toUpperCase();
+  };
+
+  // Khi thay đổi Name, tự động cập nhật token symbol
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value;
+    setName(newName);
+    setSymbol(generateTokenSymbol(newName));
+  };
+
+
   const handle = async () => {
+    setLoading(true);
     try {
-      const contractAddress = await deployERC721Contract({
-        chain: FORMA_SKETCHPAD,
-        client,
-        account: account,
-        type: "TokenERC721",
-        params: {
-          name,
-          description,
-          symbol,
-          image: files,
-        },
-      });
-
+      
+      const contractAddress = await toast.promise(
+        deployERC721Contract({
+          chain: FORMA_SKETCHPAD,
+          client,
+          account: account,
+          type: "TokenERC721",
+          params: {
+            name,
+            description,
+            symbol,
+            image: files ?? undefined,
+          },
+        }),
+        {
+          loading: "Deploying Collection...",
+          success: "Contract deployed successfully",
+          error: (err) =>
+            `Failed to create collection: ${
+              err instanceof Error ? err.message : "Unknown error"
+            }`
+        }
+        
+      );
+      await waitForContractDeployment(await contractAddress.unwrap());
       console.log("Contract deployed at:", contractAddress);
-      toast("Contract deployed successfully");
-
-      await Promise.all([
-        axios.post("/api/user/add-address", {
-          username: account?.address,
-          address: contractAddress,
-        }),
-        axios.post("/api/collection/add-collection", {
-          address: contractAddress,
-        }),
-      ]);
-
-      toast("Collection created successfully");
-    } catch (error) {
-      toast.error("Failed to create collection", {
-        description: error instanceof Error ? error.message : undefined,
+      
+      await axios.post("/api/user/add-address", {
+        username: account?.address,
+        address: contractAddress,
       });
+  
+      await axios.post("/api/collection/add-collection", {
+        address: contractAddress,
+      });
+      toast.success("Collection created successfully");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleToast = () => toast.warning("Name is required");
+
+  const handleContinue = () => {
+    if (!name) {
+      toast.warning("Name is required");
+      return;
+    }
+    if (!files) {
+      toast.warning("Image is required");
+      return;
+    }
+    handle();
+  };
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -114,7 +157,7 @@ export default function Page() {
                   htmlFor="contract"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
-                  Contract name*
+                  Contract name <span className="text-red-600"> *</span>
                   <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
@@ -128,10 +171,10 @@ export default function Page() {
                     name="contract"
                     id="contract"
                     placeholder="My collection name"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleNameChange}
                   />
                 </div>
                 <Dialog
@@ -145,7 +188,7 @@ export default function Page() {
                   />
                 </Dialog>
               </div>
-              <div className={"sm:col-span-2"}>
+              <div className="sm:col-span-2">
                 <label
                   htmlFor="mcn"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
@@ -164,9 +207,9 @@ export default function Page() {
                     name="mcn"
                     id="mcn"
                     placeholder="MCN"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     value={symbol}
-                    onChange={(e) => setSymbol(e.target.value)}
+                    readOnly
                   />
                 </div>
                 <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
@@ -183,7 +226,7 @@ export default function Page() {
                 htmlFor="description"
                 className="mb-2 flex items-center font-bold dark:text-text-dark"
               >
-                Description
+                Description<span className="text-red-600"> *</span>
               </label>
               <div className="mt-2">
                 <textarea
@@ -197,10 +240,13 @@ export default function Page() {
                 />
               </div>
             </div>
-            <ButtonGradiant
-              text="Continue"
-              onClick={name ? handle : handleToast}
-            />
+            <div className="flex justify-end">
+              <ButtonGradiant
+                text={loading ? "Loading..." : "Continue"}
+                onClick={handleContinue}
+                disabled={loading}
+              />
+            </div>
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">

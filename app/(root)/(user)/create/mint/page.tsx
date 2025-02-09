@@ -22,7 +22,7 @@ import { TransactionButton, useActiveAccount } from "thirdweb/react";
 
 export default function Page() {
   const router = useRouter();
-  const [files, setFiles] = useState<File>();
+  const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const account = useActiveAccount();
@@ -32,7 +32,7 @@ export default function Page() {
     null
   );
 
-  const handleFileUpload = (files: File) => setFiles(files);
+  const handleFileUpload = (files: File | null) => setFiles(files);
 
   const { data, error, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`
@@ -55,7 +55,6 @@ export default function Page() {
   const handleContract = (contract: string) => {
     return CollectionContract(contract);
   };
-
   const options =
     data?.address?.map((address) => ({
       content: <DropdownCard address={address} />,
@@ -91,7 +90,7 @@ export default function Page() {
                 e.preventDefault();
                 setName("");
                 setDescription("");
-                setFiles(undefined);
+                setFiles(null);
                 setSelectedOption(null);
                 setSelectAddress(null);
               }}
@@ -101,7 +100,7 @@ export default function Page() {
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Collection*
+                  Collection <span className ="text-red-600"> *</span>
                 </label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
@@ -136,7 +135,7 @@ export default function Page() {
                             "max-h-[300px] overflow-y-scroll"
                         )}
                       >
-                        {options.length === 3 ? (
+                        {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
                             You don&apos;t have any collections. Create one
                             first.
@@ -173,7 +172,7 @@ export default function Page() {
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Name*
+                  Name <span className ="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -194,7 +193,7 @@ export default function Page() {
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
-                  Description
+                  Description <span className ="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -210,7 +209,7 @@ export default function Page() {
               </div>
               <div className={"h-[45px]"}>
                 <AnimatePresence>
-                  {name && selectedOption && (
+                  {name && selectedOption && files && description &&(
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
