@@ -9,13 +9,11 @@ import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
-
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
-
 
 interface DialogContentProps {
   title: string;
@@ -46,7 +44,10 @@ export default function Page() {
     if (words.length === 1) {
       return words[0].substring(0, 3).toUpperCase();
     }
-    return words.map(word => word[0]).join("").toUpperCase();
+    return words
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
   };
 
   // Khi thay đổi Name, tự động cập nhật token symbol
@@ -56,12 +57,10 @@ export default function Page() {
     setSymbol(generateTokenSymbol(newName));
   };
 
-
   const handle = async () => {
     setLoading(true);
     try {
-      
-      const contractAddress = await toast.promise(
+      const contractAddress = toast.promise(
         deployERC721Contract({
           chain: FORMA_SKETCHPAD,
           client,
@@ -73,6 +72,8 @@ export default function Page() {
             symbol,
             image: files ?? undefined,
           },
+        }).catch((error) => {
+          throw error;
         }),
         {
           loading: "Deploying Collection...",
@@ -80,37 +81,19 @@ export default function Page() {
           error: (error) =>
             `Failed to create collection: ${
               error instanceof Error ? error.message : "Unknown error"
-            }`
+            }`,
         }
-        
       );
+
       await waitForContractDeployment(await contractAddress.unwrap());
-      // ----------------Giang------------------
-      // const contractAddress = await deployERC721Contract({
-      //   chain: FORMA_SKETCHPAD,
-      //   client,
-      //   account: account,
-      //   type: "TokenERC721",
-      //   params: {
-      //     name,
-      //     description,
-      //     symbol,
-      //     image: files,
-      //   },
-      // }).catch((error) => {
-      //   toast.error("Failed to deploy contract", {
-      //     description: error instanceof Error ? error.message : undefined,
-      //   });
-      //   throw error;
-      // });
 
       console.log("Contract deployed at:", contractAddress);
-      
+
       await axios.post("/api/user/add-address", {
         username: account?.address,
         address: contractAddress,
       });
-  
+
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
@@ -121,7 +104,6 @@ export default function Page() {
       setLoading(false);
     }
   };
-
 
   const handleContinue = () => {
     if (!name) {
