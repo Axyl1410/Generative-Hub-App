@@ -83,6 +83,9 @@ export default function BuyListingButton({
       onTransactionConfirmed={() => {
         handle();
         toast.success("Purchase Successful!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }}
     >
       Buy Now

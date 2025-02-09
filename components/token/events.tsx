@@ -25,6 +25,7 @@ export default function Events({
 
   return (
     <div className="mt-3 flex flex-col flex-wrap gap-4 divide-y">
+      {transferEvents?.length === 0 && <h1>No history found</h1>}
       {transferEvents?.map((event) => (
         <div
           key={event.transactionHash}
