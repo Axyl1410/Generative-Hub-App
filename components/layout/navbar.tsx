@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
       <div className="fixed z-50 h-[66px] w-full border-b border-border bg-background px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
-        <div className="container flex w-full items-center justify-between text-nowrap">
+        <div className="!container flex w-full items-center justify-between text-nowrap">
           <section className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
               <SkeletonImage

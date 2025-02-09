@@ -19,9 +19,9 @@ export const revalidate = 0;
 export default async function Page({
   params,
 }: {
-  params: Promise<{ contractAddress: string; id: number }>;
+  params: { contractAddress: string; id: string };
 }) {
-  const { contractAddress, id } = await params;
+  const { contractAddress, id } = params;
   const contract = CollectionContract(contractAddress);
 
   if (!contract) notFound();

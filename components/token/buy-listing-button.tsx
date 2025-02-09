@@ -2,7 +2,6 @@
 
 import { MARKETPLACE } from "@/contracts";
 import axios from "@/lib/axios-config";
-import { useRouter } from "next/router";
 import { toast } from "sonner";
 import {
   buyFromListing,
@@ -25,7 +24,6 @@ export default function BuyListingButton({
   tokenId: string;
   owner: string;
 }) {
-  const router = useRouter();
   const account = useActiveAccount();
 
   const handle = async () => {
@@ -85,7 +83,6 @@ export default function BuyListingButton({
       onTransactionConfirmed={() => {
         handle();
         toast.success("Purchase Successful!");
-        router.push("/sell");
       }}
     >
       Buy Now
