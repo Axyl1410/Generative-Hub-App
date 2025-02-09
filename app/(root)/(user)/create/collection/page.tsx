@@ -244,7 +244,7 @@ export default function Page() {
             </div>
             <div className="flex justify-end">
               <ButtonGradiant
-                text={loading ? "Loading..." : "Continue"}
+                text={loading ? "Loading..." : "🚀 Deploy collection"}
                 onClick={handleContinue}
                 disabled={loading}
               />
