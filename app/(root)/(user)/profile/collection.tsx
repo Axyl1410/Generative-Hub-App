@@ -4,6 +4,7 @@ import Loading from "@/app/loading";
 import DropdownCard from "@/components/ui/dropdown-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { User } from "@/types";
+import Link from "next/link";
 import { useActiveAccount } from "thirdweb/react";
 
 const CollectedPage = () => {
@@ -49,9 +50,19 @@ const CollectedPage = () => {
 
       <div className="rounded-lg border-2 border-gray-200 py-6 text-lg">
         {data?.address && data.address.length > 0 ? (
-          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {data.address.map((address: string) => (
-              <DropdownCard key={address} address={address} />
+              <div
+                key={address}
+                className="group relative  border-r border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-1"
+              >
+                <Link
+                  href={`/sell/${address}`}
+                  className="block overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 ease-in-out group-hover:border-blue-500 group-hover:shadow-lg"
+                >
+                  <DropdownCard address={address} />
+                </Link>
+              </div>
             ))}
           </div>
         ) : (

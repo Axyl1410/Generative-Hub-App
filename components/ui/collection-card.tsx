@@ -23,7 +23,6 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
       enabled: !!contract,
     },
   });
-
   return (
     <div
       className="flex min-h-[400px] w-full cursor-pointer flex-col justify-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[.04] transition-all hover:scale-105 hover:shadow-lg"
@@ -51,9 +50,9 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           <p className="text-sm font-semibold text-text dark:text-white/80">
             Symbol: {metadata?.symbol || "N/A"}
           </p>
-          <p className={"mt-2 line-clamp-2 truncate text-sm"}>
-            {metadata?.description}
-          </p>
+          {/* <p className={"mt-2 line-clamp-2 truncate text-sm"}>
+            {text}
+          </p> */}
         </div>
       </div>
     </div>
