@@ -1,11 +1,13 @@
 "use client";
 
 import EmptyText from "@/components/common/empty-text";
-import ListingGrid from "@/components/nft/listing-grid";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
-import { MARKETPLACE } from "@/contracts";
+import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { Suspense } from "react";
+import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
+import Link from "next/link";
+import { Suspense, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const dynamic = "force-dynamic";
 
@@ -13,29 +15,51 @@ export default function Buy() {
   const { data, error, loading } = useAutoFetch<string[]>(
     `/api/collection/get-collection`
   );
+  const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
+  const [loadingCollections, setLoadingCollections] = useState(true);
 
-  if (loading || !data)
+  useEffect(() => {
+    const fetchCollectionsWithNFTs = async () => {
+      if (data) {
+        const collections = await Promise.all(
+          data.map(async (address) => {
+            const hasNFTs = await checkCollectionHasNFTs(address);
+            return hasNFTs ? address : null;
+          })
+        );
+        setCollectionsWithNFTs(collections.filter(Boolean) as string[]);
+        setLoadingCollections(false);
+      }
+    };
+
+    fetchCollectionsWithNFTs();
+  }, [data]);
+
+  console.log(collectionsWithNFTs);
+
+  if (loading || loadingCollections)
     return (
       <div className="mt-10">
         <NFTGridLoading />
       </div>
     );
-  if (error) return <EmptyText text={`Error: ${error.message}`} />;
+  if (error) {
+    toast.error(error.message);
+    return <EmptyText text={`Error: ${error.message}`} />;
+  }
 
   return (
     <div className="my-8">
       <Suspense fallback={<NFTGridLoading />}>
         <div className="grid grid-cols-1 justify-start gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {data?.length > 0 && (
-            <>
-              {data.map((address: string) => (
-                <ListingGrid
-                  key={address}
-                  marketplace={MARKETPLACE}
-                  collection={address}
-                />
-              ))}
-            </>
+          {collectionsWithNFTs.length > 0 ? (
+            collectionsWithNFTs.map((address: string) => (
+              <Link key={address} href={`/buy/${address}`}>
+                <CollectionCard address={address} />
+              </Link>
+            ))
+          ) : (
+            <EmptyText text="No NFTs found for this collection." />
           )}
         </div>
       </Suspense>

@@ -6,6 +6,7 @@ import useAutoFetch from "@/hooks/use-auto-fetch";
 import { cn } from "@/lib/utils";
 import { NFT, User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useActiveAccount } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,9 @@ export default function Page() {
             >
               {data?.address && data.address.length > 0 ? (
                 data.address.map((address: string) => (
-                  <CollectionCard key={address} address={address} />
+                  <Link href={`/sell/${address}`} key={address}>
+                    <CollectionCard address={address} />
+                  </Link>
                 ))
               ) : (
                 <p className="text-sm font-bold">No collection found</p>

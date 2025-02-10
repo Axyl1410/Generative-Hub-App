@@ -1,7 +1,6 @@
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getContractMetadata } from "thirdweb/extensions/common";
 import { MediaRenderer, useReadContract } from "thirdweb/react";
@@ -25,9 +24,8 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
     },
   });
   return (
-    <Link
+    <div
       className="flex min-h-[400px] w-full cursor-pointer flex-col justify-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[.04] transition-all hover:scale-105 hover:shadow-lg"
-      href={`/sell/${address}`}
       {...props}
     >
       <div className="relative w-full overflow-hidden bg-white/[.04]">
@@ -57,7 +55,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           </p> */}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

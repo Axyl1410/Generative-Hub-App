@@ -200,7 +200,7 @@ export default function Page() {
               </h1>
               <p className="text-md">
                 You’ll need to deploy an ERC-721 contract onto the blockchain
-                before you can create a drop.
+                before you can create a drop.{" "}
                 <span className="cursor-not-allowed text-link">
                   What is a contract?
                 </span>

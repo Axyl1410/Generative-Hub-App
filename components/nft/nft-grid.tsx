@@ -13,14 +13,12 @@ type Props = {
   }[];
   overrideOnclickBehavior?: (nft: NFTType) => void;
   address: string;
-  // emptyText?: string;
 };
 
 export default function NFTGrid({
   nftData,
   overrideOnclickBehavior,
   address,
-  // emptyText = "No NFTs found for this collection.",
 }: Props) {
   if (nftData && nftData.length > 0) {
     return (
