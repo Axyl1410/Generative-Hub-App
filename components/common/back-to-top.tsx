@@ -42,10 +42,10 @@ const BackToTop = () => {
 
           <div
             className={
-              "flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background p-1.5 text-black transition-colors hover:border-sky-500 dark:border-white dark:bg-background-dark dark:text-white dark:hover:border-sky-500"
+              "flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background p-1.5 text-black transition-colors hover:border-sky-500 dark:border-white dark:bg-background-dark dark:text-white dark:hover:border-sky-500 lg:h-9 lg:w-9"
             }
           >
-            <ChevronUp size={20} />
+            <ChevronUp className="size-5 lg:size-6" />
           </div>
         </motion.button>
       )}

@@ -3,7 +3,7 @@
 import NFTGrid from "@/components/nft/nft-grid";
 import { MARKETPLACE } from "@/contracts";
 import React, { useEffect, useState } from "react";
-import { NFT as NFTType, ThirdwebContract } from "thirdweb";
+import { NFT as NFTType } from "thirdweb";
 import {
   DirectListing,
   EnglishAuction,
@@ -13,7 +13,6 @@ import {
 import { LoadingNFTComponent } from "./nft";
 
 type Props = {
-  marketplace: ThirdwebContract;
   collection: string;
   overrideOnclickBehavior?: (nft: NFTType) => void;
 };
@@ -75,7 +74,6 @@ const ListingGrid: React.FC<Props> = (props) => {
   ) : (
     <NFTGrid
       nftData={nftData}
-      // emptyText={props.emptyText}
       address={props.collection}
       overrideOnclickBehavior={props.overrideOnclickBehavior}
     />

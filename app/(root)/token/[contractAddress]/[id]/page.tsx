@@ -19,7 +19,7 @@ export const revalidate = 0;
 export default async function Page({
   params,
 }: {
-  params: Promise<{ contractAddress: string; id: number }>;
+  params: Promise<{ contractAddress: string; id: string }>;
 }) {
   const { contractAddress, id } = await params;
   const contract = CollectionContract(contractAddress);
@@ -60,7 +60,7 @@ export default async function Page({
   );
 
   return (
-    <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-16 lg:max-w-full lg:flex-row">
+    <div className="mx-auto my-10 flex max-w-2xl flex-col gap-16 lg:max-w-full lg:flex-row">
       <div className="flex flex-1 flex-col">
         <BackButton className="mb-4 h-fit" href={"/buy"} />
         <MediaRenderer

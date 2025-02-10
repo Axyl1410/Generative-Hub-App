@@ -8,69 +8,185 @@ import { FileUpload } from "@/components/ui/file-upload";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
+import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 
 interface DialogContentProps {
   title: string;
   description: string;
   onClose: () => void;
 }
-
+function useLazyLoading() {
+  const account = useActiveAccount();
+  if (!account) {
+    return { isLoading: true };
+  }
+  return { isLoading: false, account };
+}
 export default function Page() {
+  // Account loading hook
+  const { isLoading, account } = useLazyLoading();
+
+  // State hooks
   const [description, setDescription] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
-  const [files, setFiles] = useState<File>();
-  const handleFileUpload = (files: File) => setFiles(files);
+  const [files, setFiles] = useState<File | null>();
+  const [loading, setLoading] = useState<boolean>(false);
+  //  const [isGenerating, setIsGenerating] = useState(false);
 
+  // Toggle hooks
   const logoInfo = useToggle();
   const contractInfo = useToggle();
   const tokenInfo = useToggle();
-  const account = useActiveAccount();
 
-  if (!account) return <LoadingScreen />;
+  // Utility functions
+  const generateTokenSymbol = useCallback((name: string): string => {
+    const words = name.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return "";
+    if (words.length === 1) {
+      return words[0].substring(0, 3).toUpperCase();
+    }
+    return words
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  }, []);
 
-  const handle = async () => {
+  // Event handlers
+  const handleNameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newName = e.target.value;
+      setName(newName);
+      setSymbol(generateTokenSymbol(newName));
+    },
+    [generateTokenSymbol]
+  );
+
+  const handleFileUpload = useCallback((files: File | null) => {
+    setFiles(files);
+  }, []);
+
+  const { generateDescription, isGenerating } = useGenerateDescription({
+    timeout: 10000, // Tăng timeout vì xử lý ảnh cần thêm thời gian
+  });
+
+  // Cập nhật hàm handleGenerateDescription
+  const handleGenerateDescription = useCallback(async () => {
+    // Các category có sẵn
+    const categories = [
+      "art",
+      "futuristic",
+      "mythology",
+      "abstract",
+      "nature",
+      "luxury",
+    ];
+
+    // Chọn ngẫu nhiên một category
+    const randomCategory =
+      categories[Math.floor(Math.random() * categories.length)];
+
     try {
-      const contractAddress = await deployERC721Contract({
-        chain: FORMA_SKETCHPAD,
-        client,
-        account: account,
-        type: "TokenERC721",
-        params: {
-          name,
-          description,
-          symbol,
-          image: files,
-        },
-      });
+      if (!name) {
+        toast.warning("Please enter a collection name first");
+        return;
+      }
+
+      // Gọi generateDescription với name, category và file
+      const generatedDescription = await generateDescription(
+        name,
+        randomCategory
+      );
+
+      if (generatedDescription) {
+        // Xóa các markdown tags nếu có
+        const cleanDescription = generatedDescription
+          .replace(/\*\*/g, "")
+          .replace(`${name}: `, "");
+
+        setDescription(cleanDescription);
+        toast.success("Description generated successfully!");
+      }
+    } catch (error) {
+      console.error("Error generating description:", error);
+      toast.error("Failed to generate description");
+    }
+  }, [generateDescription, name]); // Thêm files vào dependencies
+
+  // Thêm useCallback và dependencies để tối ưu performance
+
+  const handle = useCallback(async () => {
+    if (!account) return;
+
+    setLoading(true);
+    try {
+      const contractAddress = toast.promise(
+        deployERC721Contract({
+          chain: FORMA_SKETCHPAD,
+          client,
+          account: account,
+          type: "TokenERC721",
+          params: {
+            name,
+            description,
+            symbol,
+            image: files ?? undefined,
+          },
+        }).catch((error) => {
+          throw error;
+        }),
+        {
+          loading: "Deploying Collection...",
+          success: "Contract deployed successfully",
+          error: (error) =>
+            `Failed to create collection: ${
+              error instanceof Error ? error.message : "Unknown error"
+            }`,
+        }
+      );
+
+      await waitForContractDeployment(await contractAddress.unwrap());
 
       console.log("Contract deployed at:", contractAddress);
-      toast("Contract deployed successfully");
 
-      await Promise.all([
-        axios.post("/api/user/add-address", {
-          username: account?.address,
-          address: contractAddress,
-        }),
-        axios.post("/api/collection/add-collection", {
-          address: contractAddress,
-        }),
-      ]);
-
-      toast("Collection created successfully");
-    } catch (error) {
-      toast.error("Failed to create collection", {
-        description: error instanceof Error ? error.message : undefined,
+      await axios.post("/api/user/add-address", {
+        username: account?.address,
+        address: contractAddress,
       });
-    }
-  };
 
-  const handleToast = () => toast.warning("Name is required");
+      await axios.post("/api/collection/add-collection", {
+        address: contractAddress,
+      });
+      toast.success("Collection created successfully");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [account, name, description, symbol, files]);
+
+  const handleContinue = useCallback(() => {
+    if (!name) {
+      toast.warning("Name is required");
+      return;
+    }
+    if (!files) {
+      toast.warning("Image is required");
+      return;
+    }
+    handle();
+  }, [name, files, handle]);
+
+  // Loading state
+  if (isLoading || !account) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -84,7 +200,7 @@ export default function Page() {
               </h1>
               <p className="text-md">
                 You’ll need to deploy an ERC-721 contract onto the blockchain
-                before you can create a drop.
+                before you can create a drop.{" "}
                 <span className="cursor-not-allowed text-link">
                   What is a contract?
                 </span>
@@ -114,7 +230,7 @@ export default function Page() {
                   htmlFor="contract"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
                 >
-                  Contract name*
+                  Contract name <span className="text-red-600"> *</span>
                   <span
                     className="ml-1 cursor-pointer"
                     onClick={contractInfo.open}
@@ -128,10 +244,10 @@ export default function Page() {
                     name="contract"
                     id="contract"
                     placeholder="My collection name"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleNameChange}
                   />
                 </div>
                 <Dialog
@@ -145,7 +261,7 @@ export default function Page() {
                   />
                 </Dialog>
               </div>
-              <div className={"sm:col-span-2"}>
+              <div className="sm:col-span-2">
                 <label
                   htmlFor="mcn"
                   className="mb-2 flex items-center font-bold dark:text-text-dark"
@@ -164,9 +280,9 @@ export default function Page() {
                     name="mcn"
                     id="mcn"
                     placeholder="MCN"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     value={symbol}
-                    onChange={(e) => setSymbol(e.target.value)}
+                    readOnly
                   />
                 </div>
                 <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
@@ -183,7 +299,25 @@ export default function Page() {
                 htmlFor="description"
                 className="mb-2 flex items-center font-bold dark:text-text-dark"
               >
-                Description
+                Description<span className="text-red-600"> *</span>
+                <button
+                  onClick={handleGenerateDescription}
+                  disabled={isGenerating || !name}
+                  className="ml-2 inline-flex items-center rounded-md bg-indigo-600 px-2 py-1 text-xs font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-gray-400"
+                  type="button"
+                >
+                  {isGenerating ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      <span className="text-xs">Analyzing...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-1">
+                      <span>✨</span>
+                      <span>{"Generate"}</span>
+                    </div>
+                  )}
+                </button>
               </label>
               <div className="mt-2">
                 <textarea
@@ -195,12 +329,25 @@ export default function Page() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                {!name && (
+                  <p className="mt-1 text-sm text-gray-500">
+                    Enter a collection name to generate description
+                  </p>
+                )}
+                {name && !files && (
+                  <p className="mt-1 text-sm text-gray-500">
+                    Upload an image for enhanced description generation
+                  </p>
+                )}
               </div>
             </div>
-            <ButtonGradiant
-              text="Continue"
-              onClick={name ? handle : handleToast}
-            />
+            <div className="flex justify-end">
+              <ButtonGradiant
+                text={loading ? "Loading..." : "🚀 Deploy collection"}
+                onClick={handleContinue}
+                disabled={loading}
+              />
+            </div>
           </div>
 
           <div className="col-span-2 flex h-fit flex-col gap-4 rounded-md bg-gray-100 p-8 shadow dark:bg-neutral-800">

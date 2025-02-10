@@ -1,15 +1,16 @@
 "use client";
 
-import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import { MARKETPLACE } from "@/contracts";
+import axios from "@/lib/axios-config";
+import { toast } from "sonner";
 import {
   buyFromListing,
   buyoutAuction,
   DirectListing,
   EnglishAuction,
 } from "thirdweb/extensions/marketplace";
-import { MARKETPLACE } from "@/contracts";
-import { toast } from "sonner";
-import axios from "@/lib/axios-config";
+import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import { useState, useEffect } from "react";
 
 export default function BuyListingButton({
   auctionListing,
@@ -25,6 +26,11 @@ export default function BuyListingButton({
   owner: string;
 }) {
   const account = useActiveAccount();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handle = async () => {
     try {
@@ -48,6 +54,10 @@ export default function BuyListingButton({
       });
     }
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <TransactionButton
@@ -83,6 +93,9 @@ export default function BuyListingButton({
       onTransactionConfirmed={() => {
         handle();
         toast.success("Purchase Successful!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }}
     >
       Buy Now

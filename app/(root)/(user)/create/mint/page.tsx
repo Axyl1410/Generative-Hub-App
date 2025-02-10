@@ -3,7 +3,6 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import EmptyText from "@/components/common/empty-text";
 import Loading from "@/components/common/loading";
 import LoadingScreen from "@/components/common/loading-screen";
 import DropdownCard from "@/components/ui/dropdown-card";
@@ -14,15 +13,21 @@ import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
 
+interface OptionContent {
+  content: React.ReactNode;
+  address: string;
+}
+
 export default function Page() {
   const router = useRouter();
-  const [files, setFiles] = useState<File>();
+  const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const account = useActiveAccount();
@@ -32,19 +37,13 @@ export default function Page() {
     null
   );
 
-  const handleFileUpload = (files: File) => setFiles(files);
+  const handleFileUpload = (files: File | null) => setFiles(files);
 
-  const { data, error, loading } = useAutoFetch<User>(
+  const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`
   );
 
   if (!account || loading) return <LoadingScreen />;
-  if (error) return <EmptyText text="Error loading user" />;
-
-  interface OptionContent {
-    content: React.ReactNode;
-    address: string;
-  }
 
   const handleOptionSelect = (option: OptionContent): void => {
     setSelectAddress(option.address);
@@ -55,7 +54,6 @@ export default function Page() {
   const handleContract = (contract: string) => {
     return CollectionContract(contract);
   };
-
   const options =
     data?.address?.map((address) => ({
       content: <DropdownCard address={address} />,
@@ -91,7 +89,7 @@ export default function Page() {
                 e.preventDefault();
                 setName("");
                 setDescription("");
-                setFiles(undefined);
+                setFiles(null);
                 setSelectedOption(null);
                 setSelectAddress(null);
               }}
@@ -101,7 +99,7 @@ export default function Page() {
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Collection*
+                  Collection <span className="text-red-600"> *</span>
                 </label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
@@ -138,8 +136,13 @@ export default function Page() {
                       >
                         {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
-                            You don&apos;t have any collections. Create one
-                            first.
+                            <p>
+                              You don&apos;t have any collections. Create one
+                              first.{" "}
+                              <span className="text-link">
+                                <Link href={"/create/collection"}>Here</Link>
+                              </span>
+                            </p>
                           </div>
                         ) : (
                           options.map((option, index) => (
@@ -173,7 +176,7 @@ export default function Page() {
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Name*
+                  Name <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -194,7 +197,7 @@ export default function Page() {
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
-                  Description
+                  Description <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -210,7 +213,7 @@ export default function Page() {
               </div>
               <div className={"h-[45px]"}>
                 <AnimatePresence>
-                  {name && selectedOption && (
+                  {name && selectedOption && files && description && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

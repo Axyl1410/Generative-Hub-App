@@ -29,7 +29,7 @@ const secondaryVariant = {
 export const FileUpload = ({
   onChange,
 }: {
-  onChange?: (file: File) => void;
+  onChange?: (file: File | null) => void;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -71,6 +71,7 @@ export const FileUpload = ({
           animate={{ opacity: 1 }}
           onClick={() => {
             setFile(null);
+            onChange?.(null);
             if (fileInputRef.current) {
               fileInputRef.current.value = "";
             }
@@ -97,7 +98,7 @@ export const FileUpload = ({
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="relative z-20 font-sans text-base font-bold text-neutral-700 dark:text-neutral-300">
-            Upload file
+            Upload file <span className ="text-red-600"> *</span>
           </p>
           <p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400 dark:text-neutral-400">
             Drag or drop your files here or click to upload

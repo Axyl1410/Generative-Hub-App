@@ -13,6 +13,7 @@ interface NFTListingStatus {
   listed: boolean;
   auctioned: boolean;
   listingId?: bigint;
+  isLoading: boolean; // Add this new field
 }
 
 interface CheckNFTListingProps {
@@ -29,6 +30,7 @@ export default function CheckNFTListing({
     listed: false,
     auctioned: false,
     listingId: undefined,
+    isLoading: true, // Initialize with true
   });
 
   const { data: listings, isLoading: isListingsLoading } = useReadContract(
@@ -71,8 +73,9 @@ export default function CheckNFTListing({
       auctioned: !!activeAuction,
       isSell: !!(activeListing || activeAuction),
       listingId: activeListing?.id || activeAuction?.id,
+      isLoading: isListingsLoading || isAuctionsLoading, // Add loading state
     }),
-    [activeListing, activeAuction]
+    [activeListing, activeAuction, isListingsLoading, isAuctionsLoading]
   );
 
   useEffect(() => {
