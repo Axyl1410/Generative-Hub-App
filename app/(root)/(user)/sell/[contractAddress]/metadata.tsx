@@ -1,6 +1,7 @@
 "use client";
 
 import EmptyText from "@/components/common/empty-text";
+import ReadMore from "@/components/common/read-more-text";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import Image from "next/image";
@@ -26,10 +27,11 @@ export function Metadata({ address }: { address: string }) {
 
   if (isLoading) return <MetadataLoading />;
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
-
+  
+  const text = "sahkdjhsakjdhksajhdkjsadkjjsahkdjhsakjdhsakjdhjksahdkjashdkjsahdkjsahdksajhdkjsahdkjsahdksahdkjashdkasjhdkjahdkjashdkjsahdkjsahkdjahsk"
   return (
     <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
-      <div className="h-32 w-32 rounded-lg">
+      <div className="h-32 w-32 flex-shrink-0 rounded-lg">
         {metadata?.image ? (
           <MediaRenderer
             src={metadata.image}
@@ -43,16 +45,20 @@ export function Metadata({ address }: { address: string }) {
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-center py-3">
-        <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-lg text-black dark:text-white">
+      <div className="flex min-w-0 flex-1 flex-col justify-center py-3">
+        <p className="truncate text-lg text-black dark:text-white">
           {metadata?.name}
         </p>
         <p className="text-sm font-semibold text-text dark:text-white/80">
           Symbol: {metadata?.symbol || "N/A"}
         </p>
-        <p className={"mt-2 line-clamp-2 truncate text-sm"}>
-          {metadata?.description}
-        </p>
+        <div className="relative mt-2 max-h-32 w-full">
+          <ReadMore 
+            text={metadata?.description} 
+            maxLength={50} 
+            className="overflow-y-auto pr-2 text-sm break-words" 
+          />
+        </div>
       </div>
     </div>
   );

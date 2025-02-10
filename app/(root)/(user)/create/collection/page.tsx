@@ -111,7 +111,7 @@ export default function Page() {
           .replace(`${name}: `, "");
 
         setDescription(cleanDescription);
-        toast.success("Description generated successfully!");
+       
       }
     } catch (error) {
       console.error("Error generating description:", error);
@@ -334,11 +334,7 @@ export default function Page() {
                     Enter a collection name to generate description
                   </p>
                 )}
-                {name && !files && (
-                  <p className="mt-1 text-sm text-gray-500">
-                    Upload an image for enhanced description generation
-                  </p>
-                )}
+               
               </div>
             </div>
             <div className="flex justify-end">
