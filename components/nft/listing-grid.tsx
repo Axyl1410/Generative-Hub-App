@@ -1,6 +1,6 @@
 "use client";
 
-import NFTGrid from "@/components/nft/nft-grid";
+import NFTGrid, { NFTGridLoading } from "@/components/nft/nft-grid";
 import { MARKETPLACE } from "@/contracts";
 import React, { useEffect, useState } from "react";
 import { NFT as NFTType } from "thirdweb";
@@ -10,7 +10,6 @@ import {
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
-import { LoadingNFTComponent } from "./nft";
 
 type Props = {
   collection: string;
@@ -70,7 +69,7 @@ const ListingGrid: React.FC<Props> = (props) => {
   }, [fetchData]);
 
   return loading ? (
-    <LoadingNFTComponent />
+    <NFTGridLoading />
   ) : (
     <NFTGrid
       nftData={nftData}
