@@ -123,53 +123,69 @@ export default function Page() {
 
   const handle = useCallback(async () => {
     if (!account) return;
-
+  
     setLoading(true);
     try {
-      const contractAddress = toast.promise(
-        deployERC721Contract({
-          chain: FORMA_SKETCHPAD,
-          client,
-          account: account,
-          type: "TokenERC721",
-          params: {
-            name,
-            description,
-            symbol,
-            image: files ?? undefined,
-          },
-        }).catch((error) => {
-          throw error;
-        }),
-        {
-          loading: "Deploying Collection...",
-          success: "Contract deployed successfully",
-          error: (error) =>
-            `Failed to create collection: ${
-              error instanceof Error ? error.message : "Unknown error"
-            }`,
-        }
-      );
+      const contractPromise = deployERC721Contract({
+        chain: FORMA_SKETCHPAD,
+        client,
+        account: account,
+        type: "TokenERC721",
+        params: {
+          name,
+          description,
+          symbol,
+          image: files ?? undefined,
+        },
+      });
+  
+      const contractObject = await toast.promise(contractPromise, {
+        loading: "Deploying Collection...",
+        success: "Contract deployed successfully",
+        error: (error) =>
+          `Failed to create collection: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
+      });
+  
+      const unwrapped: unknown = await contractObject.unwrap();
 
-      await waitForContractDeployment(await contractAddress.unwrap());
-
+      let contractAddress: string | undefined = undefined;
+      
+      // Kiểm tra kiểu dữ liệu trước khi truy xuất thuộc tính
+      if (typeof unwrapped === "object" && unwrapped !== null && "w" in unwrapped) {
+        const obj = unwrapped as { w: [string, string] }; // Ép kiểu cụ thể
+        contractAddress = obj.w[1];
+      } else if (typeof unwrapped === "string") {
+        contractAddress = unwrapped;
+      }
+      
+      if (!contractAddress) {
+        throw new Error("Failed to extract contract address");
+      }
+      
+      await waitForContractDeployment(contractAddress);
       console.log("Contract deployed at:", contractAddress);
-
+  
       await axios.post("/api/user/add-address", {
         username: account?.address,
         address: contractAddress,
       });
-
+  
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
+  
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
+      // toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   }, [account, name, description, symbol, files]);
+  
+  
 
   const handleContinue = useCallback(() => {
     if (!name) {
