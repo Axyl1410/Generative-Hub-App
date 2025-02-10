@@ -1,4 +1,4 @@
-import { addAddressToUser } from "@/lib/mongodb";
+import { addAddressToUser, closeConnection } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -25,5 +25,7 @@ export async function POST(request: Request) {
       { error: `Internal Server Error: ${error}` },
       { status: 500 }
     );
+  } finally {
+    await closeConnection();
   }
 }

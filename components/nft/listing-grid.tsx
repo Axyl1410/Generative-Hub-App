@@ -71,11 +71,13 @@ const ListingGrid: React.FC<Props> = (props) => {
   return loading ? (
     <NFTGridLoading />
   ) : (
-    <NFTGrid
-      nftData={nftData}
-      address={props.collection}
-      overrideOnclickBehavior={props.overrideOnclickBehavior}
-    />
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      <NFTGrid
+        nftData={nftData}
+        address={props.collection}
+        overrideOnclickBehavior={props.overrideOnclickBehavior}
+      />
+    </div>
   );
 };
 

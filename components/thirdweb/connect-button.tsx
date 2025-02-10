@@ -82,7 +82,6 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
             !account && "cursor-pointer"
           )}
           layout
-          style={{ width: "auto" }}
           onClick={account ? undefined : handleConnect}
         >
           <motion.div layout>
