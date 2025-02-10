@@ -38,8 +38,7 @@ const DropdownCard: React.FC<Props> = ({ address }) => {
           <MediaRenderer
             src={metadata.image}
             client={client}
-            className="aspect-square object-cover object-center"
-            style={{ height: "100%", width: "100%" }}
+            className="aspect-square h-full w-full object-cover object-center"
           />
         ) : (
           <div className="grid h-full w-full place-items-center bg-gray-200">

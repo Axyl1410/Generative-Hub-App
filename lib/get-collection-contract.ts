@@ -10,7 +10,9 @@ const CollectionContract = (address: string) => {
       address: address,
     });
   } catch (e) {
-    toast.error("Invalid contract address" + e);
+    toast.error("Invalid contract address", {
+      description: e as string,
+    });
     return null;
   }
 };
