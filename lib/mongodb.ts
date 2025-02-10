@@ -196,3 +196,12 @@ export async function getAllCollections() {
   const result = await collection.findOne({ _id: { $exists: true } });
   return result?.allCollection || [];
 }
+
+export async function closeConnection() {
+  if (client) {
+    await client.close();
+    client = null;
+    db = null;
+    console.log("Disconnected from MongoDB");
+  }
+}

@@ -27,8 +27,7 @@ export function Metadata({ address }: { address: string }) {
 
   if (isLoading) return <MetadataLoading />;
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
-  
-  const text = "sahkdjhsakjdhksajhdkjsadkjjsahkdjhsakjdhsakjdhjksahdkjashdkjsahdkjsahdksajhdkjsahdkjsahdksahdkjashdkasjhdkjahdkjashdkjsahdkjsahkdjahsk"
+
   return (
     <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
       <div className="h-32 w-32 flex-shrink-0 rounded-lg">
@@ -53,10 +52,10 @@ export function Metadata({ address }: { address: string }) {
           Symbol: {metadata?.symbol || "N/A"}
         </p>
         <div className="relative mt-2 max-h-32 w-full">
-          <ReadMore 
-            text={metadata?.description} 
-            maxLength={50} 
-            className="overflow-y-auto pr-2 text-sm break-words" 
+          <ReadMore
+            text={metadata?.description}
+            maxLength={50}
+            className="overflow-y-auto break-words pr-2 text-sm"
           />
         </div>
       </div>

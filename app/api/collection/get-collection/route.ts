@@ -1,4 +1,4 @@
-import { getAllCollections } from "@/lib/mongodb";
+import { closeConnection, getAllCollections } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -18,5 +18,7 @@ export async function GET() {
       { error: `Internal Server Error ${error}` },
       { status: 500 }
     );
+  } finally {
+    await closeConnection();
   }
 }
