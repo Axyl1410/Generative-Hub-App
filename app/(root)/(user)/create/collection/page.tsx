@@ -5,16 +5,16 @@ import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
+import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
-import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 
 interface DialogContentProps {
   title: string;
@@ -111,7 +111,6 @@ export default function Page() {
           .replace(`${name}: `, "");
 
         setDescription(cleanDescription);
-       
       }
     } catch (error) {
       console.error("Error generating description:", error);
@@ -123,7 +122,7 @@ export default function Page() {
 
   const handle = useCallback(async () => {
     if (!account) return;
-  
+
     setLoading(true);
     try {
       const contractPromise = deployERC721Contract({
@@ -138,7 +137,7 @@ export default function Page() {
           image: files ?? undefined,
         },
       });
-  
+
       const contractObject = await toast.promise(contractPromise, {
         loading: "Deploying Collection...",
         success: "Contract deployed successfully",
@@ -147,35 +146,39 @@ export default function Page() {
             error instanceof Error ? error.message : "Unknown error"
           }`,
       });
-  
+
       const unwrapped: unknown = await contractObject.unwrap();
 
       let contractAddress: string | undefined = undefined;
-      
+
       // Kiểm tra kiểu dữ liệu trước khi truy xuất thuộc tính
-      if (typeof unwrapped === "object" && unwrapped !== null && "w" in unwrapped) {
+      if (
+        typeof unwrapped === "object" &&
+        unwrapped !== null &&
+        "w" in unwrapped
+      ) {
         const obj = unwrapped as { w: [string, string] }; // Ép kiểu cụ thể
         contractAddress = obj.w[1];
       } else if (typeof unwrapped === "string") {
         contractAddress = unwrapped;
       }
-      
+
       if (!contractAddress) {
         throw new Error("Failed to extract contract address");
       }
-      
+
       await waitForContractDeployment(contractAddress);
       console.log("Contract deployed at:", contractAddress);
-  
+
       await axios.post("/api/user/add-address", {
         username: account?.address,
         address: contractAddress,
       });
-  
+
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
-  
+
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
@@ -184,8 +187,6 @@ export default function Page() {
       setLoading(false);
     }
   }, [account, name, description, symbol, files]);
-  
-  
 
   const handleContinue = useCallback(() => {
     if (!name) {
@@ -350,7 +351,6 @@ export default function Page() {
                     Enter a collection name to generate description
                   </p>
                 )}
-               
               </div>
             </div>
             <div className="flex justify-end">

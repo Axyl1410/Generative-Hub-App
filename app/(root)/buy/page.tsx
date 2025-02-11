@@ -5,6 +5,7 @@ import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -51,7 +52,12 @@ export default function Buy() {
   return (
     <div className="my-8">
       <Suspense fallback={<NFTGridLoading />}>
-        <div className="grid grid-cols-1 justify-start gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div
+          className={cn(
+            "grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+            collectionsWithNFTs.length > 0 && "grid"
+          )}
+        >
           {collectionsWithNFTs.length > 0 ? (
             collectionsWithNFTs.map((address: string) => (
               <Link key={address} href={`/buy/${address}`}>
@@ -59,7 +65,7 @@ export default function Buy() {
               </Link>
             ))
           ) : (
-            <EmptyText text="No NFTs found for this collection." />
+            <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
           )}
         </div>
       </Suspense>

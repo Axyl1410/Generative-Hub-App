@@ -2,7 +2,7 @@
 
 import Loading from "@/components/common/loading";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const OPENAI_API_KEY = process.env.NEXT_PUBLIC_HF_API_KEY;
