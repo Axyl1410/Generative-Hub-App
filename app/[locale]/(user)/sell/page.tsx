@@ -1,12 +1,13 @@
 "use client";
 
+import LoadingScreen from "@/components/common/loading-screen";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { NFT, User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 import { useActiveAccount } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
@@ -14,8 +15,10 @@ export const dynamic = "force-dynamic";
 export default function Page() {
   const account = useActiveAccount();
 
+  if (!account) <LoadingScreen />;
+
   const { data, loading } = useAutoFetch<User>(
-    `api/user/get-user?username=${account?.address}`
+    `/api/user/get-user?username=${account?.address}`
   );
 
   if (loading || !account)
@@ -62,7 +65,9 @@ export default function Page() {
           >
             {data?.nft && data.nft.length > 0 ? (
               data.nft.map((nft: NFT) => (
-                <CollectionCard key={nft.contract} address={nft.contract} />
+                <Link href={`/sell/${nft.contract}`} key={nft.contract}>
+                  <CollectionCard address={nft.contract} />
+                </Link>
               ))
             ) : (
               <p className="text-sm font-bold">No collection found</p>

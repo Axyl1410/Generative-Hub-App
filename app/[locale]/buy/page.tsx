@@ -6,7 +6,7 @@ import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 

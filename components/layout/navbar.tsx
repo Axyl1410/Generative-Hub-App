@@ -7,7 +7,7 @@ import Dialog from "@/components/ui/dialog";
 import useToggle from "@/hooks/use-state-toggle";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import DisconnectButton from "@/components/thirdweb/disconnect-button";
 import { GradientText } from "../ui/gradient-text";

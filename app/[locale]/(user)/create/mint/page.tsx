@@ -40,7 +40,7 @@ export default function Page() {
   const handleFileUpload = (files: File | null) => setFiles(files);
 
   const { data, loading } = useAutoFetch<User>(
-    `api/user/get-user?username=${account?.address}`
+    `/api/user/get-user?username=${account?.address}`
   );
 
   if (!account || loading) return <LoadingScreen />;

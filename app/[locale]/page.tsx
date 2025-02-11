@@ -1,7 +1,7 @@
-import Loading from "@/components/common/loading";
 import { WorldMap } from "@/components/ui/world-map";
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
+import Loading from "../loading";
 
 export default function Page() {
   const t = useTranslations("home");
@@ -16,6 +16,7 @@ export default function Page() {
           {t("content")}
         </p>
       </div>
+
       <Suspense fallback={<Loading />}>
         <WorldMap
           dots={[
