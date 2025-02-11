@@ -51,7 +51,7 @@ export default async function RootLayout({
           </>
         )}
         <ThemeProvider>
-          <NextIntlClientProvider messages={messages} locale={locale}>
+          <NextIntlClientProvider messages={messages}>
             <ScrollToTop />
             <Toaster closeButton richColors position="top-left" />
             <ThirdwebProvider>{children}</ThirdwebProvider>

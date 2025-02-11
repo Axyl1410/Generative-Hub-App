@@ -16,7 +16,6 @@ export default function Page() {
           {t("content")}
         </p>
       </div>
-
       <Suspense fallback={<Loading />}>
         <WorldMap
           dots={[

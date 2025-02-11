@@ -9,7 +9,10 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // config.headers.Authorization = `Bearer ${token}`;
+    const localePattern = /^\/(vi|en)\//;
+    if (config.url && localePattern.test(config.url)) {
+      config.url = config.url.replace(localePattern, "/");
+    }
     return config;
   },
   (error) => {
