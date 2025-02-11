@@ -6,7 +6,7 @@ import Script from "next/script";
 import React from "react";
 import { Toaster } from "sonner";
 import { ThirdwebProvider } from "thirdweb/react";
-import "../styles/globals.scss";
+import "@/styles/globals.scss";
 
 export const metadata: Metadata = {
   title: "Generative Hub App",
