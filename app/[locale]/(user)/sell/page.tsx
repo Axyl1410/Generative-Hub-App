@@ -21,7 +21,7 @@ export default function Page() {
     `/api/user/get-user?username=${account?.address}`
   );
 
-  if (loading || !account)
+  if (loading)
     return (
       <div className="mt-4">
         <NFTGridLoading />

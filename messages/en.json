@@ -3,15 +3,19 @@
     "title": "Tell the World About Your Collection Idea for NFTs!",
     "content": "We are a huge marketplace dedicated to connecting great artists of all GenHub with their fans and unique token collectors!"
   },
-  "Buy": {
-    "title": "Buy NFTs",
-    "emptytext": "Looks like there are no listed NFTs in this collection. Check back later!"
+  "buy": {
+    "title": "Buy NFT",
+    "nocollection": "Looks like there are no listed NFTs in this collection. Check back later!",
+    "endlist": "End of listed for sale"
   },
   "sell": {
-    "title": "Sell NFTS"
+    "title": "Sell NFT",
+    "collection": "My Collection",
+    "nocollection": "No Collection Found",
+    "other": "Other"
   },
   "navbar": {},
-  "backbutton": {
-    "text": "Back"
+  "component": {
+    "backbutton": "Back"
   }
 }

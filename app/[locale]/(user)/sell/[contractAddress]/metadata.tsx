@@ -27,8 +27,7 @@ export function Metadata({ address }: { address: string }) {
 
   if (isLoading) return <MetadataLoading />;
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
-  
-  // const text = "sahkdjhsakjdhksajhdkjsadkjjsahkdjhsakjdhsakjdhjksahdkjashdkjsahdkjsahdksajhdkjsahdkjsahdksahdkjashdkasjhdkjahdkjashdkjsahdkjsahkdjahsk"
+
   return (
     <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
       <div className="h-32 w-32 flex-shrink-0 rounded-lg">
