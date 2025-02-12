@@ -2,5 +2,16 @@
   "home": {
     "title": "Hãy cho thế giới biết ý tưởng sưu tập NFT của bạn!",
     "content": "Chúng tôi là một thị trường lớn chuyên kết nối các nghệ sĩ tuyệt vời của GenHub với người hâm mộ và những nhà sưu tập token độc đáo!"
+  },
+  "Buy": {
+    "title": "Buy NFTs",
+    "emptytext": "Looks like there are no listed NFTs in this collection. Check back later!"
+  },
+  "sell": {
+    "title": "Sell NFTS"
+  },
+  "navbar": {},
+  "backbutton": {
+    "text": "Back"
   }
 }

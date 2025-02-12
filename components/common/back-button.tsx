@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -31,14 +32,33 @@ const BackButton: React.FC<BackButtonProps> = ({
   };
 
   return (
-    <button
-      onClick={href ? () => router.push(href) : handleBackClick}
-      className={cn("flex items-center bg-[#ebe9e9] px-[1rem] py-[0.25rem] rounded-md hover:underline hover:bg-[#adadad] text-base dark:text-black ", className)}
-      {...props}
-    >
-      <ArrowLeft size={16} />
-      <p>{text}</p>
-    </button>
+    <>
+      {href ? (
+        <Link href={href} {...props}>
+          <button
+            className={cn(
+              "flex items-center rounded-md bg-[#ebe9e9] px-[1rem] py-[0.25rem] text-base hover:bg-[#adadad] hover:underline dark:text-black",
+              className
+            )}
+          >
+            <ArrowLeft size={16} />
+            <p>{text}</p>
+          </button>
+        </Link>
+      ) : (
+        <button
+          onClick={handleBackClick}
+          className={cn(
+            "flex items-center rounded-md bg-[#ebe9e9] px-[1rem] py-[0.25rem] text-base hover:bg-[#adadad] hover:underline dark:text-black",
+            className
+          )}
+          {...props}
+        >
+          <ArrowLeft size={16} />
+          <p>{text}</p>
+        </button>
+      )}
+    </>
   );
 };
 

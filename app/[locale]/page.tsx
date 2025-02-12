@@ -7,7 +7,7 @@ export default function Page() {
   const t = useTranslations("home");
 
   return (
-    <div className="w-full bg-background py-10 dark:bg-background-dark">
+    <div className="bg-background-light w-full py-10 dark:bg-background-dark">
       <div className="mx-auto max-w-7xl text-center">
         <p className="text-xl font-bold text-black dark:text-white md:text-4xl">
           {t("title")}

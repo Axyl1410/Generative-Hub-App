@@ -1,7 +1,7 @@
 "use client";
 
 import { MARKETPLACE } from "@/contracts";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { toast } from "sonner";
 import { NFT as NFTType } from "thirdweb";
 import { createListing } from "thirdweb/extensions/marketplace";

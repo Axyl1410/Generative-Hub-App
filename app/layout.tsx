@@ -20,13 +20,11 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }>) {
-  const { locale } = await params;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!routing.locales.includes(locale as any)) {
     notFound();
@@ -39,7 +37,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`bg-background text-text antialiased transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark`}
+        className={`bg-background-light text-text antialiased transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark`}
       >
         {process.env.NODE_ENV === "development" && (
           <>

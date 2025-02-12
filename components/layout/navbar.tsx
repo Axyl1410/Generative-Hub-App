@@ -3,15 +3,16 @@
 import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ThemeSwitcher from "@/components/theme/theme-switcher";
 import CustomConnectButton from "@/components/thirdweb/connect-button";
+import DisconnectButton from "@/components/thirdweb/disconnect-button";
 import Dialog from "@/components/ui/dialog";
 import useToggle from "@/hooks/use-state-toggle";
+import { Link } from "@/i18n/routing";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
-import { Link } from "@/i18n/routing";
-import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
-import DisconnectButton from "@/components/thirdweb/disconnect-button";
-import { GradientText } from "../ui/gradient-text";
 import { usePathname } from "next/navigation";
+import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
+import { LocaleSwitcherDropdown } from "../common/locale-switcher";
+import { GradientText } from "../ui/gradient-text";
 
 const Navbar = () => {
   const dialog = useToggle();
@@ -24,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed z-50 h-[66px] w-full border-b border-border bg-background px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
+      <div className="bg-background-light fixed z-50 h-[66px] w-full border-b border-border px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
         <div className="!container flex w-full items-center justify-between text-nowrap">
           <section className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
@@ -63,7 +64,7 @@ const Navbar = () => {
             </div>
           </section>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {account && (
               <Link href="/create">
                 <button className="relative hidden items-center justify-center gap-1.5 whitespace-nowrap rounded-lg bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex md:gap-2 md:rounded-md md:font-semibold">
@@ -72,6 +73,9 @@ const Navbar = () => {
                 </button>
               </Link>
             )}
+            <div className="hidden lg:block">
+              <LocaleSwitcherDropdown />
+            </div>
             <CustomConnectButton type={"icon"} />
             <div className="flex h-[35px] w-10 items-center justify-center rounded-lg bg-nav shadow dark:bg-nav-dark">
               {account ? (
