@@ -1,8 +1,21 @@
-const EmptyText = ({ text }: { text: string }) => {
+import Link from 'next/link';
+import React from 'react';
+
+interface EmptyTextProps {
+  text: string;
+  link?: string;
+  textLink?: string;
+}
+
+const EmptyText = ({ text, link, textLink }: EmptyTextProps) => {
   return (
     <div className="mt-10 flex h-[500px] justify-center">
       <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-        {text}
+        {text} {link && (
+        <Link href={link} className="text-blue-500 underline ml-2">
+          {textLink}
+        </Link>
+      )}
       </p>
     </div>
   );
