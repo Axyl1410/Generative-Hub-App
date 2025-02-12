@@ -22,6 +22,8 @@ const Dialog: React.FC<DialogProps> = ({
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === e.currentTarget) onClose();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      isOpen = false;
     },
     [onClose]
   );
@@ -59,7 +61,7 @@ const Dialog: React.FC<DialogProps> = ({
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.8 }}
                 transition={{ duration: 0.3, type: "spring" }}
-                className="relative mx-4 flex items-center justify-center rounded border bg-background p-8 text-text shadow-lg dark:bg-black dark:text-white md:max-w-[60vw]"
+                className="relative mx-4 flex items-center justify-center rounded border bg-background-light p-8 text-text shadow-lg dark:bg-black dark:text-white md:max-w-[60vw]"
               >
                 <button
                   onClick={onClose}
@@ -98,7 +100,7 @@ const Dialog: React.FC<DialogProps> = ({
                   type: "spring",
                   ease: "easeOut",
                 }}
-                className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background shadow-lg dark:bg-background-dark"
+                className="relative flex h-fit w-[250px] items-center justify-center rounded bg-background-light shadow-lg dark:bg-background-dark"
               >
                 {children}
               </motion.div>

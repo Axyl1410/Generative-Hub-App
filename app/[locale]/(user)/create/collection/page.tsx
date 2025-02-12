@@ -261,7 +261,7 @@ export default function Page() {
                     name="contract"
                     id="contract"
                     placeholder="My collection name"
-                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
                     value={name}
                     onChange={handleNameChange}
@@ -297,7 +297,7 @@ export default function Page() {
                     name="mcn"
                     id="mcn"
                     placeholder="MCN"
-                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     value={symbol}
                     readOnly
                   />
@@ -341,7 +341,7 @@ export default function Page() {
                   name="description"
                   id="description"
                   rows={3}
-                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                  className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                   placeholder="Write a few description about."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
