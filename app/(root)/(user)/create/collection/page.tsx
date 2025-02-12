@@ -111,7 +111,6 @@ export default function Page() {
           .replace(`${name}: `, "");
 
         setDescription(cleanDescription);
-       
       }
     } catch (error) {
       console.error("Error generating description:", error);
@@ -126,7 +125,7 @@ export default function Page() {
 
     setLoading(true);
     try {
-      const contractAddress = toast.promise(
+      const contractObject = toast.promise(
         deployERC721Contract({
           chain: FORMA_SKETCHPAD,
           client,
@@ -151,18 +150,36 @@ export default function Page() {
         }
       );
 
-      await waitForContractDeployment(await contractAddress.unwrap());
+      const unwrapped: unknown = await contractObject.unwrap();
 
-      console.log("Contract deployed at:", contractAddress);
+      let contractAddress: string | undefined = undefined;
 
+      // Kiểm tra kiểu dữ liệu trước khi truy xuất thuộc tính
+      if (
+        typeof unwrapped === "object" &&
+        unwrapped !== null &&
+        "w" in unwrapped
+      ) {
+        const obj = unwrapped as { w: [string, string] }; // Ép kiểu cụ thể
+        contractAddress = obj.w[1];
+      } else if (typeof unwrapped === "string") {
+        contractAddress = unwrapped;
+      }
+
+      if (!contractAddress) {
+        throw new Error("Failed to extract contract address");
+      }
+      await waitForContractDeployment(contractAddress);
+      
       await axios.post("/api/user/add-address", {
         username: account?.address,
         address: contractAddress,
       });
-
+      
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
+      console.log("Contract deployed at:", contractAddress);
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
@@ -334,7 +351,6 @@ export default function Page() {
                     Enter a collection name to generate description
                   </p>
                 )}
-               
               </div>
             </div>
             <div className="flex justify-end">
