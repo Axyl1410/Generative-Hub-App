@@ -88,7 +88,7 @@ const Dialog: React.FC<DialogProps> = ({
             {...props}
           >
             <div
-              className="container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end pb-3.5"
+              className="!container mt-[80px] flex h-full max-h-[calc(100vh-80px)] w-full justify-end pb-3.5"
               onClick={handleBackdropClick}
             >
               <motion.div

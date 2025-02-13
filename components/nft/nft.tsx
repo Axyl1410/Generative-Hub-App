@@ -1,9 +1,10 @@
 "use client";
 
 import Skeleton from "@/components/skeleton/skeleton";
+import { useRouter } from "@/i18n/routing";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
-import { notFound, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NFT } from "thirdweb";
 import { getNFT } from "thirdweb/extensions/erc721";
