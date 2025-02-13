@@ -125,27 +125,30 @@ export default function Page() {
 
     setLoading(true);
     try {
-      const contractPromise = deployERC721Contract({
-        chain: FORMA_SKETCHPAD,
-        client,
-        account: account,
-        type: "TokenERC721",
-        params: {
-          name,
-          description,
-          symbol,
-          image: files ?? undefined,
-        },
-      });
-
-      const contractObject = await toast.promise(contractPromise, {
-        loading: "Deploying Collection...",
-        success: "Contract deployed successfully",
-        error: (error) =>
-          `Failed to create collection: ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`,
-      });
+      const contractObject = toast.promise(
+        deployERC721Contract({
+          chain: FORMA_SKETCHPAD,
+          client,
+          account: account,
+          type: "TokenERC721",
+          params: {
+            name,
+            description,
+            symbol,
+            image: files ?? undefined,
+          },
+        }).catch((error) => {
+          throw error;
+        }),
+        {
+          loading: "Deploying Collection...",
+          success: "Contract deployed successfully",
+          error: (error) =>
+            `Failed to create collection: ${
+              error instanceof Error ? error.message : "Unknown error"
+            }`,
+        }
+      );
 
       const unwrapped: unknown = await contractObject.unwrap();
 
@@ -166,9 +169,7 @@ export default function Page() {
       if (!contractAddress) {
         throw new Error("Failed to extract contract address");
       }
-
       await waitForContractDeployment(contractAddress);
-      console.log("Contract deployed at:", contractAddress);
 
       await axios.post("/api/user/add-address", {
         username: account?.address,
@@ -178,7 +179,6 @@ export default function Page() {
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
-
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);

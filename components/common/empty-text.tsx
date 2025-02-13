@@ -1,17 +1,22 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
-type Props = {
+interface EmptyTextProps {
   text: string;
   link?: string;
   textLink?: string;
-};
+}
 
-const EmptyText: React.FC<Props> = ({ text, link, textLink }) => {
+const EmptyText = ({ text, link, textLink }: EmptyTextProps) => {
   return (
     <div className="mt-10 flex h-[500px] justify-center">
-      <div className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-        {text} {link && <Link href={link} className="text-blue-500 dark:text-blue-400 hover: underline">{textLink}</Link>}
-      </div>
+      <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
+        {text}{" "}
+        {link && (
+          <Link href={link} className="ml-2 text-blue-500 underline">
+            {textLink}
+          </Link>
+        )}
+      </p>
     </div>
   );
 };
