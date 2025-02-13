@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import React from 'react';
+import { Link } from "@/i18n/routing";
 
 interface EmptyTextProps {
   text: string;
@@ -11,11 +10,12 @@ const EmptyText = ({ text, link, textLink }: EmptyTextProps) => {
   return (
     <div className="mt-10 flex h-[500px] justify-center">
       <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
-        {text} {link && (
-        <Link href={link} className="text-blue-500 underline ml-2">
-          {textLink}
-        </Link>
-      )}
+        {text}{" "}
+        {link && (
+          <Link href={link} className="ml-2 text-blue-500 underline">
+            {textLink}
+          </Link>
+        )}
       </p>
     </div>
   );

@@ -16,10 +16,17 @@ async function connectToDatabase(dbname: string = "genhub") {
     client = new MongoClient(uri as string);
     await client.connect();
     db = client.db(dbname);
-    console.log("Connected to MongoDB");
   } catch (error) {
     console.error(error);
     throw error;
+  }
+}
+
+export async function closeConnection() {
+  if (client) {
+    await client.close();
+    client = null;
+    db = null;
   }
 }
 
@@ -195,13 +202,4 @@ export async function getAllCollections() {
   const collection = await getCollection("collection");
   const result = await collection.findOne({ _id: { $exists: true } });
   return result?.allCollection || [];
-}
-
-export async function closeConnection() {
-  if (client) {
-    await client.close();
-    client = null;
-    db = null;
-    console.log("Disconnected from MongoDB");
-  }
 }

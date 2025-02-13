@@ -1,21 +1,35 @@
 "use client";
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "system";
 
 interface ThemeContextProps {
   theme: Theme;
   toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 const isValidTheme = (theme: string): theme is Theme =>
-  theme === "light" || theme === "dark";
+  theme === "light" || theme === "dark" || theme === "system";
 
-const updateDocumentClass = (theme: Theme) => {
+const updateDocumentClass = (theme: Theme | "light" | "dark") => {
   document.documentElement.classList.remove("light", "dark");
   document.documentElement.classList.add(theme);
+};
+
+const getSystemTheme = (): "light" | "dark" => {
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
@@ -26,21 +40,39 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         return storedTheme;
       }
     }
-    return "light";
+    return "system";
   });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = () => {
+      if (theme === "system") {
+        updateDocumentClass(getSystemTheme());
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("theme", theme);
+      const effectiveTheme = theme === "system" ? getSystemTheme() : theme;
+      updateDocumentClass(effectiveTheme);
     }
-    updateDocumentClass(theme);
   }, [theme]);
 
   const toggleTheme = () =>
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => {
+      if (prevTheme === "light") return "dark";
+      if (prevTheme === "dark") return "system";
+      return "light";
+    });
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,6 +1,6 @@
 import BackButton from "@/components/common/back-button";
 import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 export default function Page() {
   return (

@@ -1,0 +1,21 @@
+{
+  "home": {
+    "title": "Hãy cho thế giới biết ý tưởng sưu tập NFT của bạn!",
+    "content": "Chúng tôi là một thị trường lớn chuyên kết nối các nghệ sĩ tuyệt vời của GenHub với người hâm mộ và những nhà sưu tập token độc đáo!"
+  },
+  "buy": {
+    "title": "Buy NFT",
+    "nocollection": "Looks like there are no listed NFTs in this collection. Check back later!",
+    "endlist": "End of listed for sale"
+  },
+  "sell": {
+    "title": "Sell NFT",
+    "collection": "My Collection",
+    "nocollection": "No Collection Found",
+    "other": "Other"
+  },
+  "navbar": {},
+  "component": {
+    "backbutton": "Back"
+  }
+}

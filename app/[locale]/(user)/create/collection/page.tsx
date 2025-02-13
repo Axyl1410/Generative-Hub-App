@@ -5,16 +5,16 @@ import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
+import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
-import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 
 interface DialogContentProps {
   title: string;
@@ -170,19 +170,19 @@ export default function Page() {
         throw new Error("Failed to extract contract address");
       }
       await waitForContractDeployment(contractAddress);
-      
+
       await axios.post("/api/user/add-address", {
         username: account?.address,
         address: contractAddress,
       });
-      
+
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
-      console.log("Contract deployed at:", contractAddress);
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
+      // toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -261,7 +261,7 @@ export default function Page() {
                     name="contract"
                     id="contract"
                     placeholder="My collection name"
-                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
                     value={name}
                     onChange={handleNameChange}
@@ -297,7 +297,7 @@ export default function Page() {
                     name="mcn"
                     id="mcn"
                     placeholder="MCN"
-                    className="w-full rounded-md bg-background p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     value={symbol}
                     readOnly
                   />
@@ -341,7 +341,7 @@ export default function Page() {
                   name="description"
                   id="description"
                   rows={3}
-                  className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                  className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                   placeholder="Write a few description about."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}

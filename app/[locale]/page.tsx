@@ -1,18 +1,19 @@
 import { WorldMap } from "@/components/ui/world-map";
+import { useTranslations } from "next-intl";
 import { Suspense } from "react";
-import Loading from "@/components/common/loading";
+import Loading from "../loading";
 
 export default function Page() {
+  const t = useTranslations("home");
+
   return (
-    <div className="w-full bg-background py-10 dark:bg-background-dark">
+    <div className="bg-background-light w-full py-10 dark:bg-background-dark">
       <div className="mx-auto max-w-7xl text-center">
         <p className="text-xl font-bold text-black dark:text-white md:text-4xl">
-          Tell the World About Your Collection Idea for{" "}
-          <span className="text-neutral-400">NFTs!</span>
+          {t("title")}
         </p>
         <p className="mx-auto max-w-2xl py-4 text-sm text-neutral-500 md:text-lg">
-          We are a huge marketplace dedicated to connecting great artists of all
-          Giglink with their fans and unique token collectors!
+          {t("content")}
         </p>
       </div>
       <Suspense fallback={<Loading />}>

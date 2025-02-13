@@ -8,13 +8,12 @@ import LoadingScreen from "@/components/common/loading-screen";
 import DropdownCard from "@/components/ui/dropdown-card";
 import { FileUpload } from "@/components/ui/file-upload";
 import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link, useRouter } from "@/i18n/routing";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
@@ -40,7 +39,7 @@ export default function Page() {
   const handleFileUpload = (files: File | null) => setFiles(files);
 
   const { data, loading } = useAutoFetch<User>(
-    `api/user/get-user?username=${account?.address}`
+    `/api/user/get-user?username=${account?.address}`
   );
 
   if (!account || loading) return <LoadingScreen />;
@@ -184,7 +183,7 @@ export default function Page() {
                     name="name"
                     id="name"
                     placeholder="Name your NFT"
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -204,7 +203,7 @@ export default function Page() {
                     name="description"
                     id="description"
                     rows={3}
-                    className="w-full rounded-md bg-background px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                    className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />

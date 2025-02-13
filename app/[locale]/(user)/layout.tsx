@@ -4,7 +4,7 @@ import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ConnectButton from "@/components/thirdweb/connect-button";
 import Dialog from "@/components/ui/dialog";
 import useToggle from "@/hooks/use-state-toggle";
-import { redirect } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import React, { memo, useEffect } from "react";
 import { useActiveAccount } from "thirdweb/react";
 
@@ -29,6 +29,7 @@ const WalletDialog = memo(() => (
 WalletDialog.displayName = "WalletDialog";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const account = useActiveAccount();
   const dialog = useToggle();
 
@@ -38,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [account, dialog]);
 
   const handleClose = () => {
-    if (!account) redirect("/");
+    if (!account) router.push("/");
     else dialog.close();
   };
 

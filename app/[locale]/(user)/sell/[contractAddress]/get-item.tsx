@@ -80,7 +80,13 @@ export function GetItem({ address }: { address: string }) {
                 </motion.div>
               ))
             ) : (
-              <EmptyText text="Looks like you don't own any NFTs in this collection. Head to the buy page to buy some!" link="/create/mint" textLink="Mint now"/>
+              <>
+                <EmptyText
+                  text="Looks like you don't own any NFTs in this collection. Head to the buy page to buy some!"
+                  link="/create/mint"
+                  textLink="Mint now"
+                />
+              </>
             )}
           </motion.div>
         ) : (

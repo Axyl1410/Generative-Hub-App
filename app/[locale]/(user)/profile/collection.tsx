@@ -4,7 +4,7 @@ import Loading from "@/app/loading";
 import DropdownCard from "@/components/ui/dropdown-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { User } from "@/types";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useActiveAccount } from "thirdweb/react";
 
 const CollectedPage = () => {
@@ -54,7 +54,7 @@ const CollectedPage = () => {
             {data.address.map((address: string) => (
               <div
                 key={address}
-                className="group relative  border-r border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-1"
+                className="group relative border-r border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-1"
               >
                 <Link
                   href={`/sell/${address}`}
