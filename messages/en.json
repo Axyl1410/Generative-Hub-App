@@ -14,8 +14,20 @@
     "nocollection": "No Collection Found",
     "other": "Other"
   },
-  "navbar": {},
+  "navbar": {
+    "home": "Home",
+    "buy": "Buy NFTs",
+    "sell": "Sell NFTs",
+    "create": "Create",
+    "profile": "Profile"
+  },
   "component": {
-    "backbutton": "Back"
+    "backbutton": "Back",
+    "disconnect": "Disconnect",
+    "themeSwitcher": {
+      "go": "Go",
+      "light": "light",
+      "dark": "dark"
+    }
   }
 }
