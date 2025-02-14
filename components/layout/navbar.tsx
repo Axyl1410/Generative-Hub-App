@@ -48,19 +48,19 @@ const Navbar = () => {
                 Hub App
               </span>
             </Link>
-            <div className="hidden gap-6 md:flex">
+            <div className="hidden gap-6 md:flex ml-6">
               {menuItems.map((item, index) => (
                 <Link
-                  key={index}
-                  href={item.href}
-                  className={`text-base transition-colors hover:text-sky-500 ${
-                    pathname === item.href
-                      ? "font-semibold text-sky-500 underline decoration-solid"
-                      : ""
-                  }`}
-                >
-                  {item.title}
-                </Link>
+                key={index}
+                href={item.href}
+                className={`text-base transition-colors hover:text-sky-600 ${
+                  pathname.includes(item.href)
+                    ? "font-semibold "
+                    : ""
+                }`}
+              >
+                {item.title}
+              </Link>
               ))}
             </div>
           </section>
