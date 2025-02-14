@@ -45,6 +45,8 @@ export default async function Page({
     nftPromise,
   ]);
 
+  if (!nft.tokenURI) notFound();
+
   if (nft.owner === null) {
     nft.owner = "0x";
   }
