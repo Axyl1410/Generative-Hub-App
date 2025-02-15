@@ -4,6 +4,7 @@ import walletLogoutAPI from "@/app/api/my-sql/walletLogoutAPI";
 import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/types";
 import { Unplug } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
 import { useActiveWallet, useDisconnect } from "thirdweb/react";
@@ -16,7 +17,7 @@ const DisconnectButton: React.FC<ThirdwebButtonProps> = ({
   const { disconnect } = useDisconnect();
   const account = useActiveWallet();
   const wallet = useActiveWallet();
-
+const t = useTranslations("component");
   const handleDisconnect = async () => {
     if (account) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -41,7 +42,7 @@ const DisconnectButton: React.FC<ThirdwebButtonProps> = ({
           <div className="w-full p-2.5 transition-colors">
             <div className="flex items-center gap-2.5">
               <Unplug size={22} strokeWidth={1} />
-              <p>Disconnect</p>
+              <p>{t("disconnect")}</p>
             </div>
           </div>
         </div>

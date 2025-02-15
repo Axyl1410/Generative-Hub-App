@@ -9,13 +9,26 @@
     "endlist": "End of listed for sale"
   },
   "sell": {
-    "title": "Sell NFT",
-    "collection": "My Collection",
-    "nocollection": "No Collection Found",
-    "other": "Other"
+    "title": "Bán NFT",
+    "collection": "Bộ sưu tập",
+    "nocollection": "Không tìm thấy bộ sưu tập nào. Hãy tạo một bộ sưu tập mới!",
+    "other": "Khác"
   },
-  "navbar": {},
+  "navbar": {
+    "home": "Trang chủ",
+    "buy": "Mua NFTs",
+    "sell": "Bán NFTs",
+    "create": "Tạo",
+    "profile": "Hồ sơ"
+  },
   "component": {
-    "backbutton": "Back"
+    "backbutton": "Quay lại",
+    "disconnect": "Ngắt kết nối",
+    "themeSwitcher": {
+      "go": "Giao diện",
+      "light": "sáng",
+      "dark": "tối"
+    }
+  
   }
 }
