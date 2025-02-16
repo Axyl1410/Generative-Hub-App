@@ -2,9 +2,11 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-context";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 const ThemeSwitcher = () => {
   const { theme, toggleTheme } = useTheme();
+  const t = useTranslations("component.themeSwitcher"); // Sử dụng namespace cho dịch
 
   return (
     <button
@@ -18,7 +20,7 @@ const ThemeSwitcher = () => {
           <Sun strokeWidth={1} size={22} />
         )}
       </span>
-      <p> Go {theme === "light" ? "dark" : "light"}</p>
+      <p>{t("go")} {theme === "light" ? t("dark") : t("light")}</p>
     </button>
   );
 };

@@ -13,19 +13,20 @@ import { usePathname } from "next/navigation";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import { LocaleSwitcherDropdown } from "../common/locale-switcher";
 import { GradientText } from "../ui/gradient-text";
+import { useTranslations } from "next-intl";
 
 const Navbar = () => {
+  const t = useTranslations("navbar");
   const dialog = useToggle();
   const account = useActiveAccount();
   const menuItems = [
-    { title: "Buy NFT", href: "/buy" },
-    { title: "Sell NFT", href: "/sell" },
+    { title: t("buy"), href: "/buy" },
+    { title: t("sell"), href: "/sell" },
   ];
   const pathname = usePathname();
-
   return (
     <>
-      <div className="bg-background-light fixed z-50 h-[66px] w-full border-b border-border px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:border-border-dark dark:bg-background-dark dark:text-text-dark">
+      <div className="dark:border-border-dark fixed z-50 h-[66px] w-full border-b border-border bg-background-light px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark">
         <div className="!container flex w-full items-center justify-between text-nowrap">
           <section className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2.5">
@@ -47,19 +48,19 @@ const Navbar = () => {
                 Hub App
               </span>
             </Link>
-            <div className="hidden gap-6 md:flex">
+            <div className="hidden gap-6 md:flex ml-6">
               {menuItems.map((item, index) => (
                 <Link
-                  key={index}
-                  href={item.href}
-                  className={`text-base transition-colors hover:text-sky-500 ${
-                    pathname === item.href
-                      ? "font-semibold text-sky-500 underline decoration-solid"
-                      : ""
-                  }`}
-                >
-                  {item.title}
-                </Link>
+                key={index}
+                href={item.href}
+                className={`text-base transition-colors hover:text-sky-600 ${
+                  pathname.includes(item.href)
+                    ? "font-semibold "
+                    : ""
+                }`}
+              >
+                {item.title}
+              </Link>
               ))}
             </div>
           </section>
@@ -69,7 +70,7 @@ const Navbar = () => {
               <Link href="/create">
                 <button className="relative hidden items-center justify-center gap-1.5 whitespace-nowrap rounded-lg bg-gradient-to-tl from-indigo-500 to-fuchsia-500 px-3 py-2 text-sm font-medium text-white shadow-md ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500 disabled:pointer-events-none disabled:opacity-50 md:flex md:gap-2 md:rounded-md md:font-semibold">
                   <Plus size={18} strokeWidth={2} />
-                  <p>Create</p>
+                  <p>{t("create")}</p>
                 </button>
               </Link>
             )}
@@ -104,7 +105,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
+      {/* Sidebar */}
       <Dialog isOpen={dialog.isOpen} onClose={dialog.close} type="sidebar">
         <div className="flex w-full flex-col">
           {[
@@ -134,12 +135,21 @@ const Navbar = () => {
             {
               title: "Actions",
               content: (
-                <div
-                  className="flex items-center gap-3.5 pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
-                  onClick={dialog.close}
-                >
-                  <ThemeSwitcher />
-                </div>
+                <>
+                  <div
+                    className="dark:hover:bg-border-dark flex items-center gap-3.5 p-2.5 pl-6 transition-colors hover:bg-border md:hidden"
+                    onClick={dialog.close}
+                  >
+                    <LocaleSwitcherDropdown />
+                  </div>
+                  <div
+                    className="dark:hover:bg-border-dark flex items-center gap-3.5 pl-6 transition-colors hover:bg-border"
+                    onClick={dialog.close}
+                  >
+                    <ThemeSwitcher />
+                  </div>
+
+                </>
               ),
             },
             {
@@ -148,22 +158,22 @@ const Navbar = () => {
                 <>
                   <Link
                     href="/buy"
-                    className="flex items-center p-2.5 pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    className="dark:hover:bg-border-dark flex items-center p-2.5 pl-6 transition-colors hover:bg-border"
                     onClick={dialog.close}
                   >
                     <div className="flex items-center gap-2.5 text-link">
                       <ArrowRight size={22} strokeWidth={1} />
-                      <p>Buy NFT</p>
+                      <p>{t("buy")}</p>
                     </div>
                   </Link>
                   <Link
                     href="/sell"
-                    className="flex items-center p-2.5 pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    className="dark:hover:bg-border-dark flex items-center p-2.5 pl-6 transition-colors hover:bg-border"
                     onClick={dialog.close}
                   >
                     <div className="flex items-center gap-2.5 text-link">
                       <ArrowRight size={22} strokeWidth={1} />
-                      <p>Sell NFT</p>
+                      <p>{t("sell")}</p>
                     </div>
                   </Link>
                 </>
@@ -175,22 +185,22 @@ const Navbar = () => {
                 <>
                   <Link
                     href="/profile"
-                    className="flex items-center p-2.5 pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    className="dark:hover:bg-border-dark flex items-center p-2.5 pl-6 transition-colors hover:bg-border"
                     onClick={dialog.close}
                   >
                     <div className="flex items-center gap-2.5">
                       <User2Icon size={22} strokeWidth={1} />
-                      <p>Profile</p>
+                      <p>{t("profile")}</p>
                     </div>
                   </Link>
                   <Link
                     href="/create"
-                    className="flex items-center p-2.5 pl-6 transition-colors hover:bg-border dark:hover:bg-border-dark"
+                    className="dark:hover:bg-border-dark flex items-center p-2.5 pl-6 transition-colors hover:bg-border"
                     onClick={dialog.close}
                   >
                     <div className="flex items-center gap-2.5">
                       <Plus size={22} strokeWidth={1} />
-                      <p>Create</p>
+                      <p>{t("create")}</p>
                     </div>
                   </Link>
                   <div onClick={dialog.close}>
