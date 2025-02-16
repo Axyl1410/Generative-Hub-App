@@ -15,11 +15,11 @@ export const dynamic = "force-dynamic";
 export default function Page() {
   const account = useActiveAccount();
 
-  if (!account) <LoadingScreen />;
-
   const { data, loading } = useAutoFetch<User>(
     `/api/user/get-user?username=${account?.address}`
   );
+
+  if (!account) return <LoadingScreen />;
 
   if (loading)
     return (

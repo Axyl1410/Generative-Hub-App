@@ -1,10 +1,10 @@
 "use client";
 
-import Loading from "@/app/loading";
+import Loading from "@/components/common/loading";
 import DropdownCard from "@/components/ui/dropdown-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { User } from "@/types";
 import { Link } from "@/i18n/routing";
+import { User } from "@/types";
 import { useActiveAccount } from "thirdweb/react";
 
 const CollectedPage = () => {

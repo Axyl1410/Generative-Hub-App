@@ -184,7 +184,9 @@ export default function Page() {
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
-      // toast.error(`Error: ${error.message}`);
+      toast.error("Failed to create collection", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
     } finally {
       setLoading(false);
       router.push("/sell");
