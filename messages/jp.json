@@ -29,5 +29,22 @@
       "light": "光",
       "dark": "暗い"
     }
-  }
+  },
+  "collection": {
+    "title": "コレクション",
+    "edit_collection_details": "コレクションの詳細、収益、リンクを編集します。",
+    "loading": "コレクションを展開する",
+    "description_analyzing": "説明を分析中...",
+    "token_symbol_info": "トークンシンボルは、チェーン上で見えるコントラクトを識別する簡略化された方法です。たとえば、AzukiはAZUKIを、Bored Ape Yacht ClubはBAYCをそれぞれのトークンシンボルとして使用しています。トークンシンボルは、コントラクトを展開した後に変更できません。",
+    "contract_name_info": "コントラクト名は、チェーン上で見えるNFTコレクションの名前です。通常、これはプロジェクト名またはコレクション名です。コントラクト名は、コントラクトを展開した後に変更できません。",
+    "logo_info": "ロゴは、アイテムの表現であり、コレクション名の隣に表示されます。コントラクトを展開した後でもロゴを変更できます。",
+    "image_required": "画像が必要です。",
+    "name_required": "名前が必要です。",
+    "drop_page_message": "公開するまでのドロップページまたはアイテム。",
+    "another_message": "ここにもう1つの英文があります。",
+    "drop_page_items": "公開するまでのドロップページまたはアイテム。",
+    "deployed_contract": "ブロックチェーンにコントラクトを展開したこと。",
+    "your_community": "あなたのコミュニティ：",
+    "can_view": "閲覧可能",
+    "can_edit": "編集可能"}
 }

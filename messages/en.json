@@ -33,7 +33,7 @@
   "collection": {
     "title": "Collection",
     "edit_collection_details": "Edit collection details, earnings, and links.",
-    "loading": "🚀 Deploy collection",
+    "loading": "Deploy collection",
     "description_analyzing": "Description Analyzing...",
     "token_symbol_info": "The token symbol is the shorthand way to identify your contract, which is visible on chain. For example, Azuki uses AZUKI and Bored Ape Yacht Club uses BAYC as their respective token symbols. Token symbols cannot be changed after your contract is deployed.",
     "contract_name_info": "The contract name is the name of your NFT collection, which is visible on chain. This is usually your project or collection name. Contract names cannot be changed after your contract is deployed.",
