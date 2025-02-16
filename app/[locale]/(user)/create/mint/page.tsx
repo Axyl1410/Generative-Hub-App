@@ -13,7 +13,7 @@ import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
@@ -22,6 +22,11 @@ import { TransactionButton, useActiveAccount } from "thirdweb/react";
 interface OptionContent {
   content: React.ReactNode;
   address: string;
+}
+
+interface Attribute {
+  trait_type: string;
+  value: string;
 }
 
 export default function Page() {
@@ -35,6 +40,11 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
     null
   );
+
+  // Attribute states
+  const [traitType, setTraitType] = useState<string>("");
+  const [attributeValue, setAttributeValue] = useState<string>("");
+  const [attributesArray, setAttributesArray] = useState<Attribute[]>([]);
 
   const handleFileUpload = (files: File | null) => setFiles(files);
 
@@ -59,6 +69,24 @@ export default function Page() {
       address: address,
     })) || [];
 
+  const handleAddAttribute = () => {
+    if (traitType.trim() && attributeValue.trim()) {
+      // Check if traitType and attributeValue are not empty after trimming whitespace
+      setAttributesArray([
+        ...attributesArray,
+        { trait_type: traitType, value: attributeValue },
+      ]);
+      setTraitType("");
+      setAttributeValue("");
+    } else toast.error("Trait Type and Value cannot be empty");
+  };
+
+  const handleRemoveAttribute = (indexToRemove: number) => {
+    setAttributesArray(
+      attributesArray.filter((_, index) => index !== indexToRemove)
+    );
+  };
+
   return (
     <div className="my-10 flex w-full justify-center">
       <div className="flex w-full flex-col">
@@ -82,17 +110,7 @@ export default function Page() {
           </div>
 
           <div className="flex-1">
-            <form
-              className="flex flex-col gap-8"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setName("");
-                setDescription("");
-                setFiles(null);
-                setSelectedOption(null);
-                setSelectAddress(null);
-              }}
-            >
+            <form className="flex flex-col gap-8">
               <div>
                 <label
                   htmlFor="collection"
@@ -210,6 +228,79 @@ export default function Page() {
                 </div>
                 <p className="mt-3 text-sm/6">Write a few description about.</p>
               </div>
+
+              {/* Attributes Input Fields */}
+              <div>
+                <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
+                  Attributes <span className="text-gray-600">(Optional)</span>
+                </label>
+                <div className="mt-2 flex gap-2">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      placeholder="Trait Type"
+                      className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                      value={traitType}
+                      onChange={(e) => setTraitType(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      placeholder="Value"
+                      className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
+                      value={attributeValue}
+                      onChange={(e) => setAttributeValue(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                    onClick={handleAddAttribute}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              {/* Display Attributes Array */}
+              {attributesArray.length > 0 && (
+                <div>
+                  <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
+                    Added Attributes
+                  </label>
+                  <ul className="mt-2 space-y-2">
+                    <AnimatePresence>
+                      {attributesArray.map((attribute, index) => (
+                        <motion.li
+                          key={index}
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="flex items-center justify-between rounded-md bg-gray-100 px-3 py-1.5 dark:bg-neutral-800"
+                        >
+                          <div>
+                            <span className="font-semibold dark:text-white">
+                              {attribute.trait_type}:
+                            </span>{" "}
+                            <span className="text-gray-700 dark:text-gray-300">
+                              {attribute.value}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            className="rounded-full p-1 hover:bg-gray-200 dark:hover:bg-neutral-700"
+                            onClick={() => handleRemoveAttribute(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </motion.li>
+                      ))}
+                    </AnimatePresence>
+                  </ul>
+                </div>
+              )}
+
               <div className={"h-[45px]"}>
                 <AnimatePresence>
                   {name && selectedOption && files && description && (
@@ -222,11 +313,17 @@ export default function Page() {
                         className={"!w-full"}
                         transaction={() => {
                           toast.info("Minting NFT...");
+
                           const metadata = {
                             name,
                             description,
                             image: files,
+                            attributes:
+                              attributesArray.length > 0
+                                ? attributesArray
+                                : undefined, // Include attributes if array is not empty
                           };
+
                           return mintTo({
                             contract: handleContract(
                               selectAddress as string
