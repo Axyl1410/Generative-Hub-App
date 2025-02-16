@@ -4,9 +4,9 @@
     "content": "Chúng tôi là một thị trường lớn chuyên kết nối các nghệ sĩ tuyệt vời của GenHub với người hâm mộ và những nhà sưu tập token độc đáo!"
   },
   "buy": {
-    "title": "Buy NFT",
-    "nocollection": "Looks like there are no listed NFTs in this collection. Check back later!",
-    "endlist": "End of listed for sale"
+    "title": "Mua NFT",
+    "nocollection": "Có vẻ như không có NFT nào được liệt kê trong bộ sưu tập này. Hãy quay lại sau.!",
+    "endlist": "Kết thúc niêm yết để bán"
   },
   "sell": {
     "title": "Bán NFT",
