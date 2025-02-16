@@ -20,7 +20,7 @@ export default function Page() {
           </Link>
           <a
             href="https://github.com/Axyl1410/"
-            className="text-sm font-semibold text-gray-900 dark:text-background"
+            className="text-sm font-semibold text-gray-900 dark:text-background-light"
             target="_blank"
           >
             Contact support <span aria-hidden="true">→</span>

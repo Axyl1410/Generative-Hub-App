@@ -15,21 +15,12 @@ type Props = {
   address: string;
 };
 
-export default function NFTGrid({
-  nftData,
-  overrideOnclickBehavior,
-  address,
-}: Props) {
+export default function NFTGrid({ nftData, address }: Props) {
   if (nftData && nftData.length > 0) {
     return (
       <>
         {nftData.map((nft) => (
-          <NFT
-            key={nft.tokenId}
-            {...nft}
-            address={address}
-            overrideOnclickBehavior={overrideOnclickBehavior}
-          />
+          <NFT key={nft.tokenId} {...nft} address={address} />
         ))}
       </>
     );

@@ -1,0 +1,33 @@
+{
+  "home": {
+    "title": "NFTのコレクションアイデアについて世界に伝えよう！",
+    "content": "私たちは、すべてのGenHubの素晴らしいアーティストと彼らのファン、ユニークなトークンコレクターをつなぐことに特化した巨大なマーケットプレイスです！"
+  },
+  "buy": {
+    "title": " 購入 NFT",
+    "nocollection": "このコレクションにはリストされたNFTがないようです。後で再度確認してください!",
+    "endlist": "販売終了"
+  },
+  "sell": {
+    "title": "NFTを販売する",
+    "collection": "私のコレクション",
+    "nocollection": "コレクションが見つかりませんでした。",
+    "other": "他の"
+  },
+  "navbar": {
+    "home": "ホーム",
+    "buy": "NFTを購入する",
+    "sell": "NFTを販売する",
+    "create": "作成する",
+    "profile": "プロフィール"
+  },
+  "component": {
+    "backbutton": "戻る",
+    "disconnect": "切断する",
+    "themeSwitcher": {
+      "go": "行こう",
+      "light": "光",
+      "dark": "暗い"
+    }
+  }
+}

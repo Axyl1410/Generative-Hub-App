@@ -4,9 +4,9 @@
     "content": "Chúng tôi là một thị trường lớn chuyên kết nối các nghệ sĩ tuyệt vời của GenHub với người hâm mộ và những nhà sưu tập token độc đáo!"
   },
   "buy": {
-    "title": "Buy NFT",
-    "nocollection": "Looks like there are no listed NFTs in this collection. Check back later!",
-    "endlist": "End of listed for sale"
+    "title": "Mua NFT",
+    "nocollection": "Có vẻ như không có NFT nào được liệt kê trong bộ sưu tập này. Hãy quay lại sau.!",
+    "endlist": "Kết thúc niêm yết để bán"
   },
   "sell": {
     "title": "Bán NFT",
@@ -30,5 +30,23 @@
       "dark": "tối"
     }
   
+  },
+  "collection": {
+    "title": "Bộ sưu tập",
+    "edit_collection_details": "Chỉnh sửa chi tiết bộ sưu tập, thu nhập và liên kết.",
+    "loading": "🚀 Triển khai bộ sưu tập",
+    "description_analyzing": "Phân tích mô tả...",
+    "token_symbol_info": "Ký hiệu token là cách viết tắt để xác định hợp đồng của bạn, hiển thị trên chuỗi. Ví dụ, Azuki sử dụng AZUKI và Bored Ape Yacht Club sử dụng BAYC là hai ký hiệu token tương ứng. Ký hiệu token không thể thay đổi sau khi triển khai hợp đồng của bạn.",
+    "contract_name_info": "Tên hợp đồng là tên của bộ sưu tập NFT của bạn, hiển thị trên chuỗi. Đây thường là tên dự án hoặc bộ sưu tập của bạn. Tên hợp đồng không thể thay đổi sau khi triển khai hợp đồng của bạn.",
+    "logo_info": "Logo của bạn nên là biểu tượng của các mặt hàng của bạn và sẽ xuất hiện bên cạnh tên bộ sưu tập của bạn. Bạn có thể thay đổi logo của mình ngay cả sau khi triển khai hợp đồng.",
+    "image_required": "Hình ảnh là bắt buộc.",
+    "name_required": "Tên là bắt buộc.",
+    "drop_page_message": "Trang drop hoặc các mặt hàng của bạn cho đến khi bạn xuất bản chúng.",
+    "another_message": "Một câu tiếng Anh khác ở đây.",
+    "drop_page_items": "Trang drop hoặc các mặt hàng của bạn cho đến khi bạn xuất bản chúng.",
+    "deployed_contract": "Rằng bạn đã triển khai một hợp đồng lên chuỗi.",
+    "your_community": "Cộng đồng của bạn:",
+    "can_view": "Có thể xem",
+    "can_edit": "Có thể chỉnh sửa"
   }
 }

@@ -7,6 +7,7 @@ import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
 import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
+import { useRouter } from "@/i18n/routing";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
@@ -31,6 +32,7 @@ function useLazyLoading() {
 export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
+  const router = useRouter();
 
   // State hooks
   const [description, setDescription] = useState<string>("");
@@ -182,11 +184,14 @@ export default function Page() {
       toast.success("Collection created successfully");
     } catch (error) {
       console.error(error);
-      // toast.error(`Error: ${error.message}`);
+      toast.error("Failed to create collection", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      });
     } finally {
       setLoading(false);
+      router.push("/sell");
     }
-  }, [account, name, description, symbol, files]);
+  }, [account, name, description, symbol, files, router]);
 
   const handleContinue = useCallback(() => {
     if (!name) {

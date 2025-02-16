@@ -14,7 +14,7 @@ import {
 import { Blobbie, MediaRenderer } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const revalidate = 0;
 
 export default async function Page({
   params,
@@ -44,6 +44,8 @@ export default async function Page({
     auctionsPromise,
     nftPromise,
   ]);
+
+  if (!nft.tokenURI) notFound();
 
   if (nft.owner === null) {
     nft.owner = "0x";

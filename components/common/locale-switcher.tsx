@@ -17,6 +17,7 @@ import { useTransition } from "react";
 const locales = [
   { value: "en", label: "English" },
   { value: "vi", label: "Tiếng Việt" },
+  { value: "jp", label: "日本語" },
 ];
 
 export function LocaleSwitcherDropdown() {
