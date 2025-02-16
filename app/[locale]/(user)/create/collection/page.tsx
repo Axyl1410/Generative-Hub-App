@@ -13,7 +13,7 @@ import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React, { use, useCallback, useState } from "react";
+import React, {  useCallback, useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
