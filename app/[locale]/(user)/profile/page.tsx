@@ -12,7 +12,7 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { Link } from "@/i18n/routing";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
@@ -94,7 +94,11 @@ const ProfilePage: React.FC = () => {
   const renderContent = () => {
     switch (activeMenu) {
       case "Collected":
-        return <CollectedPage />;
+        return (
+          <Suspense fallback={<LoadingContrent />}>
+            <CollectedPage />
+          </Suspense>
+        );
       case "Offers made":
         return <p>Displaying Offers made...</p>;
       case "Deals":
@@ -248,9 +252,13 @@ const ProfilePage: React.FC = () => {
       </div>
       <hr className="mt-6" />
       {/* Items Section */}
-      <div className="mt-10 text-center">{renderContent()}</div>
+      <div className="my-10 text-center">{renderContent()}</div>
     </div>
   );
+};
+
+const LoadingContrent = () => {
+  return <div className="h-[152px] w-full animate-pulse bg-neutral-600" />;
 };
 
 export default ProfilePage;
