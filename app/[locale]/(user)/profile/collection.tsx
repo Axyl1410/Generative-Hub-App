@@ -52,15 +52,16 @@ const CollectedPage = () => {
         {data?.address && data.address.length > 0 ? (
           <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {data.address.map((address: string) => (
-              <div key={address} className="border-r border-gray-300">
-                <div className="group relative transition-all duration-300 ease-in-out hover:-translate-y-1">
-                  <Link
-                    href={`/sell/${address}`}
-                    className="block overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 ease-in-out group-hover:border-blue-500 group-hover:shadow-lg"
-                  >
-                    <DropdownCard address={address} />
-                  </Link>
-                </div>
+              <div
+                key={address}
+                className="group relative border-r border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-1"
+              >
+                <Link
+                  href={`/sell/${address}`}
+                  className="block overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 ease-in-out group-hover:border-blue-500 group-hover:shadow-lg"
+                >
+                  <DropdownCard address={address} />
+                </Link>
               </div>
             ))}
           </div>

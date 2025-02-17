@@ -56,37 +56,5 @@
     "collection_or_item_description": "Create a new NFT collection or add an NFT to an existing one. Your items will display immediately. List for sale when you're ready.",
     "learn_more": "Learn more",
     "about_each_option": "about each option."
-  },
-  "mint": {
-    "title": "Create an NFT",
-    "subtitle": "Once your item is minted you will not be able to change any of its information.",
-    "collection_label": "Collection",
-    "select_collection": "Select a collection to mint your NFT.",
-    "no_collections": "You don't have any collections. Create one first.",
-    "create_one": "Here",
-    "not_all_collections": "Not all collections are eligible.",
-    "learn_more": "Learn more",
-    "name_label": "Name",
-    "name_placeholder": "Name your NFT",
-    "description_label": "Description",
-    "description_hint": "Write a few description about.",
-    "attributes_label": "Attributes",
-    "optional": "Optional",
-    "trait_type_placeholder": "Trait Type",
-    "value_placeholder": "Value",
-    "add_button": "Add",
-    "added_attributes_label": "Added Attributes",
-    "minting_nft": "Minting NFT...",
-    "offer_sent": "Offer Sent!",
-    "offer_placed_successfully": "Offer Placed Successfully!",
-    "error_making_offer": "Error making offer: ",
-    "mint_nft_button": "Mint NFT",
-    "error_empty_trait": "Trait Type and Value cannot be empty"
-  },
-  "notFound": {
-    "pageNotFound": "Page not found",
-    "sorryMessage": "Sorry, we couldn’t find the page you’re looking for.",
-    "goBackHome": "Go back home",
-    "contactSupport": "Contact support"
   }
 }

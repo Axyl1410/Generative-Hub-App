@@ -4,17 +4,17 @@
   margin: 0 auto;
 }
 
-.fileInput {
+.file-input {
   margin: 20px 0;
 }
 
-.previewContainer {
+.preview-container {
   margin: 20px 0;
   border: 2px solid #ccc;
   padding: 15px;
 }
 
-.codeTextarea {
+.code-textarea {
   width: 100%;
   height: 300px;
   font-family: monospace;
@@ -22,7 +22,7 @@
   margin: 10px 0;
 }
 
-.runButton {
+.run-button {
   background: #28a745;
   color: white;
   border: none;
@@ -32,12 +32,12 @@
   margin: 10px 0;
 }
 
-.downloadButtons {
+.download-buttons {
   display: flex;
   gap: 10px;
 }
 
-.downloadButton {
+.download-button {
   background: #0070f3;
   color: white;
   border: none;
@@ -46,7 +46,7 @@
   border-radius: 5px;
 }
 
-.errorMessage {
+.error-message {
   color: #ff0000;
   background: #ffecec;
   padding: 10px;

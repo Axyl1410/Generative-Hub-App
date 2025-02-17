@@ -1,16 +1,13 @@
 import BackButton from "@/components/common/back-button";
 import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
 
 export default function Page() {
-  const t = useTranslations();
-
   return (
     <div className={"mt-10 flex w-full justify-center"}>
       <div className={"flex max-w-2xl flex-col gap-4 lg:px-16"}>
         <div className="flex w-full items-center justify-between">
-          <h1 className={"text-3xl font-bold"}>{t("create.title")}</h1>
+          <h1 className={"text-3xl font-bold"}>Create</h1>
           <BackButton href={"/"} className={"w-fit"} />
         </div>
 
@@ -30,9 +27,13 @@ export default function Page() {
                   <div className={"h-6 w-6"}>
                     <LayoutGrid size={24} />
                   </div>
-                  <p>{t("create.drop")}</p>
+                  <p>Drop</p>
                 </div>
-                <div>{t("create.drop_description")}</div>
+                <div>
+                  A drop is the release of a new project. This usually happens
+                  on a specified date and time. Items will be revealed after
+                  they have been purchased.
+                </div>
               </div>
               <div className={"h-6 w-6"}>
                 <ArrowRight size={24} />
@@ -54,9 +55,13 @@ export default function Page() {
                   <div className={"h-6 w-6"}>
                     <ImageIcon size={24} />
                   </div>
-                  <p>{t("create.collection_or_item")}</p>
+                  <p>Collection or item</p>
                 </div>
-                <div>{t("create.collection_or_item_description")}</div>
+                <div>
+                  Create a new NFT collection or add an NFT to an existing one.
+                  Your items will display immediately. List for sale when
+                  you&#39;re ready.
+                </div>
               </div>
               <div className={"h-6 w-6"}>
                 <ArrowRight size={24} />
@@ -65,10 +70,8 @@ export default function Page() {
           </Link>
         </div>
         <div className={"mb-5"}>
-          <span className={"cursor-not-allowed text-link"}>
-            {t("create.learn_more")}
-          </span>
-          {t("create.about_each_option")}
+          <span className={"cursor-not-allowed text-link"}>Learn more </span>
+          about each option.
         </div>
       </div>
     </div>
