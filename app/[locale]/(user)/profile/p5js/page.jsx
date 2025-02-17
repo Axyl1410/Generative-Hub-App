@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "@/styles/p5-art-creator.module.scss";
 import { useRef, useState } from "react";
 import styles from "@/styles/p5-art-creator.module.scss";
 
