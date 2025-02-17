@@ -14,11 +14,11 @@ import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
-import { useTranslations } from "next-intl";
 
 interface OptionContent {
   content: React.ReactNode;
@@ -109,7 +109,12 @@ export default function Page() {
           </div>
 
           <div className="flex-1">
-            <form className="flex flex-col gap-8">
+            <form
+              className="flex flex-col gap-8"
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div>
                 <label
                   htmlFor="collection"

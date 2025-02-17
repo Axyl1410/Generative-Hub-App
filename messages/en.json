@@ -82,5 +82,11 @@
     "error_making_offer": "Error making offer: ",
     "mint_nft_button": "Mint NFT",
     "error_empty_trait": "Trait Type and Value cannot be empty"
+  },
+  "notFound": {
+    "pageNotFound": "Page not found",
+    "sorryMessage": "Sorry, we couldn’t find the page you’re looking for.",
+    "goBackHome": "Go back home",
+    "contactSupport": "Contact support"
   }
 }

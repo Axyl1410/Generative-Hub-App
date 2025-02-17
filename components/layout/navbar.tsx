@@ -9,11 +9,11 @@ import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import { LocaleSwitcherDropdown } from "../common/locale-switcher";
 import { GradientText } from "../ui/gradient-text";
-import { useTranslations } from "next-intl";
 
 const Navbar = () => {
   const t = useTranslations("navbar");
@@ -28,7 +28,7 @@ const Navbar = () => {
     <>
       <div className="dark:border-border-dark fixed z-50 h-[66px] w-full border-b border-border bg-background-light px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark">
         <div className="!container flex w-full items-center justify-between text-nowrap">
-          <section className="flex items-center gap-6">
+          <section className="flex items-center gap-2 lg:gap-6">
             <Link href="/" className="flex items-center gap-2.5">
               <SkeletonImage
                 src="/logo.png"
@@ -48,19 +48,17 @@ const Navbar = () => {
                 Hub App
               </span>
             </Link>
-            <div className="hidden gap-6 md:flex ml-6">
+            <div className="ml-2 hidden gap-2 md:flex lg:ml-6 lg:gap-6">
               {menuItems.map((item, index) => (
                 <Link
-                key={index}
-                href={item.href}
-                className={`text-base transition-colors hover:text-sky-600 ${
-                  pathname.includes(item.href)
-                    ? "font-semibold "
-                    : ""
-                }`}
-              >
-                {item.title}
-              </Link>
+                  key={index}
+                  href={item.href}
+                  className={`text-sm transition-colors hover:text-sky-600 lg:text-base ${
+                    pathname.includes(item.href) ? "font-semibold" : ""
+                  }`}
+                >
+                  {item.title}
+                </Link>
               ))}
             </div>
           </section>
@@ -148,7 +146,6 @@ const Navbar = () => {
                   >
                     <ThemeSwitcher />
                   </div>
-
                 </>
               ),
             },

@@ -82,5 +82,11 @@
     "error_making_offer": "オファーの作成中にエラーが発生しました: ",
     "mint_nft_button": "NFTをミント",
     "error_empty_trait": "特性タイプと値は空にできません"
+  },
+  "notFound": {
+    "pageNotFound": "ページが見つかりません",
+    "sorryMessage": "申し訳ありませんが、お探しのページが見つかりませんでした。",
+    "goBackHome": "ホームに戻る",
+    "contactSupport": "サポートに連絡する"
   }
 }
