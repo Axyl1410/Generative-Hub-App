@@ -105,7 +105,7 @@ export function GetItem({ address }: { address: string }) {
               <MediaRenderer
                 client={client}
                 src={selectedNft.metadata.image}
-                className="!h-auto !w-full rounded-lg bg-white/[.04]"
+                className="rounded-lg bg-white/[.04]"
               />
             </motion.div>
 
