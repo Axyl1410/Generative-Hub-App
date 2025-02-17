@@ -1,7 +1,7 @@
 "use client";
 
+import styles from "@/styles/p5-art-creator.module.scss";
 import { useRef, useState } from "react";
-import "@/styles/p5-art-creator.scss";
 
 const P5ArtCreator = () => {
   const [code, setCode] = useState("");
@@ -96,59 +96,59 @@ const P5ArtCreator = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <h1>P5.js Art Creator</h1>
 
-      <div className="upload-section">
+      <div className={styles.uploadSection}>
         <input
           type="file"
           accept=".js"
           onChange={handleFileUpload}
-          className="file-input"
+          className={styles.fileInput}
         />
       </div>
 
-      <div className="preview-container">
+      <div className={styles.previewContainer}>
         <h2>Preview</h2>
         {error && (
-          <div className="error-message">
+          <div className={styles.errorMessage}>
             <h3>Error: </h3>
             <pre>{error}</pre>
           </div>
         )}
-        <div ref={previewRef} className="preview-canvas"></div>
+        <div ref={previewRef} className={styles.previewCanvas}></div>
       </div>
 
-      <div className="code-editor">
+      <div className={styles.codeEditor}>
         <h2>Source code</h2>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="code-textarea"
+          className={styles.codeTextarea}
           placeholder="Enter your p5.js code here..."
         />
       </div>
 
-      <button onClick={runCode} className="run-button">
+      <button onClick={runCode} className={styles.runButton}>
         Run code
       </button>
 
-      <div className="download-buttons">
+      <div className={styles.downloadButtons}>
         <button
           onClick={() => handleDownload("png")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download PNG
         </button>
         <button
           onClick={() => handleDownload("jpg")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download JPG
         </button>
         <button
           onClick={() => handleDownload("gif")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download GIF
         </button>
