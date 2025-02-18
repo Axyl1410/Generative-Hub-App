@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-
+import "@/styles/p5-art-creator.scss";
 const P5ArtCreator = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState(null);
@@ -95,7 +95,7 @@ const P5ArtCreator = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-page text-base">
       <h1>P5.js Art Creator</h1>
 
       <div className="upload-section">
@@ -123,7 +123,7 @@ const P5ArtCreator = () => {
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="code-textarea"
+          className="code-textarea dark:text-black"
           placeholder="Enter your p5.js code here..."
         />
       </div>
