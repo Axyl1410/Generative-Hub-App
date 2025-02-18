@@ -50,9 +50,13 @@ export default function BuyListingButton({
           address: contractAddress,
           token: tokenId,
         }),
-      ]);
-
-      toast("Collection created successfully");
+      ])
+        .then(() => toast("Collection created successfully"))
+        .catch((error) =>
+          toast.error("Failed to create collection", {
+            description: error instanceof Error ? error.message : undefined,
+          })
+        );
     } catch (error) {
       toast.error("Failed to create collection", {
         description: error instanceof Error ? error.message : undefined,

@@ -88,6 +88,7 @@ export default function SaleInfo({ nft, address }: Props) {
             className={"input-styles"}
             type="number"
             step={0.000001}
+            min="0"
             value={directListingState.price}
             onChange={(e) => setDirectListingState({ price: e.target.value })}
           />
