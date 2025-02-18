@@ -3,6 +3,7 @@
 import BackButton from "@/components/common/back-button";
 import LoadingScreen from "@/components/common/loading-screen";
 import MenuSection from "@/components/ui/menu-section";
+import { Link } from "@/i18n/routing";
 import "@/styles/profile.module.scss";
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { Link } from "@/i18n/routing";
 import React, { Suspense, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";

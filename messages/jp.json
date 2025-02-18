@@ -56,5 +56,31 @@
     "collection_or_item_description": "新しいNFTコレクションを作成するか、既存のコレクションにNFTを追加します。アイテムはすぐに表示されます。準備ができたら販売リストに追加します。",
     "learn_more": "もっと詳しく",
     "about_each_option": "各オプションについて。"
+  },
+  "mint": {
+    "title": "NFTを作成する",
+    "subtitle": "アイテムがミントされた後は、その情報を変更することはできません。",
+    "collection_label": "コレクション",
+    "select_collection": "NFTをミントするコレクションを選択してください。",
+    "no_collections": "コレクションがありません。まず1つ作成してください。",
+    "create_one": "ここ",
+    "not_all_collections": "すべてのコレクションが対象ではありません。",
+    "learn_more": "もっと詳しく",
+    "name_label": "名前",
+    "name_placeholder": "NFTに名前を付ける",
+    "description_label": "説明",
+    "description_hint": "についての説明をいくつか書いてください。",
+    "attributes_label": "属性",
+    "optional": "オプション",
+    "trait_type_placeholder": "特性タイプ",
+    "value_placeholder": "値",
+    "add_button": "追加",
+    "added_attributes_label": "追加された属性",
+    "minting_nft": "NFTをミント中...",
+    "offer_sent": "オファーが送信されました！",
+    "offer_placed_successfully": "オファーが正常に配置されました！",
+    "error_making_offer": "オファーの作成中にエラーが発生しました: ",
+    "mint_nft_button": "NFTをミント",
+    "error_empty_trait": "特性タイプと値は空にできません"
   }
 }
