@@ -4,9 +4,9 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link } from "@/i18n/routing";
 import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
 import { cn } from "@/lib/utils";
-import { Link } from "@/i18n/routing";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -14,10 +14,14 @@ export const dynamic = "force-dynamic";
 
 export default function Buy() {
   const { data, error, loading } = useAutoFetch<string[]>(
-    `/api/collection/get-collection`
+    `/api/collection/get-collection`,
+    60000,
+    "collection"
   );
   const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
   const [loadingCollections, setLoadingCollections] = useState(true);
+
+  console.log(data);
 
   useEffect(() => {
     const fetchCollectionsWithNFTs = async () => {
