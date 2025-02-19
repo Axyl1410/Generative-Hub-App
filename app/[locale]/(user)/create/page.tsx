@@ -1,8 +1,20 @@
 import BackButton from "@/components/common/back-button";
 import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+
+type Translations = {
+  Drop: string;
+  A_drop: string;
+  Collection_or_item: string;
+  create: string;
+  ready: string;
+  Learn_more: string;
+  about_each: string;
+};
 
 export default function Page() {
+  const t = useTranslations("create");
   return (
     <div className={"mt-10 flex w-full justify-center"}>
       <div className={"flex max-w-2xl flex-col gap-4 lg:px-16"}>
@@ -27,13 +39,9 @@ export default function Page() {
                   <div className={"h-6 w-6"}>
                     <LayoutGrid size={24} />
                   </div>
-                  <p>Drop</p>
+                  <p>{t("Drop")} </p>
                 </div>
-                <div>
-                  A drop is the release of a new project. This usually happens
-                  on a specified date and time. Items will be revealed after
-                  they have been purchased.
-                </div>
+                <div>{t("A_drop")}</div>
               </div>
               <div className={"h-6 w-6"}>
                 <ArrowRight size={24} />
@@ -55,12 +63,11 @@ export default function Page() {
                   <div className={"h-6 w-6"}>
                     <ImageIcon size={24} />
                   </div>
-                  <p>Collection or item</p>
+                  <p>{t("Collection_or_item")}</p>
                 </div>
                 <div>
-                  Create a new NFT collection or add an NFT to an existing one.
-                  Your items will display immediately. List for sale when
-                  you&#39;re ready.
+                  {t("create")}
+                  &#39;{t("ready")}
                 </div>
               </div>
               <div className={"h-6 w-6"}>
@@ -70,8 +77,10 @@ export default function Page() {
           </Link>
         </div>
         <div className={"mb-5"}>
-          <span className={"cursor-not-allowed text-link"}>Learn more </span>
-          about each option.
+          <span className={"cursor-not-allowed text-link"}>
+            {t("Learn_more")}{" "}
+          </span>
+          {t("about_each")}
         </div>
       </div>
     </div>

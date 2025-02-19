@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const GenerativeArtPage: NextPage = () => {
   const [artParams, setArtParams] = useState({
@@ -36,11 +37,11 @@ const GenerativeArtPage: NextPage = () => {
       setGeneratedArt(canvas.toDataURL());
     }
   };
-
+  const t = useTranslations("generative-art");
   return (
     <Container>
       <Head>
-        <title>Generate Art | NFT Art Generator</title>
+        <title>{t("Generate_Art")} </title>
         <meta
           name="description"
           content="Create unique generative art for your NFTs"
@@ -48,11 +49,11 @@ const GenerativeArtPage: NextPage = () => {
       </Head>
 
       <Main>
-        <Title>Create Your Generative Art</Title>
+        <Title>{t("Create_Your_Generative")} </Title>
 
         <ControlPanel>
           <ControlGroup>
-            <label>Complexity:</label>
+            <label>{t("Complexity")} </label>
             <input
               type="range"
               min="10"
@@ -68,7 +69,7 @@ const GenerativeArtPage: NextPage = () => {
           </ControlGroup>
 
           <ControlGroup>
-            <label>Color Scheme:</label>
+            <label>{t("Color_Scheme")} </label>
             <select
               value={artParams.colorScheme}
               onChange={(e) =>
@@ -78,20 +79,22 @@ const GenerativeArtPage: NextPage = () => {
                 })
               }
             >
-              <option value="random">Random</option>
-              <option value="monochrome">Monochrome</option>
-              <option value="complementary">Complementary</option>
+              <option value="random"> {t("Random")} </option>
+              <option value="monochrome">{t("Monochrome")} </option>
+              <option value="complementary">{t("Complementary")} </option>
             </select>
           </ControlGroup>
 
-          <GenerateButton onClick={generateArt}>Generate Art</GenerateButton>
+          <GenerateButton onClick={generateArt}>
+            {t("Generate_Art2")}{" "}
+          </GenerateButton>
         </ControlPanel>
 
         <ArtDisplay>
           {generatedArt ? (
             <ArtImage src={generatedArt} alt="Generated Art" />
           ) : (
-            <PlaceholderText>Your art will appear here</PlaceholderText>
+            <PlaceholderText>{t("Your_art_will")} </PlaceholderText>
           )}
         </ArtDisplay>
 
@@ -106,7 +109,7 @@ const GenerativeArtPage: NextPage = () => {
                 link.click();
               }}
             >
-              Download
+              {t("Download")}
             </Button>
           </ActionButtons>
         )}

@@ -12,6 +12,7 @@ import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React, { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
@@ -33,6 +34,7 @@ export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
   const router = useRouter();
+  const t = useTranslations("collection")
 
   // State hooks
   const [description, setDescription] = useState<string>("");
@@ -310,11 +312,12 @@ export default function Page() {
                 <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
                   <DialogContent
                     title="Token symbol"
-                    description="The token symbol is the shorthand way to identify your contract, which is visible on chain. For example, Azuki uses AZUKI and Bored Ape Yacht Club uses BAYC as their respective token symbols, token symbols cannot be changed after your contract is deployed."
+                    description={t("token_symbol_info")}
                     onClose={tokenInfo.close}
                   />
                 </Dialog>
               </div>
+            
             </div>
             <div className="w-full">
               <label
