@@ -30,7 +30,7 @@
     "cors": "^2.8.5",
     "datastore-core": "^10.0.2",
     "dotted-map": "^2.2.3",
-    "ethers": "^5.7.2",
+    "ethers": "^6.13.5",
     "helia": "^5.2.0",
     "jszip": "^3.10.1",
     "libp2p": "^2.5.1",

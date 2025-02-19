@@ -1,21 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ethers } from "ethers";
-
-// Định nghĩa interface cho Ethereum provider theo tiêu chuẩn EIP-1193
-interface EIP1193Provider {
-  request(args: { method: string; params?: unknown[] }): Promise<unknown>;
-  on?(event: string | symbol, listener: (...args: unknown[]) => void): void;
-  removeListener?(
-    event: string | symbol,
-    listener: (...args: unknown[]) => void
-  ): void;
-}
-
-// Mở rộng interface của Window để thêm thuộc tính ethereum
-declare global {
-  interface Window {
-    ethereum?: EIP1193Provider;
-  }
-}
 
 /**
  * Chờ cho đến khi hợp đồng được triển khai (có code khác "0x") trên blockchain.
@@ -34,8 +18,9 @@ export async function waitForContractDeployment(
     throw new Error("Ethereum provider not found");
   }
 
-  // Dùng Web3Provider thay vì BrowserProvider (tương thích với ethers@5.x)
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // Kiểm tra phiên bản của ethers và sử dụng provider tương ứng
+  const provider = new ethers.BrowserProvider(window.ethereum as any); // Ethers v6
+
   const startTime = Date.now();
 
   while (true) {
