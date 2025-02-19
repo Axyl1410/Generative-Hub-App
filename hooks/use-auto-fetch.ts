@@ -9,13 +9,16 @@ interface FetchResponse<T> {
 
 const useAutoFetch = <T>(
   url: string,
-  interval: number = 600000
+  interval: number = 600000,
+  address?: string
 ): FetchResponse<T> => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    if (!address) return;
+
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -35,7 +38,7 @@ const useAutoFetch = <T>(
     const intervalId = setInterval(fetchData, interval);
 
     return () => clearInterval(intervalId);
-  }, [url, interval]);
+  }, [url, interval, address]);
 
   return { data, error, loading };
 };

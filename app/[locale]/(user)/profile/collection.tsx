@@ -11,7 +11,9 @@ const CollectedPage = () => {
   const account = useActiveAccount();
 
   const { data, loading } = useAutoFetch<User>(
-    `api/user/get-user?username=${account?.address}`
+    `api/user/get-user?username=${account?.address}`,
+    60000,
+    account?.address
   );
 
   if (loading || !account) return <Loading />;
