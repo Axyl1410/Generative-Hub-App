@@ -75,7 +75,13 @@
     "upload_image_error": "Image is required",
     "value_placeholder": "Value",
     "trait_type_placeholder": "Attribute Type",
-    "create_one": "Create a new collection"
+    "create_one": "Create a new collection",
+  "offer_sent": "Offer sent",
+"offer_placed_successfully": "Offer placed successfully",
+"error_making_offer": "Error making offer",
+"minting_nft": "Minting NFT"
+
+
 },
   "create": {
     "A_drop": "A drop is the release of a new project. This usually happens on a specified date and time. Items will be revealed after they have been purchased.",

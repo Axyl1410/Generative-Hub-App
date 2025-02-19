@@ -74,7 +74,12 @@
     "upload_image_error": "Hình ảnh là bắt buộc",
     "value_placeholder":" Gía trị",
     "trait_type_placeholder":" Loại thuộc tính",
-    "create_one": "Tạo collection mới"
+    "create_one": "Tạo collection mới",
+    "offer_sent": "Đã gửi đề nghị",
+"offer_placed_successfully": "Đề nghị đã được đặt thành công",
+"error_making_offer": "Lỗi khi tạo đề nghị",
+"minting_nft": "Đang tạo NFT"
+
   },
   "create": {
     

@@ -74,7 +74,12 @@
     "upload_image_error": "画像は必須です",
     "value_placeholder": "値",
     "trait_type_placeholder": "属性の種類",
-    "create_one": "新しいコレクションを作成"
+    "create_one": "新しいコレクションを作成",
+    "offer_sent": "オファーが送信されました",
+"offer_placed_successfully": "オファーが正常に配置されました",
+"error_making_offer": "オファーの作成中にエラーが発生しました",
+"minting_nft": "NFTをミント中"
+
 },
   "create": {
     "A_drop": "ドロップは新しいプロジェクトのリリースです。これは通常、指定された日付と時間に行われます。アイテムは購入後に公開されます。",

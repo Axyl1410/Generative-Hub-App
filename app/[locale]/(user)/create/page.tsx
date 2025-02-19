@@ -5,15 +5,6 @@ import { Link } from "@/i18n/routing";
 import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-type Translations = {
-  Drop: string;
-  A_drop: string;
-  Collection_or_item: string;
-  create: string;
-  ready: string;
-  Learn_more: string;
-  about_each: string;
-};
 
 export default function Page() {
   const t = useTranslations("create");
