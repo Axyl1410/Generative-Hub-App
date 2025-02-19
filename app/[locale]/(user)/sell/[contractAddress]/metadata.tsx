@@ -29,37 +29,38 @@ export function Metadata({ address }: { address: string }) {
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
-    <div className="mt-4 flex w-full gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4">
-      <div className="h-32 w-32 flex-shrink-0 rounded-lg">
-        {metadata?.image ? (
-          <MediaRenderer
-            src={metadata.image}
-            client={client}
-            className="aspect-square object-cover object-center"
-            style={{ height: "100%", width: "100%" }}
-          />
-        ) : (
-          <div className="grid h-full w-full place-items-center bg-gray-200">
-            <Image src={"/default-image.jpg"} alt="" height={300} width={300} />
-          </div>
-        )}
+    <div className="mt-4 flex w-full flex-col gap-4 rounded-lg border border-gray-500/50 bg-white/[.04] p-4 sm:flex-row ">
+  <div className="h-32 w-32 flex-shrink-0 rounded-lg align-center items-center">
+    {metadata?.image ? (
+      <MediaRenderer
+        src={metadata.image}
+        client={client}
+        className="aspect-square object-cover object-center"
+        style={{ height: "100%", width: "100%" }}
+      />
+    ) : (
+      <div className="grid h-full w-full place-items-center bg-gray-200">
+        <Image src={"/default-image.jpg"} alt="" height={300} width={300} />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col justify-center py-3">
-        <p className="truncate text-lg text-black dark:text-white">
-          {metadata?.name}
-        </p>
-        <p className="text-sm font-semibold text-text dark:text-white/80">
-          Symbol: {metadata?.symbol || "N/A"}
-        </p>
-        <div className="relative mt-2 max-h-32 w-full">
-          <ReadMore
-            text={metadata?.description}
-            maxLength={50}
-            className="overflow-y-auto break-words pr-2 text-sm"
-          />
-        </div>
-      </div>
+    )}
+  </div>
+  <div className="flex min-w-0 flex-1 flex-col justify-center py-3">
+    <p className="truncate text-lg text-black dark:text-white">
+      {metadata?.name}
+    </p>
+    <p className="text-sm font-semibold text-text dark:text-white/80">
+      Symbol: {metadata?.symbol || "N/A"}
+    </p>
+    <div className="relative mt-2 max-h-32 w-full">
+      <ReadMore
+        text={metadata?.description}
+        maxLength={50}
+        className="overflow-y-auto break-words pr-2 text-sm"
+      />
     </div>
+  </div>
+</div>
+
   );
 }
 
