@@ -6,13 +6,15 @@
   "buy": {
     "title": "Buy NFT",
     "nocollection": "Looks like there are no listed NFTs in this collection. Check back later!",
-    "endlist": "End of listed for sale"
+    "endlist": "End of listed for sale",
+    "End_of_listed_for_sale": "End of listed for sale"
   },
   "sell": {
     "title": "Sell NFT",
     "collection": "My Collection",
     "nocollection": "No Collection Found",
-    "other": "Other"
+    "other": "Other",
+    "Sell_NFT": "Sell NFT"
   },
   "navbar": {
     "home": "Home",
@@ -48,6 +50,61 @@
     "can_view": "Can view",
     "can_edit": "Can edit"
   },
+<<<<<<< HEAD
+  "mint": {
+    "title": "Create an NFT",
+    "k": "Once your item is minted you will not be able to change any of its information.",
+    "Select_a_collection": "Select a collection to mint your NFT.",
+    "You_don_apost": "You don&apos;t have any collections. Create one first.",
+    "notall": "Not all collections are eligible.",
+    "Learn_more": "Learn more",
+    "Write_a_few_description": "Write a few description about.",
+    "Mint_NFT": " Mint NFT",
+    "Collection": "Collection",
+    "Write_a_few": "Write a few description about...",
+    "Attributes": "Attributes",
+    "Optional": "Optional",
+    "Added_Attributes": "Added Attributes",
+    "Add": "Add"
+  },
+  "create": {
+    "A_drop": "A drop is the release of a new project. This usually happens on a specified date and time. Items will be revealed after they have been purchased.",
+
+    "Collection_or_item": "Collection or item",
+    "create": "Create a new NFT collection or add an NFT to an existing one. Your items will display immediately. List for sale when you",
+    "ready": "are ready.",
+    "Learn_more": "Learn more",
+    "about_each": "about each option",
+    "Drop": "Drop"
+  },
+  "profile": {
+    "0_items": "0 items",
+    "0_collections": "No items found for this searcg",
+    "Back_to_all_items": "Back to all items",
+    "CollectedPage": "Collected Page",
+    "displaying_offers": "Displaying Offers made...",
+    "Displaying_Deals": "Displaying Deals...",
+    "Displaying_Created": "Displaying Created items...",
+    "Displaying_Favorite_items": "Displaying Favorite items...",
+    "Displaying_Activity": "Displaying Activity...",
+    "No_items_found_for": "No items found for this menu."
+  },
+  "use": {
+    "Connect_Wallet": "Connect Wallet",
+    "Please_connect": "Please connect your wallet to continue."
+  },
+  "generative-art": {
+    "Generate_Art": "Generate Art | NFT Art Generator",
+    "Create_Your_Generative": "Create Your Generative Art NFT",
+    "Complexity": "Complexity:",
+    "Color_Scheme": "Color Scheme:",
+    "Random": "Random",
+    "Monochrome": "Monochrome",
+    "Complementary": "Complementary",
+    "Generate_Art2": "Generate Art",
+    "Your_art_will": "Your art will appear here",
+    "Download": "Download"
+=======
   "create": {
     "title": "Create",
     "drop": "Drop",
@@ -82,5 +139,6 @@
     "error_making_offer": "Error making offer: ",
     "mint_nft_button": "Mint NFT",
     "error_empty_trait": "Trait Type and Value cannot be empty"
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   }
 }

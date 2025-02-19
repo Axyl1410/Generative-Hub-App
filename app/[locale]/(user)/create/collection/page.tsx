@@ -13,7 +13,11 @@ import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
+<<<<<<< HEAD
+import React, { useCallback, useState } from "react";
+=======
 import React, {  useCallback, useState } from "react";
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
@@ -37,7 +41,12 @@ export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
   const router = useRouter();
+<<<<<<< HEAD
+  const t = useTranslations("collection")
+
+=======
   
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   // State hooks
   const [description, setDescription] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -309,6 +318,7 @@ const t = useTranslations("collection");
                   />
                 </Dialog>
               </div>
+            
             </div>
             <div className="w-full">
               <label

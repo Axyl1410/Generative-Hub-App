@@ -5,14 +5,15 @@
   },
   "buy": {
     "title": "Mua NFT",
-    "nocollection": "Có vẻ như không có NFT nào được liệt kê trong bộ sưu tập này. Hãy quay lại sau.!",
+    "nocollection": "Có vẻ như không có NFT nào được liệt kê trong bộ sưu tập này. Hãy quay lại sau!",
     "endlist": "Kết thúc niêm yết để bán"
   },
   "sell": {
     "title": "Bán NFT",
-    "collection": "Bộ sưu tập",
-    "nocollection": "Không tìm thấy bộ sưu tập nào. Hãy tạo một bộ sưu tập mới!",
-    "other": "Khác"
+    "collection": "Bộ sưu tập của tôi",
+    "nocollection": "Không tìm thấy bộ sưu tập nào",
+    "other": "Khác",
+    "Sell_NFT": "Bán NFT"
   },
   "navbar": {
     "home": "Trang chủ",
@@ -48,6 +49,60 @@
     "can_view": "Có thể xem",
     "can_edit": "Có thể chỉnh sửa"
   },
+<<<<<<< HEAD
+  "mint": {
+    "title": "Tạo NFT",
+    "k": "Sau khi mặt hàng của bạn được tạo ra, bạn sẽ không thể thay đổi bất kỳ thông tin nào của nó.",
+    "Select_a_collection": "Chọn một bộ sưu tập để tạo NFT của bạn.",
+    "You_don_apost": "Bạn không có bộ sưu tập nào. Hãy tạo một bộ sưu tập trước.",
+    "notall": "Không phải tất cả các bộ sưu tập đều đủ điều kiện.",
+    "Learn_more": "Tìm hiểu thêm",
+    "Write_a_few_description": "Viết mô tả về mặt hàng của bạn.",
+    "Mint_NFT": "Tạo NFT",
+    "Collection": "Bộ sưu tập",
+    "Write_a_few": "Viết mô tả về...",
+    "Attributes": "Thuộc tính",
+    "Optional": "Tùy chọn",
+    "Added_Attributes": "Thuộc tính đã thêm",
+    "Add": "Thêm"
+  },
+  "create": {
+    "A_drop": "Một đợt phát hành là sự ra mắt của một dự án mới. Điều này thường xảy ra vào một ngày và giờ cụ thể. Các mặt hàng sẽ được tiết lộ sau khi chúng đã được mua.",
+    "Collection_or_item": "Bộ sưu tập hoặc mặt hàng",
+    "create": "Tạo một bộ sưu tập NFT mới hoặc thêm một NFT vào bộ sưu tập hiện có. Các mặt hàng của bạn sẽ hiển thị ngay lập tức. Niêm yết để bán khi bạn",
+    "ready": "sẵn sàng.",
+    "Learn_more": "Tìm hiểu thêm",
+    "about_each": "về từng tùy chọn",
+    "Drop": "Phát hành"
+  },
+  "profile": {
+    "0_items": "0 mặt hàng",
+    "0_collections": "Không tìm thấy mặt hàng nào cho tìm kiếm này",
+    "Back_to_all_items": "Quay lại tất cả các mặt hàng",
+    "CollectedPage": "Trang đã thu thập",
+    "displaying_offers": "Hiển thị các đề nghị đã thực hiện...",
+    "Displaying_Deals": "Hiển thị các giao dịch...",
+    "Displaying_Created": "Hiển thị các mặt hàng đã tạo...",
+    "Displaying_Favorite_items": "Hiển thị các mặt hàng yêu thích...",
+    "Displaying_Activity": "Hiển thị hoạt động...",
+    "No_items_found_for": "Không tìm thấy mặt hàng nào cho menu này."
+  },
+  "use": {
+    "Connect_Wallet": "Kết nối ví",
+    "Please_connect": "Vui lòng kết nối ví của bạn để tiếp tục."
+  },
+  "generative-art": {
+    "Generate_Art": "Tạo Nghệ Thuật | Trình Tạo Nghệ Thuật NFT",
+    "Create_Your_Generative": "Tạo Nghệ Thuật NFT Tạo Sinh của Bạn",
+    "Complexity": "Độ phức tạp:",
+    "Color_Scheme": "Bảng màu:",
+    "Random": "Ngẫu nhiên",
+    "Monochrome": "Đơn sắc",
+    "Complementary": "Bổ sung",
+    "Generate_Art2": "Tạo Nghệ Thuật",
+    "Your_art_will": "Nghệ thuật của bạn sẽ xuất hiện ở đây",
+    "Download": "Tải xuống"
+=======
   "create": {
     "title": "Tạo",
     "drop": "Drop",
@@ -82,5 +137,6 @@
     "error_making_offer": "Lỗi khi thực hiện đề nghị: ",
     "mint_nft_button": "Đúc NFT",
     "error_empty_trait": "Loại đặc điểm và Giá trị không thể để trống"
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   }
 }

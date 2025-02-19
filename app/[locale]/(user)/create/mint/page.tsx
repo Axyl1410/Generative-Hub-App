@@ -43,6 +43,7 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
     null
   );
+  const t = useTranslations("mint");
 
   // Attribute states
   const [traitType, setTraitType] = useState<string>("");
@@ -95,8 +96,13 @@ export default function Page() {
       <div className="flex w-full flex-col">
         <div className="flex flex-col-reverse justify-between gap-8 pb-10 md:flex-row">
           <div>
+<<<<<<< HEAD
+            <h1 className="text-xl font-bold sm:text-3xl">{t("title")}</h1>
+            <p className="text-md font-bold sm:text-xl">{t("k")}</p>
+=======
             <h1 className="text-xl font-bold sm:text-3xl">{t("mint.title")}</h1>
             <p className="text-md font-bold sm:text-xl">{t("mint.subtitle")}</p>
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
           </div>
           <BackButton className="h-fit" href="/create" />
         </div>
@@ -121,8 +127,12 @@ export default function Page() {
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
+<<<<<<< HEAD
+                  {t("Collection")} <span className="text-red-600"> *</span>
+=======
                   {t("mint.collection_label")}{" "}
                   <span className="text-red-600"> *</span>
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                 </label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
@@ -135,7 +145,11 @@ export default function Page() {
                       </div>
 
                       <p className="text-sm/6 font-bold">
+<<<<<<< HEAD
+                        {t("Select_a_collection")}
+=======
                         {t("mint.select_collection")}
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                       </p>
                     </>
                   )}
@@ -160,7 +174,11 @@ export default function Page() {
                         {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
                             <p>
+<<<<<<< HEAD
+                              {t("You_don_apost")}{" "}
+=======
                               {t("mint.no_collections")}{" "}
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                               <span className="text-link">
                                 <Link href={"/create/collection"}>
                                   {t("mint.create_one")}
@@ -188,9 +206,15 @@ export default function Page() {
                 </AnimatePresence>
 
                 <p className="mt-3 text-sm/6">
+<<<<<<< HEAD
+                  {t("notall")}
+                  <span className="cursor-not-allowed text-link">
+                    {t("Learn_more")}
+=======
                   {t("mint.not_all_collections")}{" "}
                   <span className="cursor-not-allowed text-link">
                     {t("mint.learn_more")}
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                   </span>
                 </p>
               </div>
@@ -234,14 +258,23 @@ export default function Page() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
+<<<<<<< HEAD
+                <p className="mt-3 text-sm/6">{t("Write_a_few")} </p>
+=======
                 <p className="mt-3 text-sm/6">{t("mint.description_hint")}</p>
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
               </div>
 
               {/* Attributes Input Fields */}
               <div>
                 <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
+<<<<<<< HEAD
+                  {t("Attributes")}{" "}
+                  <span className="text-gray-600">({t("Optional")} )</span>
+=======
                   {t("mint.attributes_label")}{" "}
                   <span className="text-gray-600">({t("mint.optional")})</span>
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                 </label>
                 <div className="mt-2 flex gap-2">
                   <div className="flex-1">
@@ -262,9 +295,19 @@ export default function Page() {
                       onChange={(e) => setAttributeValue(e.target.value)}
                     />
                   </div>
+<<<<<<< HEAD
+                  <button
+                    type="button"
+                    className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                    onClick={handleAddAttribute}
+                  >
+                    {t("Add")}
+                  </button>
+=======
                   <Button onClick={handleAddAttribute}>
                     {t("mint.add_button")}
                   </Button>
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                 </div>
               </div>
 
@@ -272,7 +315,11 @@ export default function Page() {
               {attributesArray.length > 0 && (
                 <div>
                   <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
+<<<<<<< HEAD
+                    {t("Added_Attributes")}
+=======
                     {t("mint.added_attributes_label")}
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                   </label>
                   <ul className="mt-2 space-y-2">
                     <AnimatePresence>
@@ -352,7 +399,11 @@ export default function Page() {
                           });
                         }}
                       >
+<<<<<<< HEAD
+                        {t("Mint_NFT")}
+=======
                         {t("mint.mint_nft_button")}
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
                       </TransactionButton>
                     </motion.div>
                   )}
