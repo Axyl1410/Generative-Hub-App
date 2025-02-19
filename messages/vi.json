@@ -49,6 +49,7 @@
     "can_view": "Có thể xem",
     "can_edit": "Có thể chỉnh sửa"
   },
+<<<<<<< HEAD
   "mint": {
     "title": "Tạo NFT",
     "k": "Sau khi mặt hàng của bạn được tạo ra, bạn sẽ không thể thay đổi bất kỳ thông tin nào của nó.",
@@ -101,5 +102,41 @@
     "Generate_Art2": "Tạo Nghệ Thuật",
     "Your_art_will": "Nghệ thuật của bạn sẽ xuất hiện ở đây",
     "Download": "Tải xuống"
+=======
+  "create": {
+    "title": "Tạo",
+    "drop": "Drop",
+    "drop_description": "Drop là việc phát hành một dự án mới. Điều này thường xảy ra vào một ngày và giờ cụ thể. Các mặt hàng sẽ được tiết lộ sau khi chúng đã được mua.",
+    "collection_or_item": "Bộ sưu tập hoặc mặt hàng",
+    "collection_or_item_description": "Tạo một bộ sưu tập NFT mới hoặc thêm một NFT vào bộ sưu tập hiện có. Các mặt hàng của bạn sẽ hiển thị ngay lập tức. Đăng bán khi bạn sẵn sàng.",
+    "learn_more": "Tìm hiểu thêm",
+    "about_each_option": "về từng tùy chọn."
+  },
+  "mint": {
+    "title": "Tạo một NFT",
+    "subtitle": "Khi mục của bạn được đúc, bạn sẽ không thể thay đổi bất kỳ thông tin nào của nó.",
+    "collection_label": "Bộ sưu tập",
+    "select_collection": "Chọn một bộ sưu tập để đúc NFT của bạn.",
+    "no_collections": "Bạn không có bất kỳ bộ sưu tập nào. Tạo một cái trước.",
+    "create_one": "Đây",
+    "not_all_collections": "Không phải tất cả các bộ sưu tập đều đủ điều kiện.",
+    "learn_more": "Tìm hiểu thêm",
+    "name_label": "Tên",
+    "name_placeholder": "Đặt tên cho NFT của bạn",
+    "description_label": "Mô tả",
+    "description_hint": "Viết một vài mô tả về.",
+    "attributes_label": "Thuộc tính",
+    "optional": "Tùy chọn",
+    "trait_type_placeholder": "Loại đặc điểm",
+    "value_placeholder": "Giá trị",
+    "add_button": "Thêm",
+    "added_attributes_label": "Thuộc tính đã thêm",
+    "minting_nft": "Đang đúc NFT...",
+    "offer_sent": "Đã gửi đề nghị!",
+    "offer_placed_successfully": "Đề nghị đã được đặt thành công!",
+    "error_making_offer": "Lỗi khi thực hiện đề nghị: ",
+    "mint_nft_button": "Đúc NFT",
+    "error_empty_trait": "Loại đặc điểm và Giá trị không thể để trống"
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   }
 }

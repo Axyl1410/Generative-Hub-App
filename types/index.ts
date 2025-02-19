@@ -28,3 +28,8 @@ export interface GeneratedArtwork {
   createdAt: Date;
   creator: string;
 }
+
+export type Attribute = {
+  trait_type: string;
+  value: string;
+};

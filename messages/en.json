@@ -35,7 +35,7 @@
   "collection": {
     "title": "Collection",
     "edit_collection_details": "Edit collection details, earnings, and links.",
-    "loading": "🚀 Deploy collection",
+    "loading": " 🚀 Deploy collection",
     "description_analyzing": "Description Analyzing...",
     "token_symbol_info": "The token symbol is the shorthand way to identify your contract, which is visible on chain. For example, Azuki uses AZUKI and Bored Ape Yacht Club uses BAYC as their respective token symbols. Token symbols cannot be changed after your contract is deployed.",
     "contract_name_info": "The contract name is the name of your NFT collection, which is visible on chain. This is usually your project or collection name. Contract names cannot be changed after your contract is deployed.",
@@ -50,6 +50,7 @@
     "can_view": "Can view",
     "can_edit": "Can edit"
   },
+<<<<<<< HEAD
   "mint": {
     "title": "Create an NFT",
     "k": "Once your item is minted you will not be able to change any of its information.",
@@ -103,5 +104,41 @@
     "Generate_Art2": "Generate Art",
     "Your_art_will": "Your art will appear here",
     "Download": "Download"
+=======
+  "create": {
+    "title": "Create",
+    "drop": "Drop",
+    "drop_description": "A drop is the release of a new project. This usually happens on a specified date and time. Items will be revealed after they have been purchased.",
+    "collection_or_item": "Collection or item",
+    "collection_or_item_description": "Create a new NFT collection or add an NFT to an existing one. Your items will display immediately. List for sale when you're ready.",
+    "learn_more": "Learn more",
+    "about_each_option": "about each option."
+  },
+  "mint": {
+    "title": "Create an NFT",
+    "subtitle": "Once your item is minted you will not be able to change any of its information.",
+    "collection_label": "Collection",
+    "select_collection": "Select a collection to mint your NFT.",
+    "no_collections": "You don't have any collections. Create one first.",
+    "create_one": "Here",
+    "not_all_collections": "Not all collections are eligible.",
+    "learn_more": "Learn more",
+    "name_label": "Name",
+    "name_placeholder": "Name your NFT",
+    "description_label": "Description",
+    "description_hint": "Write a few description about.",
+    "attributes_label": "Attributes",
+    "optional": "Optional",
+    "trait_type_placeholder": "Trait Type",
+    "value_placeholder": "Value",
+    "add_button": "Add",
+    "added_attributes_label": "Added Attributes",
+    "minting_nft": "Minting NFT...",
+    "offer_sent": "Offer Sent!",
+    "offer_placed_successfully": "Offer Placed Successfully!",
+    "error_making_offer": "Error making offer: ",
+    "mint_nft_button": "Mint NFT",
+    "error_empty_trait": "Trait Type and Value cannot be empty"
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   }
 }

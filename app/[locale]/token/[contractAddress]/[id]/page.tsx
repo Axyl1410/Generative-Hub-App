@@ -149,7 +149,6 @@ export default async function Page({
             auctionListing={auctionListing}
             contractAddress={contractAddress}
             tokenId={id.toString()}
-            owner={nft.owner}
           />
 
           <div className="my-4 flex w-full justify-center text-center">

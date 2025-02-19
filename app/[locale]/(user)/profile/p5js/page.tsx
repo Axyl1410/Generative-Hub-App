@@ -1,19 +1,19 @@
 "use client";
 
-import { useRef, useState } from "react";
-import "@/styles/p5-art-creator.scss";
+import { useRef, useState, ChangeEvent } from "react";
+import styles from "@/styles/p5-art-creator.module.scss";
 
-const P5ArtCreator = () => {
-  const [code, setCode] = useState("");
-  const [error, setError] = useState(null);
-  const previewRef = useRef(null);
+const P5ArtCreator: React.FC = () => {
+  const [code, setCode] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => setCode(event.target.result);
+    reader.onload = (event) => setCode(event.target?.result as string);
     reader.readAsText(file);
   };
 
@@ -41,11 +41,12 @@ const P5ArtCreator = () => {
       iframe.style.border = "none";
       previewRef.current.appendChild(iframe);
 
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const iframeDoc =
+        iframe.contentDocument || iframe.contentWindow?.document;
 
       // Write content to iframe
-      iframeDoc.open();
-      iframeDoc.write(`
+      iframeDoc?.open();
+      iframeDoc?.write(`
         <!DOCTYPE html>
         <html lang="en">
           <head>
@@ -66,10 +67,10 @@ const P5ArtCreator = () => {
           </body>
         </html>
       `);
-      iframeDoc.close();
+      iframeDoc?.close();
 
       // Error handling
-      const errorHandler = (event) => {
+      const errorHandler = (event: MessageEvent) => {
         if (event.data?.type === "p5-error") {
           setError(event.data.message);
           window.removeEventListener("message", errorHandler);
@@ -77,12 +78,12 @@ const P5ArtCreator = () => {
       };
       window.addEventListener("message", errorHandler);
     } catch (e) {
-      console.error("Lỗi khi chạy mã:", e);
-      setError("System error! Please again.");
+      console.error("Error running code:", e);
+      setError("System error! Please try again.");
     }
   };
 
-  const handleDownload = (format) => {
+  const handleDownload = (format: string) => {
     const iframe = previewRef.current?.querySelector("iframe");
     if (!iframe) return;
 
@@ -96,59 +97,59 @@ const P5ArtCreator = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <h1>P5.js Art Creator</h1>
 
-      <div className="upload-section">
+      <div className={styles.uploadSection}>
         <input
           type="file"
           accept=".js"
           onChange={handleFileUpload}
-          className="file-input"
+          className={styles.fileInput}
         />
       </div>
 
-      <div className="preview-container">
+      <div className={styles.previewContainer}>
         <h2>Preview</h2>
         {error && (
-          <div className="error-message">
+          <div className={styles.errorMessage}>
             <h3>Error: </h3>
             <pre>{error}</pre>
           </div>
         )}
-        <div ref={previewRef} className="preview-canvas"></div>
+        <div ref={previewRef} className={styles.previewCanvas}></div>
       </div>
 
-      <div className="code-editor">
+      <div className={styles.codeEditor}>
         <h2>Source code</h2>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="code-textarea"
+          className={styles.codeTextarea}
           placeholder="Enter your p5.js code here..."
         />
       </div>
 
-      <button onClick={runCode} className="run-button">
+      <button onClick={runCode} className={styles.runButton}>
         Run code
       </button>
 
-      <div className="download-buttons">
+      <div className={styles.downloadButtons}>
         <button
           onClick={() => handleDownload("png")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download PNG
         </button>
         <button
           onClick={() => handleDownload("jpg")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download JPG
         </button>
         <button
           onClick={() => handleDownload("gif")}
-          className="download-button"
+          className={styles.downloadButton}
         >
           Download GIF
         </button>

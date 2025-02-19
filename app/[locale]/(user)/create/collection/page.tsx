@@ -13,16 +13,22 @@ import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
+<<<<<<< HEAD
 import React, { useCallback, useState } from "react";
+=======
+import React, {  useCallback, useState } from "react";
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
 import { toast } from "sonner";
 import { deployERC721Contract } from "thirdweb/deploys";
 import { useActiveAccount } from "thirdweb/react";
+
 
 interface DialogContentProps {
   title: string;
   description: string;
   onClose: () => void;
 }
+
 function useLazyLoading() {
   const account = useActiveAccount();
   if (!account) {
@@ -30,20 +36,24 @@ function useLazyLoading() {
   }
   return { isLoading: false, account };
 }
+
 export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
   const router = useRouter();
+<<<<<<< HEAD
   const t = useTranslations("collection")
 
+=======
+  
+>>>>>>> 974a8f41386a7ebf66eda5648317c26586875a30
   // State hooks
   const [description, setDescription] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [files, setFiles] = useState<File | null>();
   const [loading, setLoading] = useState<boolean>(false);
-  //  const [isGenerating, setIsGenerating] = useState(false);
-
+const t = useTranslations("collection");
   // Toggle hooks
   const logoInfo = useToggle();
   const contractInfo = useToggle();
@@ -77,12 +87,10 @@ export default function Page() {
   }, []);
 
   const { generateDescription, isGenerating } = useGenerateDescription({
-    timeout: 10000, // Tăng timeout vì xử lý ảnh cần thêm thời gian
+    timeout: 10000,
   });
 
-  // Cập nhật hàm handleGenerateDescription
   const handleGenerateDescription = useCallback(async () => {
-    // Các category có sẵn
     const categories = [
       "art",
       "futuristic",
@@ -92,7 +100,6 @@ export default function Page() {
       "luxury",
     ];
 
-    // Chọn ngẫu nhiên một category
     const randomCategory =
       categories[Math.floor(Math.random() * categories.length)];
 
@@ -102,14 +109,12 @@ export default function Page() {
         return;
       }
 
-      // Gọi generateDescription với name, category và file
       const generatedDescription = await generateDescription(
         name,
         randomCategory
       );
 
       if (generatedDescription) {
-        // Xóa các markdown tags nếu có
         const cleanDescription = generatedDescription
           .replace(/\*\*/g, "")
           .replace(`${name}: `, "");
@@ -120,9 +125,7 @@ export default function Page() {
       console.error("Error generating description:", error);
       toast.error("Failed to generate description");
     }
-  }, [generateDescription, name]); // Thêm files vào dependencies
-
-  // Thêm useCallback và dependencies để tối ưu performance
+  }, [generateDescription, name]);
 
   const handle = useCallback(async () => {
     if (!account) return;
@@ -158,13 +161,12 @@ export default function Page() {
 
       let contractAddress: string | undefined = undefined;
 
-      // Kiểm tra kiểu dữ liệu trước khi truy xuất thuộc tính
       if (
         typeof unwrapped === "object" &&
         unwrapped !== null &&
         "w" in unwrapped
       ) {
-        const obj = unwrapped as { w: [string, string] }; // Ép kiểu cụ thể
+        const obj = unwrapped as { w: [string, string] };
         contractAddress = obj.w[1];
       } else if (typeof unwrapped === "string") {
         contractAddress = unwrapped;
@@ -197,17 +199,16 @@ export default function Page() {
 
   const handleContinue = useCallback(() => {
     if (!name) {
-      toast.warning("Name is required");
+      toast.warning(t("name_required"));
       return;
     }
     if (!files) {
-      toast.warning("Image is required");
+      toast.warning(t("image_required"));
       return;
     }
     handle();
-  }, [name, files, handle]);
+  }, [name, files, handle, t]);
 
-  // Loading state
   if (isLoading || !account) {
     return <LoadingScreen />;
   }
@@ -243,7 +244,7 @@ export default function Page() {
               <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
                 <DialogContent
                   title="Logo image"
-                  description="Your logo should be a representation of your items and will appear next to your collection name throughout. You can change your logo even after you deploy your contract."
+                  description={t("logo_info")}
                   onClose={logoInfo.close}
                 />
               </Dialog>
@@ -280,7 +281,7 @@ export default function Page() {
                 >
                   <DialogContent
                     title="Contract name"
-                    description="The contract name is the name of your NFT collection, which is visible on chain, this is usually your project or collection name. Contract names cannot be changed after your contract is deployed."
+                    description={t("contract_name_info")}
                     onClose={contractInfo.close}
                   />
                 </Dialog>
@@ -334,7 +335,7 @@ export default function Page() {
                   {isGenerating ? (
                     <div className="flex items-center space-x-2">
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                      <span className="text-xs">Analyzing...</span>
+                      <span className="text-xs">{t("description_analyzing")}</span>
                     </div>
                   ) : (
                     <div className="flex items-center space-x-1">
@@ -363,7 +364,7 @@ export default function Page() {
             </div>
             <div className="flex justify-end">
               <ButtonGradiant
-                text={loading ? "Loading..." : "🚀 Deploy collection"}
+                text={loading ? t("loading") : t("loading")}
                 onClick={handleContinue}
                 disabled={loading}
               />
@@ -378,22 +379,22 @@ export default function Page() {
               <Newspaper strokeWidth={1} size={20} className={"h-5 w-5"} />
               <div>
                 <p className="font-medium text-gray-700 dark:text-white">
-                  Manage collection settings
+                  {t("edit_collection_details")}
                 </p>
                 <p className={"text-gray-600 dark:text-white"}>
-                  Edit collection details, earnings, and links.
+                  {t("can_edit")}
                 </p>
               </div>
             </div>
-            <h1 className="text-md font-bold">Your community:</h1>
+            <h1 className="text-md font-bold">{t("your_community")}</h1>
             <div className="flex gap-4">
               <Eye strokeWidth={1} size={20} className={"h-5 w-5"} />
               <div>
                 <p className="font-medium text-gray-700 dark:text-white">
-                  Can view
+                  {t("can_view")}
                 </p>
                 <p className={"text-gray-600 dark:text-white"}>
-                  That you’ve deployed a contract onto the blockchain.
+                  {t("deployed_contract")}
                 </p>
               </div>
             </div>
@@ -401,10 +402,10 @@ export default function Page() {
               <EyeOff strokeWidth={1} size={20} className={"h-5 w-5"} />
               <div>
                 <p className="font-medium text-gray-700 dark:text-white">
-                  Can’t view
+                  {t("can_view")}
                 </p>
                 <p className={"text-gray-600 dark:text-white"}>
-                  Your drop page or items until you publish them.
+                  {t("drop_page_message")}
                 </p>
               </div>
             </div>
