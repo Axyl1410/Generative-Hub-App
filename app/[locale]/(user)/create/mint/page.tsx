@@ -5,6 +5,7 @@
 import BackButton from "@/components/common/back-button";
 import Loading from "@/components/common/loading";
 import LoadingScreen from "@/components/common/loading-screen";
+import { Button } from "@/components/ui/button";
 import DropdownCard from "@/components/ui/dropdown-card";
 import { FileUpload } from "@/components/ui/file-upload";
 import useAutoFetch from "@/hooks/use-auto-fetch";
@@ -31,7 +32,6 @@ interface Attribute {
 }
 
 export default function Page() {
- 
   const router = useRouter();
   const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
@@ -201,8 +201,7 @@ export default function Page() {
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  {t("name_label")}{" "}
-                  <span className="text-red-600"> *</span>
+                  {t("name_label")} <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -263,13 +262,7 @@ export default function Page() {
                       onChange={(e) => setAttributeValue(e.target.value)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
-                    onClick={handleAddAttribute}
-                  >
-                    {t("Add")}
-                  </button>
+                  <Button onClick={handleAddAttribute}>{t("Add")}</Button>
                 </div>
               </div>
 

@@ -1,30 +1,54 @@
 import { MARKETPLACE } from "@/contracts";
+import { toast } from "sonner";
 import {
+  DirectListing,
+  EnglishAuction,
   getAllValidAuctions,
   getAllValidListings,
 } from "thirdweb/extensions/marketplace";
 
+type Collection = {
+  listings: DirectListing[];
+  auctions: EnglishAuction[];
+};
+
+const cache = new Map<string, Collection>();
+
+async function fetchListings(collection: string) {
+  const listings = await getAllValidListings({ contract: MARKETPLACE });
+  return listings.filter(
+    (listing) => listing.assetContractAddress === collection
+  );
+}
+
+async function fetchAuctions(collection: string) {
+  const auctions = await getAllValidAuctions({ contract: MARKETPLACE });
+  return auctions.filter(
+    (auction) => auction.assetContractAddress === collection
+  );
+}
+
 export async function checkCollectionHasNFTs(
   collection: string
 ): Promise<boolean> {
-  const listingsPromise = getAllValidListings({
-    contract: MARKETPLACE,
-  });
-  const auctionsPromise = getAllValidAuctions({
-    contract: MARKETPLACE,
-  });
+  if (cache.has(collection)) {
+    const { listings, auctions } = cache.get(collection)!;
+    return listings.length > 0 || auctions.length > 0;
+  }
 
-  const [listings, auctions] = await Promise.all([
-    listingsPromise,
-    auctionsPromise,
-  ]);
+  try {
+    const [listings, auctions] = await Promise.all([
+      fetchListings(collection),
+      fetchAuctions(collection),
+    ]);
 
-  const hasListings = listings.some(
-    (listing) => listing.assetContractAddress === collection
-  );
-  const hasAuctions = auctions.some(
-    (auction) => auction.assetContractAddress === collection
-  );
+    cache.set(collection, { listings, auctions });
 
-  return hasListings || hasAuctions;
+    return listings.length > 0 || auctions.length > 0;
+  } catch (error) {
+    toast.error("Error fetching data:", {
+      description: error as string,
+    });
+    return false;
+  }
 }

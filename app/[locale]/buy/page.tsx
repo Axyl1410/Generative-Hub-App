@@ -21,8 +21,6 @@ export default function Buy() {
   const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
   const [loadingCollections, setLoadingCollections] = useState(true);
 
-  console.log(data);
-
   useEffect(() => {
     const fetchCollectionsWithNFTs = async () => {
       if (data) {
@@ -39,8 +37,6 @@ export default function Buy() {
 
     fetchCollectionsWithNFTs();
   }, [data]);
-
-  console.log(collectionsWithNFTs);
 
   if (loading || loadingCollections)
     return (
