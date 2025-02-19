@@ -1,7 +1,9 @@
 "use client";
 
+import Loading from "@/app/loading";
 import { MARKETPLACE } from "@/contracts";
 import axios from "@/lib/axios-config";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   buyFromListing,
@@ -10,27 +12,28 @@ import {
   EnglishAuction,
 } from "thirdweb/extensions/marketplace";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
-import { useState, useEffect } from "react";
+
+type Props = {
+  auctionListing?: EnglishAuction;
+  directListing?: DirectListing;
+  contractAddress: string;
+  tokenId: string;
+};
 
 export default function BuyListingButton({
   auctionListing,
   directListing,
   contractAddress,
   tokenId,
-  owner,
-}: {
-  auctionListing?: EnglishAuction;
-  directListing?: DirectListing;
-  contractAddress: string;
-  tokenId: string;
-  owner: string;
-}) {
+}: Props) {
   const account = useActiveAccount();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  if (!account) Loading();
 
   const handle = async () => {
     try {
@@ -41,13 +44,19 @@ export default function BuyListingButton({
           token: tokenId,
         }),
         axios.post("/api/token/remove-token", {
-          username: owner,
+          username:
+            account?.address === auctionListing?.creatorAddress ||
+            account?.address === directListing?.creatorAddress,
           address: contractAddress,
           token: tokenId,
         }),
-      ]);
-
-      toast("Collection created successfully");
+      ])
+        .then(() => toast("Collection created successfully"))
+        .catch((error) =>
+          toast.error("Failed to create collection", {
+            description: error instanceof Error ? error.message : undefined,
+          })
+        );
     } catch (error) {
       toast.error("Failed to create collection", {
         description: error instanceof Error ? error.message : undefined,

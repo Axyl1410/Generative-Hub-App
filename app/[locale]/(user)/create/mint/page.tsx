@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
@@ -30,6 +31,7 @@ interface Attribute {
 }
 
 export default function Page() {
+ 
   const router = useRouter();
   const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
@@ -40,6 +42,7 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
     null
   );
+  const t = useTranslations("mint");
 
   // Attribute states
   const [traitType, setTraitType] = useState<string>("");
@@ -49,7 +52,9 @@ export default function Page() {
   const handleFileUpload = (files: File | null) => setFiles(files);
 
   const { data, loading } = useAutoFetch<User>(
-    `/api/user/get-user?username=${account?.address}`
+    `/api/user/get-user?username=${account?.address}`,
+    600000,
+    account?.address
   );
 
   if (!account || loading) return <LoadingScreen />;
@@ -78,7 +83,7 @@ export default function Page() {
       ]);
       setTraitType("");
       setAttributeValue("");
-    } else toast.error("Trait Type and Value cannot be empty");
+    } else toast.error(" attributeValue are not empty ");
   };
 
   const handleRemoveAttribute = (indexToRemove: number) => {
@@ -92,11 +97,8 @@ export default function Page() {
       <div className="flex w-full flex-col">
         <div className="flex flex-col-reverse justify-between gap-8 pb-10 md:flex-row">
           <div>
-            <h1 className="text-xl font-bold sm:text-3xl">Create an NFT</h1>
-            <p className="text-md font-bold sm:text-xl">
-              Once your item is minted you will not be able to change any of its
-              information.
-            </p>
+            <h1 className="text-xl font-bold sm:text-3xl">{t("title")}</h1>
+            <p className="text-md font-bold sm:text-xl">{t("k")}</p>
           </div>
           <BackButton className="h-fit" href="/create" />
         </div>
@@ -110,13 +112,18 @@ export default function Page() {
           </div>
 
           <div className="flex-1">
-            <form className="flex flex-col gap-8">
+            <form
+              className="flex flex-col gap-8"
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div>
                 <label
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Collection <span className="text-red-600"> *</span>
+                  {t("Collection")} <span className="text-red-600"> *</span>
                 </label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
@@ -129,7 +136,7 @@ export default function Page() {
                       </div>
 
                       <p className="text-sm/6 font-bold">
-                        Select a collection to mint your NFT.
+                        {t("Select_a_collection")}
                       </p>
                     </>
                   )}
@@ -154,10 +161,11 @@ export default function Page() {
                         {options.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
                             <p>
-                              You don&apos;t have any collections. Create one
-                              first.{" "}
+                              {t("You_don_apost")}{" "}
                               <span className="text-link">
-                                <Link href={"/create/collection"}>Here</Link>
+                                <Link href={"/create/collection"}>
+                                  {t("create_one")}
+                                </Link>
                               </span>
                             </p>
                           </div>
@@ -181,9 +189,9 @@ export default function Page() {
                 </AnimatePresence>
 
                 <p className="mt-3 text-sm/6">
-                  Not all collections are eligible.
+                  {t("notall")}
                   <span className="cursor-not-allowed text-link">
-                    Learn more
+                    {t("Learn_more")}
                   </span>
                 </p>
               </div>
@@ -193,16 +201,16 @@ export default function Page() {
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  Name <span className="text-red-600"> *</span>
+                  {t("name_label")}{" "}
+                  <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Name your NFT"
+                    placeholder={t("name_placeholder")}
                     className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -214,7 +222,8 @@ export default function Page() {
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
-                  Description <span className="text-red-600"> *</span>
+                  {t("description_label")}{" "}
+                  <span className="text-red-600"> *</span>
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -226,19 +235,20 @@ export default function Page() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </div>
-                <p className="mt-3 text-sm/6">Write a few description about.</p>
+                <p className="mt-3 text-sm/6">{t("Write_a_few")} </p>
               </div>
 
               {/* Attributes Input Fields */}
               <div>
                 <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
-                  Attributes <span className="text-gray-600">(Optional)</span>
+                  {t("Attributes")}{" "}
+                  <span className="text-gray-600">({t("Optional")} )</span>
                 </label>
                 <div className="mt-2 flex gap-2">
                   <div className="flex-1">
                     <input
                       type="text"
-                      placeholder="Trait Type"
+                      placeholder={t("trait_type_placeholder")}
                       className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                       value={traitType}
                       onChange={(e) => setTraitType(e.target.value)}
@@ -247,7 +257,7 @@ export default function Page() {
                   <div className="flex-1">
                     <input
                       type="text"
-                      placeholder="Value"
+                      placeholder={t("value_placeholder")}
                       className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                       value={attributeValue}
                       onChange={(e) => setAttributeValue(e.target.value)}
@@ -258,7 +268,7 @@ export default function Page() {
                     className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                     onClick={handleAddAttribute}
                   >
-                    Add
+                    {t("Add")}
                   </button>
                 </div>
               </div>
@@ -267,7 +277,7 @@ export default function Page() {
               {attributesArray.length > 0 && (
                 <div>
                   <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
-                    Added Attributes
+                    {t("Added_Attributes")}
                   </label>
                   <ul className="mt-2 space-y-2">
                     <AnimatePresence>
@@ -312,7 +322,7 @@ export default function Page() {
                       <TransactionButton
                         className={"!w-full"}
                         transaction={() => {
-                          toast.info("Minting NFT...");
+                          toast.info(t("minting_nft"));
 
                           const metadata = {
                             name,
@@ -333,21 +343,21 @@ export default function Page() {
                           });
                         }}
                         onTransactionSent={() => {
-                          toast.info("Offer Sent!");
+                          toast.info(t("offer_sent"));
                         }}
                         onTransactionConfirmed={() => {
-                          toast.success("Offer Placed Successfully!");
+                          toast.success(t("offer_placed_successfully"));
                           setTimeout(() => {
                             router.push("/sell");
                           }, 2000);
                         }}
                         onError={(error) => {
-                          toast.error("Error making offer: ", {
+                          toast.error(t("error_making_offer"), {
                             description: error.message,
                           });
                         }}
                       >
-                        Mint NFT
+                        {t("Mint_NFT")}
                       </TransactionButton>
                     </motion.div>
                   )}

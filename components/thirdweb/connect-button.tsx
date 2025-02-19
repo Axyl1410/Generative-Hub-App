@@ -62,7 +62,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
       {type === "text" ? (
         <div
           className={cn(
-            "flex cursor-pointer items-center transition-colors hover:bg-border dark:hover:bg-border-dark",
+            "dark:hover:bg-border-dark flex cursor-pointer items-center transition-colors hover:bg-border",
             className
           )}
           onClick={handleConnect}
@@ -81,7 +81,6 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
             "flex h-[35px] items-center justify-center gap-2 overflow-hidden rounded-lg bg-nav p-2 text-sm shadow dark:bg-nav-dark",
             !account && "cursor-pointer"
           )}
-          layout
           onClick={account ? undefined : handleConnect}
         >
           <motion.div layout>

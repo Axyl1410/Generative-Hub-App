@@ -16,7 +16,9 @@ export default function Page() {
   const account = useActiveAccount();
 
   const { data, loading } = useAutoFetch<User>(
-    `/api/user/get-user?username=${account?.address}`
+    `/api/user/get-user?username=${account?.address}`,
+    60000,
+    account?.address
   );
 
   if (!account) return <LoadingScreen />;

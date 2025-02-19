@@ -4,8 +4,8 @@ import BackToTop from "@/components/common/back-to-top";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import { motion } from "framer-motion";
-import React from "react";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 export default function DashboardLayout({
   children,

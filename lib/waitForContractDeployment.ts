@@ -1,21 +1,9 @@
-// waitForDeployment.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ethers } from "ethers";
 
-import { BrowserProvider } from "ethers";
-
-// Định nghĩa interface cho Ethereum provider theo tiêu chuẩn EIP-1193
-interface EIP1193Provider {
-  request(args: { method: string; params?: unknown[] }): Promise<unknown>;
-  on?(event: string | symbol, listener: (...args: unknown[]) => void): void;
-  removeListener?(
-    event: string | symbol,
-    listener: (...args: unknown[]) => void
-  ): void;
-}
-
-// Mở rộng interface của Window để thêm thuộc tính ethereum
 declare global {
   interface Window {
-    ethereum?: EIP1193Provider;
+    ethereum: any;
   }
 }
 
@@ -32,13 +20,13 @@ export async function waitForContractDeployment(
   timeout = 60000,
   interval = 1000
 ): Promise<void> {
-  // Kiểm tra nếu window.ethereum tồn tại
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("Ethereum provider not found");
   }
 
-  // Tạo provider từ window.ethereum sử dụng BrowserProvider của ethers v6
-  const provider = new BrowserProvider(window.ethereum);
+  // Kiểm tra phiên bản của ethers và sử dụng provider tương ứng
+  const provider = new ethers.BrowserProvider(window.ethereum as any); // Ethers v6
+
   const startTime = Date.now();
 
   while (true) {
@@ -51,7 +39,6 @@ export async function waitForContractDeployment(
       if (Date.now() - startTime > timeout) {
         throw new Error("Timeout waiting for contract deployment");
       }
-      // Chờ interval rồi kiểm tra lại
       await new Promise((resolve) => setTimeout(resolve, interval));
     } catch (error) {
       console.error("Error checking contract code:", error);

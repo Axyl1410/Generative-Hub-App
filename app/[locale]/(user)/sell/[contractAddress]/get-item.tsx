@@ -3,9 +3,11 @@
 import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import SaleInfo from "@/components/sale-info";
+import { Badge } from "@/components/ui/badge";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
+import { Attribute } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { notFound } from "next/navigation";
 import { useState } from "react";
@@ -91,7 +93,7 @@ export function GetItem({ address }: { address: string }) {
           </motion.div>
         ) : (
           <motion.div
-            className="mt-0 flex max-w-full gap-8"
+            className="mt-0 flex max-w-full flex-col gap-8 sm:flex-row"
             layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -116,13 +118,23 @@ export function GetItem({ address }: { address: string }) {
               <h1 className="mb-1 break-words text-3xl font-semibold">
                 {selectedNft.metadata.name}
               </h1>
-              <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 {selectedNft.metadata.description}
               </p>
-              <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+              <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 #{selectedNft.id.toString()}
               </p>
-              <p className="text-text dark:text-white/60">
+              <div className="mt-1 flex gap-2">
+                {selectedNft.metadata.attributes &&
+                  (
+                    selectedNft.metadata.attributes as unknown as Attribute[]
+                  ).map((attr: Attribute, index: number) => (
+                    <Badge key={index}>
+                      {attr.trait_type} : {attr.value}
+                    </Badge>
+                  ))}
+              </div>
+              <p className="mt-1 text-text dark:text-white/60">
                 You&rsquo;re about to list the following item for sale.
               </p>
 

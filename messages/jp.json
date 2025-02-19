@@ -4,7 +4,7 @@
     "content": "私たちは、すべてのGenHubの素晴らしいアーティストと彼らのファン、ユニークなトークンコレクターをつなぐことに特化した巨大なマーケットプレイスです！"
   },
   "buy": {
-    "title": " 購入 NFT",
+    "title": "購入 NFT",
     "nocollection": "このコレクションにはリストされたNFTがないようです。後で再度確認してください!",
     "endlist": "販売終了"
   },
@@ -12,7 +12,8 @@
     "title": "NFTを販売する",
     "collection": "私のコレクション",
     "nocollection": "コレクションが見つかりませんでした。",
-    "other": "他の"
+    "other": "他の",
+    "Sell_NFT": "NFTを販売する"
   },
   "navbar": {
     "home": "ホーム",
@@ -29,5 +30,93 @@
       "light": "光",
       "dark": "暗い"
     }
+  },
+  "collection": {
+    "title": "コレクション",
+    "edit_collection_details": "コレクションの詳細、収益、およびリンクを編集します。",
+    "loading": "🚀 コレクションを展開",
+    "description_analyzing": "説明を分析中...",
+    "token_symbol_info": "トークンシンボルは、チェーン上で表示される契約を識別するための略称です。たとえば、AzukiはAZUKIを使用し、Bored Ape Yacht ClubはBAYCをそれぞれのトークンシンボルとして使用します。トークンシンボルは契約が展開された後に変更することはできません。",
+    "contract_name_info": "契約名は、チェーン上で表示されるNFTコレクションの名前です。これは通常、プロジェクトまたはコレクションの名前です。契約名は契約が展開された後に変更することはできません。",
+    "logo_info": "ロゴはアイテムの表現であり、コレクション名の横に表示されます。契約を展開した後でもロゴを変更できます。",
+    "image_required": "画像が必要です。",
+    "name_required": "名前が必要です。",
+    "drop_page_message": "公開するまでのドロップページまたはアイテム。",
+    "another_message": "ここに別の英語の文。",
+    "drop_page_items": "公開するまでのドロップページまたはアイテム。",
+    "deployed_contract": "ブロックチェーンに契約を展開しました。",
+    "your_community": "あなたのコミュニティ：",
+    "can_view": "表示可能",
+    "can_edit": "編集可能"
+  },
+  "mint": {
+    "title": "NFTを作成",
+    "k": "アイテムが作成されると、その情報を変更することはできません。",
+    "Select_a_collection": "NFTを作成するコレクションを選択してください。",
+    "You_don_apost": "コレクションがありません。 まずコレクションを作成してください。",
+    "notall": "すべてのコレクションが対象となるわけではありません。",
+    "Learn_more": "詳しくはこちら",
+    "Write_a_few_description": "アイテムの説明を入力してください。",
+    "Mint_NFT": "NFTをミント",
+    "Collection": "コレクション",
+    "Write_a_few": "説明を入力...",
+    "Attributes": "属性",
+    "Optional": "オプション",
+    "Added_Attributes": "追加された属性",
+    "Add": "追加",
+    "name_label": "NFTの名前",
+    "name_placeholder": "NFTの名前を入力してください",
+    "description_label": "説明",
+    "description_placeholder": "説明を入力してください",
+    "upload_image": "画像をアップロード",
+    "upload_image_placeholder": "コンピュータから画像を選択",
+    "upload_image_button": "画像を選択",
+    "upload_image_error": "画像は必須です",
+    "value_placeholder": "値",
+    "trait_type_placeholder": "属性の種類",
+    "create_one": "新しいコレクションを作成",
+    "offer_sent": "オファーが送信されました",
+"offer_placed_successfully": "オファーが正常に配置されました",
+"error_making_offer": "オファーの作成中にエラーが発生しました",
+"minting_nft": "NFTをミント中"
+
+},
+  "create": {
+    "A_drop": "ドロップは新しいプロジェクトのリリースです。これは通常、指定された日付と時間に行われます。アイテムは購入後に公開されます。",
+    "title": "を作成する",
+    "Collection_or_item": "コレクションまたはアイテム",
+    "create": "新しいNFTコレクションを作成するか、既存のコレクションにNFTを追加します。アイテムはすぐに表示されます。販売の準備ができたらリストします。",
+    "ready": "準備ができたら。",
+    "Learn_more": "詳細を学ぶ",
+    "about_each": "各オプションについて",
+    "Drop": "ドロップ"
+  },
+  "profile": {
+    "0_items": "0 アイテム",
+    "0_collections": "この検索に対してアイテムが見つかりませんでした",
+    "Back_to_all_items": "すべてのアイテムに戻る",
+    "CollectedPage": "収集されたページ",
+    "displaying_offers": "行われたオファーを表示中...",
+    "Displaying_Deals": "取引を表示中...",
+    "Displaying_Created": "作成されたアイテムを表示中...",
+    "Displaying_Favorite_items": "お気に入りのアイテムを表示中...",
+    "Displaying_Activity": "アクティビティを表示中...",
+    "No_items_found_for": "このメニューに対してアイテムが見つかりませんでした。"
+  },
+  "use": {
+    "Connect_Wallet": "ウォレットを接続する",
+    "Please_connect": "続行するにはウォレットを接続してください。"
+  },
+  "generative-art": {
+    "Generate_Art": "アートを生成 | NFTアートジェネレーター",
+    "Create_Your_Generative": "ジェネレーティブアートNFTを作成する",
+    "Complexity": "複雑さ：",
+    "Color_Scheme": "カラースキーム：",
+    "Random": "ランダム",
+    "Monochrome": "モノクローム",
+    "Complementary": "補完的",
+    "Generate_Art2": "アートを生成",
+    "Your_art_will": "あなたのアートはここに表示されます",
+    "Download": "ダウンロード"
   }
 }
