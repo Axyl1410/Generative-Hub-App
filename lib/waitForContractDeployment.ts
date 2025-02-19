@@ -1,6 +1,4 @@
-// waitForDeployment.ts
-
-import { BrowserProvider } from "ethers";
+import { ethers } from "ethers";
 
 // Định nghĩa interface cho Ethereum provider theo tiêu chuẩn EIP-1193
 interface EIP1193Provider {
@@ -32,13 +30,12 @@ export async function waitForContractDeployment(
   timeout = 60000,
   interval = 1000
 ): Promise<void> {
-  // Kiểm tra nếu window.ethereum tồn tại
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("Ethereum provider not found");
   }
 
-  // Tạo provider từ window.ethereum sử dụng BrowserProvider của ethers v6
-  const provider = new BrowserProvider(window.ethereum);
+  // Dùng Web3Provider thay vì BrowserProvider (tương thích với ethers@5.x)
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
   const startTime = Date.now();
 
   while (true) {
@@ -51,7 +48,6 @@ export async function waitForContractDeployment(
       if (Date.now() - startTime > timeout) {
         throw new Error("Timeout waiting for contract deployment");
       }
-      // Chờ interval rồi kiểm tra lại
       await new Promise((resolve) => setTimeout(resolve, interval));
     } catch (error) {
       console.error("Error checking contract code:", error);
