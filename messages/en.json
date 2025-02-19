@@ -10,11 +10,11 @@
     "End_of_listed_for_sale": "End of listed for sale"
   },
   "sell": {
-    "title": "Sell NFT",
+    "title": "Sell NFTs",
     "collection": "My Collection",
     "nocollection": "No Collection Found",
     "other": "Other",
-    "Sell_NFT": "Sell NFT"
+    "Sell_NFT": "Sell NFTs"
   },
   "navbar": {
     "home": "Home",
@@ -48,9 +48,19 @@
     "deployed_contract": "That you’ve deployed a contract onto the blockchain.",
     "your_community": "Your community:",
     "can_view": "Can view",
-    "can_edit": "Can edit"
+    "can_edit": "Can edit",
+    "s_create": "s create a smart contract for your drop.",
+    "need_to_deplop": "You’ll need to deploy an ERC-721 contract onto the blockchain before you can create a drop.",
+    "what_is_a_contract": "What is a contract?",
+    "Logo_image": "Logo image",
+    "Contract_name": "Contract name",
+    "Token_symbol": "Token symbol",
+    "Description": "Description",
+    "Enter": "Enter a collection name to generate description",
+    "after": " After you deploy your contract you’ll be able to:",
+    "ok": "OK"
   },
-"mint": {
+  "mint": {
     "title": "Create NFT",
     "k": "Once your item is created, you will not be able to change any of its information.",
     "Select_a_collection": "Select a collection to create your NFT.",
@@ -76,16 +86,14 @@
     "value_placeholder": "Value",
     "trait_type_placeholder": "Attribute Type",
     "create_one": "Create a new collection",
-  "offer_sent": "Offer sent",
-"offer_placed_successfully": "Offer placed successfully",
-"error_making_offer": "Error making offer",
-"minting_nft": "Minting NFT"
-
-
-},
+    "offer_sent": "Offer sent",
+    "offer_placed_successfully": "Offer placed successfully",
+    "error_making_offer": "Error making offer",
+    "minting_nft": "Minting NFT"
+  },
   "create": {
     "A_drop": "A drop is the release of a new project. This usually happens on a specified date and time. Items will be revealed after they have been purchased.",
-  "title": "Create",
+    "title": "Create",
     "Collection_or_item": "Collection or item",
     "create": "Create a new NFT collection or add an NFT to an existing one. Your items will display immediately. List for sale when you",
     "ready": "are ready.",
@@ -103,7 +111,10 @@
     "Displaying_Created": "Displaying Created items...",
     "Displaying_Favorite_items": "Displaying Favorite items...",
     "Displaying_Activity": "Displaying Activity...",
-    "No_items_found_for": "No items found for this menu."
+    "No_items_found_for": "No items found for this menu.",
+    "Unnamed": "Unnamed",
+    "Copied": "Copied!",
+    "Settings": "Setting"
   },
   "use": {
     "Connect_Wallet": "Connect Wallet",
@@ -120,5 +131,45 @@
     "Generate_Art2": "Generate Art",
     "Your_art_will": "Your art will appear here",
     "Download": "Download"
+  },
+  "generateimg": {
+    "Retry_in": "Retry in",
+    "seconds": "seconds...",
+    " You_can_add": "📝Note: You can add",
+    "etc": ", etc. at the end of",
+    "the_prompt": "the prompt to generate different images by modifying the prompt like",
+    "this": "this:",
+    "prompt_v1": "prompt v1",
+    "prompt_v2": "prompt v2",
+    "and_so": ", and so on."
+  },
+  "pjs": {
+    "p5": "P5.js Art Creator",
+    "Preview": "Preview",
+    "Error": "Error:",
+    "Source_code": "Source code",
+    "Run_code": "Run code",
+    "Download_PNG": "Download PNG",
+    "Download_JPG": "Download JPG",
+    "Download_GIF": "Download GIF"
+  },
+  "test": {
+    "Upload_Script": "Upload Script to Generate Art"
+  },
+  "token": {
+    "Current_Owner": "Current Owner",
+    "History": "History",
+    "Bids_starting_from": "Bids starting from"
+  },
+  "app": {
+    "Something_went_wrong": "Something went wrong!",
+    "Report_Error_on_GitHub": "Report Error on GitHub",
+    "Refresh": "Refresh",
+    "Page_not_found": "Page not found",
+    "couldn": "Sorry, we couldn",
+    "t_find_the_page_you": "t find the page you",
+    "re_looking_for": "re looking for.",
+    "Go_back_home": "Go back home",
+    "Contact_support": "Contact support"
   }
 }

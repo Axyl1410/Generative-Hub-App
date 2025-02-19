@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/routing";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +49,7 @@ export default function Buy() {
     toast.error(error.message);
     return <EmptyText text={`Error: ${error.message}`} />;
   }
-
+  const t = useTranslations("buy");
   return (
     <div className="my-8">
       <Suspense fallback={<NFTGridLoading />}>
@@ -70,7 +71,7 @@ export default function Buy() {
         </div>
       </Suspense>
       <div className="mt-8 grid w-full place-content-center">
-        <p className="text-sm font-bold">End of listed for sale</p>
+        <p className="text-sm font-bold">{t("End_of_listed_for_sale")} </p>
       </div>
     </div>
   );

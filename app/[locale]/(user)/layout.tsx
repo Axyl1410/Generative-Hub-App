@@ -18,11 +18,12 @@ const WalletDialog = memo(() => (
         className="rounded-full"
       />
     </div>
-    <h1 className="text-center text-3xl font-bold">Connect Wallet</h1>
+    const t = useTranslations("use");
+    <h1 className="text-center text-3xl font-bold">{t("Connect_Wallet")} </h1>
     <p className="text-center text-gray-600 dark:text-gray-400">
-      Please connect your wallet to continue.
+      {t("Please_connect")}
     </p>
-    <ConnectButton className="w-full bg-border dark:bg-border-dark" />
+    <ConnectButton className="dark:bg-border-dark w-full bg-border" />
   </div>
 ));
 
@@ -51,4 +52,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Dialog>
     </>
   );
+}
+function t(arg0: string): React.ReactNode {
+  throw new Error("Function not implemented.");
 }

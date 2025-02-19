@@ -1,122 +1,175 @@
 {
   "home": {
-    "title": "NFTのコレクションアイデアについて世界に伝えよう！",
-    "content": "私たちは、すべてのGenHubの素晴らしいアーティストと彼らのファン、ユニークなトークンコレクターをつなぐことに特化した巨大なマーケットプレイスです！"
+    "title": "あなたのNFTコレクションのアイデアを世界に伝えよう！",
+    "content": "私たちは、GenHubの素晴らしいアーティストとそのファン、ユニークなトークンコレクターを繋げる大規模なマーケットプレイスです！"
   },
   "buy": {
-    "title": "購入 NFT",
-    "nocollection": "このコレクションにはリストされたNFTがないようです。後で再度確認してください!",
-    "endlist": "販売終了"
+    "title": "NFTを購入",
+    "nocollection": "このコレクションにはNFTがリストされていないようです。後で再確認してください！",
+    "endlist": "販売中のリストの終わり",
+    "End_of_listed_for_sale": "販売中のリストの終わり"
   },
   "sell": {
-    "title": "NFTを販売する",
+    "title": "NFTを販売",
     "collection": "私のコレクション",
-    "nocollection": "コレクションが見つかりませんでした。",
-    "other": "他の",
-    "Sell_NFT": "NFTを販売する"
+    "nocollection": "コレクションが見つかりません",
+    "other": "その他",
+    "Sell_NFT": "NFTを販売"
   },
   "navbar": {
     "home": "ホーム",
-    "buy": "NFTを購入する",
-    "sell": "NFTを販売する",
-    "create": "作成する",
+    "buy": "NFTを購入",
+    "sell": "NFTを販売",
+    "create": "作成",
     "profile": "プロフィール"
   },
   "component": {
     "backbutton": "戻る",
-    "disconnect": "切断する",
+    "disconnect": "接続解除",
     "themeSwitcher": {
-      "go": "行こう",
-      "light": "光",
-      "dark": "暗い"
+      "go": "行く",
+      "light": "ライト",
+      "dark": "ダーク"
     }
   },
   "collection": {
     "title": "コレクション",
-    "edit_collection_details": "コレクションの詳細、収益、およびリンクを編集します。",
-    "loading": "🚀 コレクションを展開",
+    "edit_collection_details": "コレクションの詳細、収益、リンクを編集します。",
+    "loading": " 🚀 コレクションのデプロイ中",
     "description_analyzing": "説明を分析中...",
-    "token_symbol_info": "トークンシンボルは、チェーン上で表示される契約を識別するための略称です。たとえば、AzukiはAZUKIを使用し、Bored Ape Yacht ClubはBAYCをそれぞれのトークンシンボルとして使用します。トークンシンボルは契約が展開された後に変更することはできません。",
-    "contract_name_info": "契約名は、チェーン上で表示されるNFTコレクションの名前です。これは通常、プロジェクトまたはコレクションの名前です。契約名は契約が展開された後に変更することはできません。",
-    "logo_info": "ロゴはアイテムの表現であり、コレクション名の横に表示されます。契約を展開した後でもロゴを変更できます。",
+    "token_symbol_info": "トークンシンボルは、あなたの契約を識別する略語で、ブロックチェーン上に表示されます。例えば、AzukiはAZUKI、Bored Ape Yacht ClubはBAYCをトークンシンボルとして使用しています。トークンシンボルは契約デプロイ後に変更できません。",
+    "contract_name_info": "契約名は、あなたのNFTコレクションの名前で、ブロックチェーン上に表示されます。通常、これはプロジェクトまたはコレクションの名前です。契約名は契約デプロイ後に変更できません。",
+    "logo_info": "ロゴはあなたのアイテムの代表として使用され、コレクション名の横に表示されます。契約をデプロイした後でもロゴは変更できます。",
     "image_required": "画像が必要です。",
     "name_required": "名前が必要です。",
-    "drop_page_message": "公開するまでのドロップページまたはアイテム。",
-    "another_message": "ここに別の英語の文。",
-    "drop_page_items": "公開するまでのドロップページまたはアイテム。",
-    "deployed_contract": "ブロックチェーンに契約を展開しました。",
-    "your_community": "あなたのコミュニティ：",
+    "drop_page_message": "アイテムを公開するまで、ドロップページまたはアイテムは表示されません。",
+    "another_message": "別の英語の文はこちら。",
+    "drop_page_items": "アイテムは公開するまで、ドロップページに表示されません。",
+    "deployed_contract": "あなたの契約はブロックチェーンにデプロイされました。",
+    "your_community": "あなたのコミュニティ:",
     "can_view": "表示可能",
-    "can_edit": "編集可能"
+    "can_edit": "編集可能",
+    "s_create": "sはあなたのドロップのためにスマート契約を作成します。",
+    "need_to_deplop": "ドロップを作成する前に、ERC-721契約をブロックチェーンにデプロイする必要があります。",
+    "what_is_a_contract": "契約とは？",
+    "Logo_image": "ロゴ画像",
+    "Contract_name": "契約名",
+    "Token_symbol": "トークンシンボル",
+    "Description": "説明",
+    "Enter": "コレクション名を入力して説明を生成",
+    "after": "契約をデプロイした後、あなたは以下を行うことができます:",
+    "ok": "OK"
   },
   "mint": {
     "title": "NFTを作成",
-    "k": "アイテムが作成されると、その情報を変更することはできません。",
+    "k": "アイテムを作成すると、その情報を変更することはできません。",
     "Select_a_collection": "NFTを作成するコレクションを選択してください。",
-    "You_don_apost": "コレクションがありません。 まずコレクションを作成してください。",
-    "notall": "すべてのコレクションが対象となるわけではありません。",
-    "Learn_more": "詳しくはこちら",
-    "Write_a_few_description": "アイテムの説明を入力してください。",
-    "Mint_NFT": "NFTをミント",
+    "You_don_apost": "コレクションがありません。まずコレクションを作成してください。",
+    "notall": "すべてのコレクションが対象ではありません。",
+    "Learn_more": "もっと学ぶ",
+    "Write_a_few_description": "アイテムの説明を書いてください。",
+    "Mint_NFT": "NFTを作成",
     "Collection": "コレクション",
-    "Write_a_few": "説明を入力...",
+    "Write_a_few": "説明を書く...",
     "Attributes": "属性",
     "Optional": "オプション",
     "Added_Attributes": "追加された属性",
     "Add": "追加",
-    "name_label": "NFTの名前",
-    "name_placeholder": "NFTの名前を入力してください",
+    "name_label": "NFT名",
+    "name_placeholder": "NFT名を入力してください",
     "description_label": "説明",
     "description_placeholder": "説明を入力してください",
     "upload_image": "画像をアップロード",
     "upload_image_placeholder": "コンピュータから画像を選択",
     "upload_image_button": "画像を選択",
-    "upload_image_error": "画像は必須です",
+    "upload_image_error": "画像が必要です",
     "value_placeholder": "値",
-    "trait_type_placeholder": "属性の種類",
+    "trait_type_placeholder": "属性タイプ",
     "create_one": "新しいコレクションを作成",
     "offer_sent": "オファーが送信されました",
-"offer_placed_successfully": "オファーが正常に配置されました",
-"error_making_offer": "オファーの作成中にエラーが発生しました",
-"minting_nft": "NFTをミント中"
-
-},
+    "offer_placed_successfully": "オファーは正常に提出されました",
+    "error_making_offer": "オファーの作成エラー",
+    "minting_nft": "NFT作成中"
+  },
   "create": {
-    "A_drop": "ドロップは新しいプロジェクトのリリースです。これは通常、指定された日付と時間に行われます。アイテムは購入後に公開されます。",
-    "title": "を作成する",
+    "A_drop": "ドロップは新しいプロジェクトの公開です。通常、指定された日時に発生します。アイテムは購入後に公開されます。",
+    "title": "作成",
     "Collection_or_item": "コレクションまたはアイテム",
-    "create": "新しいNFTコレクションを作成するか、既存のコレクションにNFTを追加します。アイテムはすぐに表示されます。販売の準備ができたらリストします。",
+    "create": "新しいNFTコレクションを作成するか、既存のコレクションにNFTを追加します。アイテムは即座に表示されます。販売する準備ができたら",
     "ready": "準備ができたら。",
-    "Learn_more": "詳細を学ぶ",
+    "Learn_more": "もっと学ぶ",
     "about_each": "各オプションについて",
     "Drop": "ドロップ"
   },
   "profile": {
     "0_items": "0 アイテム",
-    "0_collections": "この検索に対してアイテムが見つかりませんでした",
+    "0_collections": "この検索ではアイテムが見つかりませんでした",
     "Back_to_all_items": "すべてのアイテムに戻る",
-    "CollectedPage": "収集されたページ",
-    "displaying_offers": "行われたオファーを表示中...",
-    "Displaying_Deals": "取引を表示中...",
-    "Displaying_Created": "作成されたアイテムを表示中...",
-    "Displaying_Favorite_items": "お気に入りのアイテムを表示中...",
-    "Displaying_Activity": "アクティビティを表示中...",
-    "No_items_found_for": "このメニューに対してアイテムが見つかりませんでした。"
+    "CollectedPage": "収集ページ",
+    "displaying_offers": "オファーの表示...",
+    "Displaying_Deals": "取引の表示...",
+    "Displaying_Created": "作成したアイテムの表示...",
+    "Displaying_Favorite_items": "お気に入りアイテムの表示...",
+    "Displaying_Activity": "アクティビティの表示...",
+    "No_items_found_for": "このメニューにはアイテムが見つかりませんでした。",
+    "Unnamed": "名前なし",
+    "Copied": "コピーしました！",
+    "Settings": "設定"
   },
   "use": {
-    "Connect_Wallet": "ウォレットを接続する",
-    "Please_connect": "続行するにはウォレットを接続してください。"
+    "Connect_Wallet": "ウォレットを接続",
+    "Please_connect": "続行するためにウォレットを接続してください。"
   },
   "generative-art": {
     "Generate_Art": "アートを生成 | NFTアートジェネレーター",
-    "Create_Your_Generative": "ジェネレーティブアートNFTを作成する",
-    "Complexity": "複雑さ：",
-    "Color_Scheme": "カラースキーム：",
+    "Create_Your_Generative": "あなたの生成的アートNFTを作成",
+    "Complexity": "複雑さ:",
+    "Color_Scheme": "カラースキーム:",
     "Random": "ランダム",
-    "Monochrome": "モノクローム",
-    "Complementary": "補完的",
+    "Monochrome": "モノクロ",
+    "Complementary": "補完",
     "Generate_Art2": "アートを生成",
     "Your_art_will": "あなたのアートはここに表示されます",
     "Download": "ダウンロード"
+  },
+  "generateimg": {
+    "Retry_in": "再試行中",
+    "seconds": "秒...",
+    " You_can_add": "📝注: プロンプトの最後に",
+    "etc": ", などを追加して",
+    "the_prompt": "プロンプトを変更することで異なる画像を生成できます。例えば",
+    "this": "これ:",
+    "prompt_v1": "プロンプト v1",
+    "prompt_v2": "プロンプト v2",
+    "and_so": ", など"
+  },
+  "pjs": {
+    "p5": "P5.jsアート作成",
+    "Preview": "プレビュー",
+    "Error": "エラー:",
+    "Source_code": "ソースコード",
+    "Run_code": "コードを実行",
+    "Download_PNG": "PNGをダウンロード",
+    "Download_JPG": "JPGをダウンロード",
+    "Download_GIF": "GIFをダウンロード"
+  },
+  "test": {
+    "Upload_Script": "アートを生成するスクリプトをアップロード"
+  },
+  "token": {
+    "Current_Owner": "現在の所有者",
+    "History": "履歴",
+    "Bids_starting_from": "入札開始価格"
+  },
+  "app": {
+    "Something_went_wrong": "何かがうまくいきませんでした！",
+    "Report_Error_on_GitHub": "GitHubでエラーを報告",
+    "Refresh": "更新",
+    "Page_not_found": "ページが見つかりません",
+    "couldn": "申し訳ありませんが、ページが見つかりませんでした。",
+    "t_find_the_page_you": "お探しのページが見つかりません。",
+    "re_looking_for": "お探しのページ。",
+    "Go_back_home": "ホームに戻る",
+    "Contact_support": "サポートに連絡"
   }
 }

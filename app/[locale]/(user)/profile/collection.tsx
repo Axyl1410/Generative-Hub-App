@@ -5,11 +5,12 @@ import DropdownCard from "@/components/ui/dropdown-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Link } from "@/i18n/routing";
 import { User } from "@/types";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { useActiveAccount } from "thirdweb/react";
 
-const CollectedPage = () => {
+export const CollectedPage = () => {
   const account = useActiveAccount();
-
   const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`,
     60000,
@@ -17,7 +18,7 @@ const CollectedPage = () => {
   );
 
   if (loading || !account) return <Loading />;
-
+  const t = useTranslations("profile");
   return (
     <>
       {/* Filters Section */}
@@ -69,11 +70,11 @@ const CollectedPage = () => {
           </div>
         ) : (
           <>
-            <p className="text-gray-500">0 items</p>
+            <p className="text-gray-500">{t("0_items")} </p>
             <div className="mt-4">
-              <p className="text-gray-500">No items found for this search</p>
+              <p className="text-gray-500">{t("0_collections")} </p>
               <button className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                Back to all items
+                {t("Back_to_all_items")}
               </button>
             </div>
           </>
@@ -82,5 +83,3 @@ const CollectedPage = () => {
     </>
   );
 };
-
-export default CollectedPage;

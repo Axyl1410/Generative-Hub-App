@@ -12,7 +12,6 @@ const GenerativeArtPage: NextPage = () => {
     colorScheme: "random",
     size: 800,
   });
-
   const [generatedArt, setGeneratedArt] = useState<string | null>(null);
 
   const generateArt = async () => {
