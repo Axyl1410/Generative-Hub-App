@@ -2,6 +2,7 @@ import BackButton from "@/components/common/back-button";
 import BuyListingButton from "@/components/token/buy-listing-button";
 import Events from "@/components/token/events";
 import MakeOfferButton from "@/components/token/make-offer-button";
+import CommentSection from "@/components/token/commentSection"; // ✅ Import CommentSection
 import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
@@ -14,7 +15,6 @@ import {
 import { Blobbie, MediaRenderer } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
-// export const revalidate = 0;
 
 export default async function Page({
   params,
@@ -104,7 +104,6 @@ export default async function Page({
 
       <div className="sticky w-full flex-shrink sm:min-w-[370px] lg:max-w-[550px]">
         <div className="relative mb-6 flex w-full grow flex-col overflow-hidden rounded-lg bg-transparent">
-          {/* Pricing information */}
           <div className="w-full rounded-lg bg-white/[.04] p-4">
             <p className="mb-1 text-text dark:text-white/60">Price</p>
             <div className="rounded-md text-lg font-medium text-text dark:text-white/90">
@@ -159,6 +158,9 @@ export default async function Page({
             auctionListing={auctionListing}
             directListing={directListing}
           />
+
+          {/* ✅ Thêm Comment Section */}
+          <CommentSection tokenId={id.toString()} />
         </div>
       </div>
     </div>
