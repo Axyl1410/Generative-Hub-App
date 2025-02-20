@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ethers } from "ethers";
 
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 /**
  * Chờ cho đến khi hợp đồng được triển khai (có code khác "0x") trên blockchain.
  *
