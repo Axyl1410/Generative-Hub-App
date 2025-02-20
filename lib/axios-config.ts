@@ -9,7 +9,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const localePattern = /^\/(vi|en)\//;
+    const localePattern = /^\/(vi|en|jp)\//;
     if (config.url && localePattern.test(config.url)) {
       config.url = config.url.replace(localePattern, "/");
     }

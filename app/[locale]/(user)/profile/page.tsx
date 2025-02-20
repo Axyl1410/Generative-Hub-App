@@ -12,11 +12,12 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
+import { useTranslations } from "next-intl";
 import React, { Suspense, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
-import CollectedPage from "./collection";
+import { CollectedPage } from "./collection";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -28,7 +29,7 @@ const ProfilePage: React.FC = () => {
   const [coverPhoto, setCoverPhoto] = useState<string>(
     "https://placehold.co/800x400"
   );
-
+  const t = useTranslations("profile");
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -100,17 +101,17 @@ const ProfilePage: React.FC = () => {
           </Suspense>
         );
       case "Offers made":
-        return <p>Displaying Offers made...</p>;
+        return <p>{t("displaying_offers")}</p>;
       case "Deals":
-        return <p>Displaying Deals...</p>;
+        return <p>{t("Displaying_Deals")}</p>;
       case "Created":
-        return <p>Displaying Created items...</p>;
+        return <p>{t("Displaying_Created")} </p>;
       case "Favorite":
-        return <p>Displaying Favorite items...</p>;
+        return <p>{t("Displaying_Favorite_items")} </p>;
       case "Activity":
-        return <p>Displaying Activity...</p>;
+        return <p>{t("Displaying_Activity")} </p>;
       default:
-        return <p>No items found for this menu.</p>;
+        return <p>{t("No_items_found_for")} </p>;
     }
   };
 
@@ -179,7 +180,7 @@ const ProfilePage: React.FC = () => {
       <div className="mt-4">
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-2xl font-bold">Unnamed</h1>
+            <h1 className="text-2xl font-bold">{t("Unnamed")} </h1>
             <span> | </span>
             {/* Address info */}
             <section className="text-500 flex">
@@ -207,7 +208,7 @@ const ProfilePage: React.FC = () => {
                     {/* "Copied!" Tooltip */}
                     {copied && (
                       <div className="absolute left-1/2 mt-1 -translate-x-1/2 transform rounded border bg-white px-2 py-1 text-sm text-green-500">
-                        Copied!
+                        {t("Copied")}
                       </div>
                     )}
                   </span>
@@ -225,7 +226,7 @@ const ProfilePage: React.FC = () => {
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem key="new">
-                  <Link href="/profile/setting">Setting</Link>
+                  <Link href="/profile/setting">{t("Settings")} </Link>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

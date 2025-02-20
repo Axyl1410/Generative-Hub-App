@@ -1,15 +1,15 @@
 "use client";
 
-import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import { MARKETPLACE } from "@/contracts";
+import { useState } from "react";
+import { toast } from "sonner";
 import {
   bidInAuction,
   DirectListing,
   EnglishAuction,
   makeOffer,
 } from "thirdweb/extensions/marketplace";
-import { MARKETPLACE } from "@/contracts";
-import { useState } from "react";
-import { toast } from "sonner";
+import { TransactionButton, useActiveAccount } from "thirdweb/react";
 
 export default function MakeOfferButton({
   auctionListing,
@@ -28,6 +28,7 @@ export default function MakeOfferButton({
         type="number"
         step={0.000001}
         value={bid}
+        min={0}
         onChange={(e) => setBid(e.target.value)}
       />
       <TransactionButton

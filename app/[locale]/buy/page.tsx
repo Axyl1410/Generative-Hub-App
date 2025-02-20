@@ -4,18 +4,22 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link } from "@/i18n/routing";
 import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
 import { cn } from "@/lib/utils";
-import { Link } from "@/i18n/routing";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export const dynamic = "force-dynamic";
 
 export default function Buy() {
   const { data, error, loading } = useAutoFetch<string[]>(
-    `/api/collection/get-collection`
+    `/api/collection/get-collection`,
+    60000,
+    "collection"
   );
+  const t = useTranslations("buy");
   const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
   const [loadingCollections, setLoadingCollections] = useState(true);
 
@@ -36,8 +40,6 @@ export default function Buy() {
     fetchCollectionsWithNFTs();
   }, [data]);
 
-  console.log(collectionsWithNFTs);
-
   if (loading || loadingCollections)
     return (
       <div className="mt-10">
@@ -48,7 +50,6 @@ export default function Buy() {
     toast.error(error.message);
     return <EmptyText text={`Error: ${error.message}`} />;
   }
-
   return (
     <div className="my-8">
       <Suspense fallback={<NFTGridLoading />}>
@@ -70,7 +71,7 @@ export default function Buy() {
         </div>
       </Suspense>
       <div className="mt-8 grid w-full place-content-center">
-        <p className="text-sm font-bold">End of listed for sale</p>
+        <p className="text-sm font-bold">{t("End_of_listed_for_sale")} </p>
       </div>
     </div>
   );

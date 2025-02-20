@@ -22,7 +22,7 @@ const WalletDialog = memo(() => (
     <p className="text-center text-gray-600 dark:text-gray-400">
       Please connect your wallet to continue.
     </p>
-    <ConnectButton className="w-full bg-border dark:bg-border-dark" />
+    <ConnectButton className="dark:bg-border-dark w-full bg-border" />
   </div>
 ));
 

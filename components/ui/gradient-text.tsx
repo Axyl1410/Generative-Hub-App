@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 export type GradientTextProps = {
   children?: string;
@@ -21,7 +21,7 @@ export function GradientText({
   return (
     <Component
       className={cn(
-        "relative inline-block text-transparent bg-clip-text animate-gradient",
+        "animate-gradient relative inline-block bg-clip-text text-transparent",
         className
       )}
       style={{

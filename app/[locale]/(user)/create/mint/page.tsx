@@ -5,8 +5,12 @@
 import BackButton from "@/components/common/back-button";
 import Loading from "@/components/common/loading";
 import LoadingScreen from "@/components/common/loading-screen";
+import { Button } from "@/components/ui/button";
 import DropdownCard from "@/components/ui/dropdown-card";
 import { FileUpload } from "@/components/ui/file-upload";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Link, useRouter } from "@/i18n/routing";
 import CollectionContract from "@/lib/get-collection-contract";
@@ -31,7 +35,6 @@ interface Attribute {
 }
 
 export default function Page() {
- 
   const router = useRouter();
   const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
@@ -119,12 +122,12 @@ export default function Page() {
               }}
             >
               <div>
-                <label
+                <Label
                   htmlFor="collection"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
                   {t("Collection")} <span className="text-red-600"> *</span>
-                </label>
+                </Label>
                 <div
                   className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
                   onClick={() => setShowDropdown(!showDropdown)}
@@ -197,88 +200,73 @@ export default function Page() {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="title"
                   className="text-sm/6 font-bold dark:text-text-dark"
                 >
-                  {t("name_label")}{" "}
-                  <span className="text-red-600"> *</span>
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder={t("name_placeholder")}
-                    className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
+                  {t("name_label")} <span className="text-red-600"> *</span>
+                </Label>
+                <Input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder={t("name_placeholder")}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="mt-2"
+                />
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="description"
                   className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
                 >
                   {t("description_label")}{" "}
                   <span className="text-red-600"> *</span>
-                </label>
-                <div className="mt-2">
-                  <textarea
-                    name="description"
-                    id="description"
-                    rows={3}
-                    className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </div>
+                </Label>
+                <Textarea
+                  name="description"
+                  id="description"
+                  rows={3}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="mt-2"
+                />
                 <p className="mt-3 text-sm/6">{t("Write_a_few")} </p>
               </div>
 
               {/* Attributes Input Fields */}
               <div>
-                <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
+                <Label>
                   {t("Attributes")}{" "}
                   <span className="text-gray-600">({t("Optional")} )</span>
-                </label>
+                </Label>
                 <div className="mt-2 flex gap-2">
                   <div className="flex-1">
-                    <input
+                    <Input
                       type="text"
                       placeholder={t("trait_type_placeholder")}
-                      className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                       value={traitType}
                       onChange={(e) => setTraitType(e.target.value)}
                     />
                   </div>
                   <div className="flex-1">
-                    <input
+                    <Input
                       type="text"
                       placeholder={t("value_placeholder")}
-                      className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                       value={attributeValue}
                       onChange={(e) => setAttributeValue(e.target.value)}
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400"
-                    onClick={handleAddAttribute}
-                  >
-                    {t("Add")}
-                  </button>
+                  <Button onClick={handleAddAttribute}>{t("Add")}</Button>
                 </div>
               </div>
 
               {/* Display Attributes Array */}
               {attributesArray.length > 0 && (
                 <div>
-                  <label className="text-sm/6 font-bold text-gray-900 dark:text-text-dark">
-                    {t("Added_Attributes")}
-                  </label>
+                  <Label> {t("Added_Attributes")}</Label>
                   <ul className="mt-2 space-y-2">
                     <AnimatePresence>
                       {attributesArray.map((attribute, index) => (

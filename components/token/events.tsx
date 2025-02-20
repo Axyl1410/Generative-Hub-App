@@ -22,7 +22,7 @@ export default function Events({
     contract: contract,
     events: [
       transferEvent({
-        tokenId: BigInt(tokenId),
+        tokenId: tokenId,
       }),
     ],
   });

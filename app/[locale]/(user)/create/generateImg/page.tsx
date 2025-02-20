@@ -52,7 +52,7 @@ export default function Page() {
           Authorization: `Bearer ${OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ inputs: prompt , n:5}),
+        body: JSON.stringify({ inputs: prompt, n: 5 }),
       });
 
       if (!response.ok) {

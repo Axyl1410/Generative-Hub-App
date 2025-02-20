@@ -1,123 +1,166 @@
 {
   "home": {
-    "title": "Hãy cho thế giới biết ý tưởng sưu tập NFT của bạn!",
-    "content": "Chúng tôi là một thị trường lớn chuyên kết nối các nghệ sĩ tuyệt vời của GenHub với người hâm mộ và những nhà sưu tập token độc đáo!"
+    "title": "Hãy chia sẻ ý tưởng bộ sưu tập NFT của bạn với thế giới!",
+    "content": "Chúng tôi là một thị trường lớn kết nối các nghệ sĩ tài năng từ GenHub với người hâm mộ và những người sưu tập token độc đáo!"
   },
   "buy": {
     "title": "Mua NFT",
     "nocollection": "Có vẻ như không có NFT nào được liệt kê trong bộ sưu tập này. Hãy quay lại sau!",
-    "endlist": "Kết thúc niêm yết để bán"
+    "endlist": "Hết danh sách NFT đang bán",
+    "End_of_listed_for_sale": "Hết danh sách NFT đang bán"
   },
   "sell": {
     "title": "Bán NFT",
-    "collection": "Bộ sưu tập của tôi",
-    "nocollection": "Không tìm thấy bộ sưu tập nào",
+    "collection": "Bộ Sưu Tập Của Tôi",
+    "nocollection": "Không tìm thấy bộ sưu tập",
     "other": "Khác",
     "Sell_NFT": "Bán NFT"
   },
   "navbar": {
-    "home": "Trang chủ",
-    "buy": "Mua NFTs",
-    "sell": "Bán NFTs",
+    "home": "Trang Chủ",
+    "buy": "Mua NFT",
+    "sell": "Bán NFT",
     "create": "Tạo",
-    "profile": "Hồ sơ"
+    "profile": "Hồ Sơ"
   },
   "component": {
     "backbutton": "Quay lại",
     "disconnect": "Ngắt kết nối",
     "themeSwitcher": {
-      "go": "Giao diện",
+      "go": "Đi",
       "light": "sáng",
       "dark": "tối"
     }
   },
   "collection": {
-    "title": "Bộ sưu tập",
+    "title": "Bộ Sưu Tập",
     "edit_collection_details": "Chỉnh sửa chi tiết bộ sưu tập, thu nhập và liên kết.",
-    "loading": "🚀 Triển khai bộ sưu tập",
-    "description_analyzing": "Phân tích mô tả...",
-    "token_symbol_info": "Ký hiệu token là cách viết tắt để xác định hợp đồng của bạn, hiển thị trên chuỗi. Ví dụ, Azuki sử dụng AZUKI và Bored Ape Yacht Club sử dụng BAYC là hai ký hiệu token tương ứng. Ký hiệu token không thể thay đổi sau khi triển khai hợp đồng của bạn.",
-    "contract_name_info": "Tên hợp đồng là tên của bộ sưu tập NFT của bạn, hiển thị trên chuỗi. Đây thường là tên dự án hoặc bộ sưu tập của bạn. Tên hợp đồng không thể thay đổi sau khi triển khai hợp đồng của bạn.",
-    "logo_info": "Logo của bạn nên là biểu tượng của các mặt hàng của bạn và sẽ xuất hiện bên cạnh tên bộ sưu tập của bạn. Bạn có thể thay đổi logo của mình ngay cả sau khi triển khai hợp đồng.",
-    "image_required": "Hình ảnh là bắt buộc.",
-    "name_required": "Tên là bắt buộc.",
-    "drop_page_message": "Trang drop hoặc các mặt hàng của bạn cho đến khi bạn xuất bản chúng.",
-    "another_message": "Một câu tiếng Anh khác ở đây.",
-    "drop_page_items": "Trang drop hoặc các mặt hàng của bạn cho đến khi bạn xuất bản chúng.",
-    "deployed_contract": "Rằng bạn đã triển khai một hợp đồng lên chuỗi.",
+    "loading": " 🚀 Đang triển khai bộ sưu tập",
+    "description_analyzing": "Đang phân tích mô tả...",
+    "token_symbol_info": "Mã token là cách viết tắt để nhận diện hợp đồng của bạn, sẽ xuất hiện trên chuỗi. Ví dụ, Azuki sử dụng AZUKI và Bored Ape Yacht Club sử dụng BAYC làm mã token của họ. Mã token không thể thay đổi sau khi bạn triển khai hợp đồng.",
+    "contract_name_info": "Tên hợp đồng là tên của bộ sưu tập NFT của bạn, sẽ xuất hiện trên chuỗi. Đây thường là tên dự án hoặc bộ sưu tập của bạn. Tên hợp đồng không thể thay đổi sau khi bạn triển khai hợp đồng.",
+    "logo_info": "Logo của bạn nên là đại diện cho các mặt hàng của bạn và sẽ xuất hiện bên cạnh tên bộ sưu tập của bạn. Bạn có thể thay đổi logo sau khi triển khai hợp đồng.",
+    "image_required": "Cần hình ảnh.",
+    "name_required": "Cần tên.",
+    "drop_page_message": "Trang đổ hoặc các mặt hàng của bạn cho đến khi bạn công bố chúng.",
+    "another_message": "Câu tiếng Anh khác ở đây.",
+    "drop_page_items": "Trang đổ hoặc các mặt hàng của bạn cho đến khi bạn công bố chúng.",
+    "deployed_contract": "Hợp đồng đã được triển khai trên blockchain.",
     "your_community": "Cộng đồng của bạn:",
     "can_view": "Có thể xem",
-    "can_edit": "Có thể chỉnh sửa"
+    "can_edit": "Có thể chỉnh sửa",
+    "s_create": "s tạo hợp đồng thông minh cho đợt phát hành của bạn.",
+    "need_to_deplop": "Bạn sẽ cần triển khai hợp đồng ERC-721 lên blockchain trước khi có thể tạo một đợt phát hành.",
+    "what_is_a_contract": "Hợp đồng là gì?",
+    "Logo_image": "Hình ảnh logo",
+    "Contract_name": "Tên hợp đồng",
+    "Token_symbol": "Mã token",
+    "Description": "Mô tả",
+    "Enter": "Nhập tên bộ sưu tập để tạo mô tả",
+    "after": " Sau khi triển khai hợp đồng của bạn, bạn sẽ có thể:",
+    "ok": "OK"
   },
   "mint": {
     "title": "Tạo NFT",
-    "k": "Sau khi mặt hàng của bạn được tạo ra, bạn sẽ không thể thay đổi bất kỳ thông tin nào của nó.",
-    "Select_a_collection": "Chọn một bộ sưu tập để tạo NFT của bạn.",
-    "You_don_apost": "Bạn không có bộ sưu tập nào. Hãy tạo một bộ sưu tập trước.",
+    "k": "Khi mục của bạn được tạo, bạn sẽ không thể thay đổi bất kỳ thông tin nào của nó.",
+    "Select_a_collection": "Chọn bộ sưu tập để tạo NFT của bạn.",
+    "You_don_apost": "Bạn chưa có bộ sưu tập nào. Hãy tạo bộ sưu tập trước.",
     "notall": "Không phải tất cả các bộ sưu tập đều đủ điều kiện.",
     "Learn_more": "Tìm hiểu thêm",
-    "Write_a_few_description": "Viết mô tả về mặt hàng của bạn.",
+    "Write_a_few_description": "Viết mô tả cho mục của bạn.",
     "Mint_NFT": "Tạo NFT",
     "Collection": "Bộ sưu tập",
-    "Write_a_few": "Viết mô tả về...",
+    "Write_a_few": "Viết mô tả...",
     "Attributes": "Thuộc tính",
     "Optional": "Tùy chọn",
     "Added_Attributes": "Thuộc tính đã thêm",
     "Add": "Thêm",
-     "name_label": "Tên NFT",
+    "name_label": "Tên NFT",
     "name_placeholder": "Nhập tên NFT của bạn",
     "description_label": "Mô tả",
     "description_placeholder": "Nhập mô tả của bạn",
     "upload_image": "Tải lên hình ảnh",
     "upload_image_placeholder": "Chọn hình ảnh từ máy tính của bạn",
     "upload_image_button": "Chọn hình ảnh",
-    "upload_image_error": "Hình ảnh là bắt buộc",
-    "value_placeholder":" Gía trị",
-    "trait_type_placeholder":" Loại thuộc tính",
-    "create_one": "Tạo collection mới",
-    "offer_sent": "Đã gửi đề nghị",
-"offer_placed_successfully": "Đề nghị đã được đặt thành công",
-"error_making_offer": "Lỗi khi tạo đề nghị",
-"minting_nft": "Đang tạo NFT"
-
+    "upload_image_error": "Cần hình ảnh",
+    "value_placeholder": "Giá trị",
+    "trait_type_placeholder": "Loại thuộc tính",
+    "create_one": "Tạo bộ sưu tập mới",
+    "offer_sent": "Đã gửi lời đề nghị",
+    "offer_placed_successfully": "Đề nghị đã được đặt thành công",
+    "error_making_offer": "Lỗi khi đặt lời đề nghị",
+    "minting_nft": "Đang tạo NFT"
   },
   "create": {
-    
-    "A_drop": "Một đợt phát hành là sự ra mắt của một dự án mới. Điều này thường xảy ra vào một ngày và giờ cụ thể. Các mặt hàng sẽ được tiết lộ sau khi chúng đã được mua.",
-    "title":"Tạo",
+    "A_drop": "Một đợt phát hành là việc ra mắt một dự án mới. Điều này thường xảy ra vào một ngày và giờ cụ thể. Các mặt hàng sẽ được tiết lộ sau khi chúng được mua.",
+    "title": "Tạo",
     "Collection_or_item": "Bộ sưu tập hoặc mặt hàng",
-    "create": "Tạo một bộ sưu tập NFT mới hoặc thêm một NFT vào bộ sưu tập hiện có. Các mặt hàng của bạn sẽ hiển thị ngay lập tức. Niêm yết để bán khi bạn",
+    "create": "Tạo bộ sưu tập NFT mới hoặc thêm NFT vào bộ sưu tập hiện có. Các mặt hàng của bạn sẽ hiển thị ngay lập tức. Được liệt kê khi bạn",
     "ready": "sẵn sàng.",
     "Learn_more": "Tìm hiểu thêm",
-    "about_each": "về từng tùy chọn",
-    "Drop": "Phát hành"
+    "about_each": "về từng lựa chọn",
+    "Drop": "Đợt phát hành"
   },
   "profile": {
     "0_items": "0 mặt hàng",
     "0_collections": "Không tìm thấy mặt hàng nào cho tìm kiếm này",
-    "Back_to_all_items": "Quay lại tất cả các mặt hàng",
+    "Back_to_all_items": "Quay lại tất cả mặt hàng",
     "CollectedPage": "Trang đã thu thập",
-    "displaying_offers": "Hiển thị các đề nghị đã thực hiện...",
-    "Displaying_Deals": "Hiển thị các giao dịch...",
-    "Displaying_Created": "Hiển thị các mặt hàng đã tạo...",
-    "Displaying_Favorite_items": "Hiển thị các mặt hàng yêu thích...",
-    "Displaying_Activity": "Hiển thị hoạt động...",
-    "No_items_found_for": "Không tìm thấy mặt hàng nào cho menu này."
+    "displaying_offers": "Đang hiển thị các lời đề nghị...",
+    "Displaying_Deals": "Đang hiển thị các giao dịch...",
+    "Displaying_Created": "Đang hiển thị các mặt hàng đã tạo...",
+    "Displaying_Favorite_items": "Đang hiển thị các mặt hàng yêu thích...",
+    "Displaying_Activity": "Đang hiển thị hoạt động...",
+    "No_items_found_for": "Không tìm thấy mặt hàng cho menu này.",
+    "Unnamed": "Không có tên",
+    "Copied": "Đã sao chép!",
+    "Settings": "Cài đặt"
   },
   "use": {
     "Connect_Wallet": "Kết nối ví",
     "Please_connect": "Vui lòng kết nối ví của bạn để tiếp tục."
   },
-  "generative-art": {
-    "Generate_Art": "Tạo Nghệ Thuật | Trình Tạo Nghệ Thuật NFT",
-    "Create_Your_Generative": "Tạo Nghệ Thuật NFT Tạo Sinh của Bạn",
-    "Complexity": "Độ phức tạp:",
-    "Color_Scheme": "Bảng màu:",
-    "Random": "Ngẫu nhiên",
-    "Monochrome": "Đơn sắc",
-    "Complementary": "Bổ sung",
-    "Generate_Art2": "Tạo Nghệ Thuật",
-    "Your_art_will": "Nghệ thuật của bạn sẽ xuất hiện ở đây",
-    "Download": "Tải xuống"
+
+  "generateimg": {
+    "Retry_in": "Thử lại sau",
+    "seconds": "giây...",
+    " You_can_add": "📝Lưu ý: Bạn có thể thêm",
+    "etc": ", v.v. vào cuối",
+    "the_prompt": "lời nhắc để tạo ra những hình ảnh khác nhau bằng cách thay đổi lời nhắc như",
+    "this": "cái này:",
+    "prompt_v1": "lời nhắc v1",
+    "prompt_v2": "lời nhắc v2",
+    "and_so": ", và nhiều hơn nữa."
+  },
+  "pjs": {
+    "p5": "P5.js Tạo nghệ thuật",
+    "Preview": "Xem trước",
+    "Error": "Lỗi:",
+    "Source_code": "Mã nguồn",
+    "Run_code": "Chạy mã",
+    "Download_PNG": "Tải xuống PNG",
+    "Download_JPG": "Tải xuống JPG",
+    "Download_GIF": "Tải xuống GIF"
+  },
+  "token": {
+    "Current_Owner": "Chủ sở hữu hiện tại",
+    "History": "Lịch sử",
+    "Bids_starting_from": "Lời đề nghị bắt đầu từ"
+  },
+  "app": {
+    "Something_went_wrong": "Đã có lỗi xảy ra!",
+    "Report_Error_on_GitHub": "Báo cáo lỗi trên GitHub",
+    "Refresh": "Làm mới",
+    "Page_not_found": "Không tìm thấy trang",
+    "couldn": "Xin lỗi, chúng tôi không thể",
+    "t_find_the_page_you": "tìm thấy trang bạn đang tìm",
+    "re_looking_for": "mất rồi.",
+    "Go_back_home": "Quay lại trang chủ",
+    "Contact_support": "Liên hệ hỗ trợ"
+  },
+  "comment": {
+    "comment": "Bình luận",
+    "placeholder": "Viết bình luận...",
+    "submit": "Gửi"
   }
 }
