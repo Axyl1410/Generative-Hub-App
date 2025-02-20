@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Comment {
   _id: string;
@@ -17,7 +17,7 @@ export default function CommentSection({ tokenId }: { tokenId: string }) {
   useEffect(() => {
     fetch(`/api/comments?tokenId=${tokenId}`)
       .then((res) => res.json())
-      .then((data) => setComments(data));
+      .then((data) => setComments(Array.isArray(data) ? data : []));
   }, [tokenId]);
 
   // Gửi comment mới
@@ -39,8 +39,8 @@ export default function CommentSection({ tokenId }: { tokenId: string }) {
   };
 
   return (
-    <div className="w-full max-w-lg rounded-lg bg-white p-4 shadow-md">
-      <h3 className="mb-3 text-lg font-semibold">Bình luận</h3>
+    <div className="mt-4 w-full rounded-lg bg-neutral-100 p-4 shadow-md">
+      <h3 className="mb-3 text-lg font-semibold dark:text-black">Bình luận</h3>
       <div className="space-y-3">
         {comments.map((comment) => (
           <div
@@ -56,9 +56,8 @@ export default function CommentSection({ tokenId }: { tokenId: string }) {
         ))}
       </div>
       <form onSubmit={handleSubmit} className="mt-3 flex">
-        <input
-          type="text"
-          className="flex-1 rounded-l-md border p-2 focus:ring-2 focus:ring-blue-500"
+        <textarea
+          className="flex-1 rounded-l-md p-2 outline-none focus:ring-2 focus:ring-blue-500 dark:text-black"
           placeholder="Nhập bình luận..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
