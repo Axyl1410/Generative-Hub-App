@@ -2,7 +2,6 @@
 
 import Loading from "@/components/common/loading";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -67,7 +66,6 @@ export default function Page() {
             errorData.error?.message || `HTTP Error ${response.status}`
           );
         }
-        const t = useTranslations("generateimg");
         return;
       }
 
@@ -81,10 +79,6 @@ export default function Page() {
     } finally {
       setLoading(false);
     }
-  }
-
-  function t(arg0: string): import("react").ReactNode {
-    throw new Error("Function not implemented.");
   }
 
   return (
@@ -115,9 +109,7 @@ export default function Page() {
       {/* Hiển thị lỗi hoặc thời gian cooldown */}
       {error && <p className="mt-4 text-red-500">{error}</p>}
       {cooldown > 0 && (
-        <p className="mt-2 text-gray-600">
-          {t("Retry _in")} {cooldown} {t("seconds")}
-        </p>
+        <p className="mt-2 text-gray-600">Retry in {cooldown} seconds...</p>
       )}
 
       {/* Hiển thị ảnh và nút "Generate Again" */}
@@ -130,10 +122,9 @@ export default function Page() {
           />
 
           <span className="w mt-3 rounded border bg-gray-300 p-3 text-gray-600">
-            {t("You_can_add")} &#34;v1&#34;, &#34;v2&#34; {t("etc")}
-            {t("the_prompt")}
-            {t("this")} &#34;{t("prompt_v1")} &#34;, &#34;{t("prompt_v2")}&#34;{" "}
-            {t("and_so")}
+            📝Note: You can add &#34;v1&#34;, &#34;v2&#34;, etc. at the end of
+            the prompt to generate different images by modifying the prompt like
+            this: &#34;prompt v1&#34;, &#34;prompt v2&#34;, and so on.
           </span>
         </div>
       )}

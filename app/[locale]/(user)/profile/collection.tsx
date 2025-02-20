@@ -6,11 +6,11 @@ import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Link } from "@/i18n/routing";
 import { User } from "@/types";
 import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
 import { useActiveAccount } from "thirdweb/react";
 
 export const CollectedPage = () => {
   const account = useActiveAccount();
+  const t = useTranslations("profile");
   const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`,
     60000,
@@ -18,7 +18,6 @@ export const CollectedPage = () => {
   );
 
   if (loading || !account) return <Loading />;
-  const t = useTranslations("profile");
   return (
     <>
       {/* Filters Section */}

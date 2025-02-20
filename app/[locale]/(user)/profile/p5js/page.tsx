@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useState, ChangeEvent } from "react";
 import styles from "@/styles/p5-art-creator.module.scss";
 import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { ChangeEvent, useRef, useState } from "react";
 
 const P5ArtCreator: React.FC = () => {
   const [code, setCode] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("pjs");
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,7 +97,7 @@ const P5ArtCreator: React.FC = () => {
     link.href = canvas.toDataURL(`image/${format}`);
     link.click();
   };
-  const t = useTranslations("pjs");
+
   return (
     <div className={styles.container}>
       <h1>{t("p5")} </h1>

@@ -5,7 +5,7 @@ import MakeOfferButton from "@/components/token/make-offer-button";
 import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getNFT } from "thirdweb/extensions/erc721";
 import {
@@ -22,6 +22,8 @@ export default async function Page({
 }: {
   params: Promise<{ contractAddress: string; id: string }>;
 }) {
+  const t = await getTranslations("token");
+
   const { contractAddress, id } = await params;
   const contract = CollectionContract(contractAddress);
 
@@ -61,7 +63,6 @@ export default async function Page({
     (a) =>
       a.assetContractAddress === contractAddress && a.tokenId === BigInt(id)
   );
-  const t = useTranslations("token");
   return (
     <div className="mx-auto my-10 flex max-w-2xl flex-col gap-16 lg:max-w-full lg:flex-row">
       <div className="flex flex-1 flex-col">

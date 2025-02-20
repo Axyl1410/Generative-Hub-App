@@ -3,6 +3,7 @@
 import BackButton from "@/components/common/back-button";
 import LoadingScreen from "@/components/common/loading-screen";
 import MenuSection from "@/components/ui/menu-section";
+import { Link } from "@/i18n/routing";
 import "@/styles/profile.module.scss";
 import {
   Button,
@@ -11,13 +12,12 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import React, { Suspense, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaCamera, FaCopy, FaEthereum } from "react-icons/fa";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
 import { CollectedPage } from "./collection";
-import { useTranslations } from "next-intl";
 
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
@@ -180,7 +180,7 @@ const ProfilePage: React.FC = () => {
       <div className="mt-4">
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-2xl font-bold">{t("Unnamed" as any)} </h1>
+            <h1 className="text-2xl font-bold">{t("Unnamed")} </h1>
             <span> | </span>
             {/* Address info */}
             <section className="text-500 flex">

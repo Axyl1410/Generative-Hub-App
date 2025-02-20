@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { GetItem } from "./get-item";
 
 export default async function Page({
@@ -7,7 +7,7 @@ export default async function Page({
   params: Promise<{ contractAddress: string }>;
 }) {
   const { contractAddress } = await params;
-  const t = useTranslations("buy");
+  const t = await getTranslations("buy");
   return (
     <>
       <div className="my-8">

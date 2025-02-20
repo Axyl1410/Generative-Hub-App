@@ -3,7 +3,6 @@
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 

@@ -415,9 +415,7 @@ const DialogContent: React.FC<DialogContentProps> = ({
   description,
   onClose,
 }) => {
-  function t(arg0: string): React.ReactNode {
-    throw new Error("Function not implemented.");
-  }
+  const t = useTranslations("collection");
 
   return (
     <div className="flex flex-col gap-4">

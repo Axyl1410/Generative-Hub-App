@@ -19,6 +19,7 @@ export default function Buy() {
     60000,
     "collection"
   );
+  const t = useTranslations("buy");
   const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
   const [loadingCollections, setLoadingCollections] = useState(true);
 
@@ -49,7 +50,6 @@ export default function Buy() {
     toast.error(error.message);
     return <EmptyText text={`Error: ${error.message}`} />;
   }
-  const t = useTranslations("buy");
   return (
     <div className="my-8">
       <Suspense fallback={<NFTGridLoading />}>
