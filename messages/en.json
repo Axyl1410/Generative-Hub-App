@@ -120,18 +120,7 @@
     "Connect_Wallet": "Connect Wallet",
     "Please_connect": "Please connect your wallet to continue."
   },
-  "generative-art": {
-    "Generate_Art": "Generate Art | NFT Art Generator",
-    "Create_Your_Generative": "Create Your Generative Art NFT",
-    "Complexity": "Complexity:",
-    "Color_Scheme": "Color Scheme:",
-    "Random": "Random",
-    "Monochrome": "Monochrome",
-    "Complementary": "Complementary",
-    "Generate_Art2": "Generate Art",
-    "Your_art_will": "Your art will appear here",
-    "Download": "Download"
-  },
+
   "generateimg": {
     "Retry_in": "Retry in",
     "seconds": "seconds...",
@@ -153,9 +142,7 @@
     "Download_JPG": "Download JPG",
     "Download_GIF": "Download GIF"
   },
-  "test": {
-    "Upload_Script": "Upload Script to Generate Art"
-  },
+
   "token": {
     "Current_Owner": "Current Owner",
     "History": "History",
@@ -171,5 +158,10 @@
     "re_looking_for": "re looking for.",
     "Go_back_home": "Go back home",
     "Contact_support": "Contact support"
+  },
+  "comment": {
+    "comment": "Comment",
+    "placeholder": "Write a comment...",
+    "submit": "Submit"
   }
 }

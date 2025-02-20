@@ -1,8 +1,8 @@
 import BackButton from "@/components/common/back-button";
 import BuyListingButton from "@/components/token/buy-listing-button";
+import CommentSection from "@/components/token/commentSection"; // ✅ Import CommentSection
 import Events from "@/components/token/events";
 import MakeOfferButton from "@/components/token/make-offer-button";
-import CommentSection from "@/components/token/commentSection"; // ✅ Import CommentSection
 import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
@@ -128,15 +128,9 @@ export default async function Page({
             <div>
               {auctionListing && (
                 <>
-                  <p
-                    className="text-textdark:text-white/60 mb-4"
-                    style={{
-                      marginTop: 12,
-                    }}
-                  >
+                  <p className="text-textdark:text-white/60 my-4">
                     {t("Bids_starting_from")}
                   </p>
-
                   <div className="font-lg rounded-md font-medium text-text dark:text-white/90">
                     {auctionListing?.minimumBidCurrencyValue.displayValue}
                     {" " + auctionListing?.minimumBidCurrencyValue.symbol}

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import mongoose from "mongoose";
 
 export const dbConnect = async () => {
@@ -12,7 +14,6 @@ export const dbConnect = async () => {
         dbName: "genhub",
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any
     );
     console.log("✅ Connected to MongoDB");

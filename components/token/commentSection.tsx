@@ -1,6 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
 
 interface Comment {
   _id: string;
@@ -12,6 +15,7 @@ interface Comment {
 export default function CommentSection({ tokenId }: { tokenId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
+  const t = useTranslations("comment");
 
   // Lấy danh sách comments từ API
   useEffect(() => {
@@ -40,7 +44,9 @@ export default function CommentSection({ tokenId }: { tokenId: string }) {
 
   return (
     <div className="mt-4 w-full rounded-lg bg-neutral-100 p-4 shadow-md">
-      <h3 className="mb-3 text-lg font-semibold dark:text-black">Bình luận</h3>
+      <h3 className="mb-3 text-lg font-semibold dark:text-black">
+        {t("comment")}
+      </h3>
       <div className="space-y-3">
         {comments.map((comment) => (
           <div
@@ -55,19 +61,14 @@ export default function CommentSection({ tokenId }: { tokenId: string }) {
           </div>
         ))}
       </div>
-      <form onSubmit={handleSubmit} className="mt-3 flex">
-        <textarea
-          className="flex-1 rounded-l-md p-2 outline-none focus:ring-2 focus:ring-blue-500 dark:text-black"
-          placeholder="Nhập bình luận..."
+      <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2">
+        <Textarea
+          placeholder={t("placeholder")}
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button
-          type="submit"
-          className="rounded-r-md bg-blue-500 px-4 text-white"
-        >
-          Gửi
-        </button>
+
+        <Button type="submit"> {t("submit")}</Button>
       </form>
     </div>
   );

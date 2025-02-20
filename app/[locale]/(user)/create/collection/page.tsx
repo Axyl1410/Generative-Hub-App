@@ -5,6 +5,9 @@ import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import { useRouter } from "@/i18n/routing";
@@ -240,10 +243,7 @@ export default function Page() {
             </div>
             <div className="grid gap-4 sm:grid-cols-5">
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="contract"
-                  className="mb-2 flex items-center font-bold dark:text-text-dark"
-                >
+                <Label htmlFor="contract" className="flex items-center">
                   {t("Contract_name")} <span className="text-red-600"> *</span>
                   <span
                     className="ml-1 cursor-pointer"
@@ -251,19 +251,17 @@ export default function Page() {
                   >
                     <Info size={16} />
                   </span>
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="contract"
-                    id="contract"
-                    placeholder="My collection name"
-                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    required
-                    value={name}
-                    onChange={handleNameChange}
-                  />
-                </div>
+                </Label>
+                <Input
+                  type="text"
+                  name="contract"
+                  id="contract"
+                  placeholder="My collection name"
+                  required
+                  value={name}
+                  onChange={handleNameChange}
+                  className="mt-2"
+                />
                 <Dialog
                   isOpen={contractInfo.isOpen}
                   onClose={contractInfo.close}
@@ -276,10 +274,7 @@ export default function Page() {
                 </Dialog>
               </div>
               <div className="sm:col-span-2">
-                <label
-                  htmlFor="mcn"
-                  className="mb-2 flex items-center font-bold dark:text-text-dark"
-                >
+                <Label htmlFor="mcn" className="flex items-center">
                   {t("Token_symbol")}
                   <span
                     className="ml-1 cursor-pointer"
@@ -287,18 +282,16 @@ export default function Page() {
                   >
                     <Info size={16} />
                   </span>
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="mcn"
-                    id="mcn"
-                    placeholder="MCN"
-                    className="w-full rounded-md bg-background-light p-[16px] text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
-                    value={symbol}
-                    readOnly
-                  />
-                </div>
+                </Label>
+                <Input
+                  type="text"
+                  name="mcn"
+                  id="mcn"
+                  placeholder="MCN"
+                  value={symbol}
+                  readOnly
+                  className="mt-2"
+                />
                 <Dialog isOpen={tokenInfo.isOpen} onClose={tokenInfo.close}>
                   <DialogContent
                     title="Token symbol"
@@ -309,10 +302,7 @@ export default function Page() {
               </div>
             </div>
             <div className="w-full">
-              <label
-                htmlFor="description"
-                className="mb-2 flex items-center font-bold dark:text-text-dark"
-              >
+              <Label htmlFor="description">
                 {t("Description")} <span className="text-red-600"> *</span>
                 <button
                   onClick={handleGenerateDescription}
@@ -334,13 +324,12 @@ export default function Page() {
                     </div>
                   )}
                 </button>
-              </label>
+              </Label>
               <div className="mt-2">
-                <textarea
+                <Textarea
                   name="description"
                   id="description"
                   rows={3}
-                  className="w-full rounded-md bg-background-light px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-background-dark dark:text-white sm:text-sm/6"
                   placeholder="Write a few description about."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}

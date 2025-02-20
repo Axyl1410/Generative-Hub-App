@@ -120,18 +120,7 @@
     "Connect_Wallet": "Kết nối ví",
     "Please_connect": "Vui lòng kết nối ví của bạn để tiếp tục."
   },
-  "generative-art": {
-    "Generate_Art": "Tạo nghệ thuật | Máy tạo NFT",
-    "Create_Your_Generative": "Tạo NFT Nghệ thuật sinh ra của bạn",
-    "Complexity": "Độ phức tạp:",
-    "Color_Scheme": "Bảng màu:",
-    "Random": "Ngẫu nhiên",
-    "Monochrome": "Đơn sắc",
-    "Complementary": "Bổ sung",
-    "Generate_Art2": "Tạo nghệ thuật",
-    "Your_art_will": "Nghệ thuật của bạn sẽ xuất hiện ở đây",
-    "Download": "Tải xuống"
-  },
+
   "generateimg": {
     "Retry_in": "Thử lại sau",
     "seconds": "giây...",
@@ -153,9 +142,6 @@
     "Download_JPG": "Tải xuống JPG",
     "Download_GIF": "Tải xuống GIF"
   },
-  "test": {
-    "Upload_Script": "Tải lên kịch bản để tạo nghệ thuật"
-  },
   "token": {
     "Current_Owner": "Chủ sở hữu hiện tại",
     "History": "Lịch sử",
@@ -171,5 +157,10 @@
     "re_looking_for": "mất rồi.",
     "Go_back_home": "Quay lại trang chủ",
     "Contact_support": "Liên hệ hỗ trợ"
+  },
+  "comment": {
+    "comment": "Bình luận",
+    "placeholder": "Viết bình luận...",
+    "submit": "Gửi"
   }
 }

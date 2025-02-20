@@ -120,18 +120,7 @@
     "Connect_Wallet": "ウォレットを接続",
     "Please_connect": "続行するためにウォレットを接続してください。"
   },
-  "generative-art": {
-    "Generate_Art": "アートを生成 | NFTアートジェネレーター",
-    "Create_Your_Generative": "あなたの生成的アートNFTを作成",
-    "Complexity": "複雑さ:",
-    "Color_Scheme": "カラースキーム:",
-    "Random": "ランダム",
-    "Monochrome": "モノクロ",
-    "Complementary": "補完",
-    "Generate_Art2": "アートを生成",
-    "Your_art_will": "あなたのアートはここに表示されます",
-    "Download": "ダウンロード"
-  },
+
   "generateimg": {
     "Retry_in": "再試行中",
     "seconds": "秒...",
@@ -153,9 +142,7 @@
     "Download_JPG": "JPGをダウンロード",
     "Download_GIF": "GIFをダウンロード"
   },
-  "test": {
-    "Upload_Script": "アートを生成するスクリプトをアップロード"
-  },
+
   "token": {
     "Current_Owner": "現在の所有者",
     "History": "履歴",
@@ -171,5 +158,10 @@
     "re_looking_for": "お探しのページ。",
     "Go_back_home": "ホームに戻る",
     "Contact_support": "サポートに連絡"
+  },
+  "comment": {
+    "comment": "コメント",
+    "placeholder": "コメントを書く...",
+    "submit": "提出"
   }
 }

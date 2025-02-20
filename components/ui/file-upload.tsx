@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
+import { useRef, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 const mainVariant = {
   initial: {
@@ -98,7 +98,7 @@ export const FileUpload = ({
         </div>
         <div className="flex flex-col items-center justify-center">
           <p className="relative z-20 font-sans text-base font-bold text-neutral-700 dark:text-neutral-300">
-            Upload file <span className ="text-red-600"> *</span>
+            Upload file <span className="text-red-600"> *</span>
           </p>
           <p className="relative z-20 mt-2 font-sans text-base font-normal text-neutral-400 dark:text-neutral-400">
             Drag or drop your files here or click to upload
@@ -125,7 +125,7 @@ export const FileUpload = ({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     layout
-                    className="shadow-input w-fit flex-shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-white"
+                    className="w-fit flex-shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-600 shadow-input dark:bg-neutral-800 dark:text-white"
                   >
                     {(file.size / (1024 * 1024)).toFixed(2)} MB
                   </motion.p>
