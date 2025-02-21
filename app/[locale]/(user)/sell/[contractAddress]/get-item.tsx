@@ -62,7 +62,7 @@ export function GetItem({ address }: { address: string }) {
               NFTs.map((nft: NFTType) => (
                 <motion.div
                   key={nft.id.toString()}
-                  className="max-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
+                  className="min-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
                   onClick={() => setSelectedNft(nft)}
                   layout
                   initial={{ scale: 0.9, opacity: 0 }}

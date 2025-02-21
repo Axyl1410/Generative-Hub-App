@@ -1,13 +1,16 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
+import Dialog from "@/components/ui/dialog";
+import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
-import { ArrowRight, ImageIcon, LayoutGrid } from "lucide-react";
+import { ArrowRight, ImageIcon, LayoutGrid, Stars } from "lucide-react";
 import { useTranslations } from "next-intl";
-
 
 export default function Page() {
   const t = useTranslations("create");
+  const modal = useToggle();
+
   return (
     <div className={"mt-10 flex w-full justify-center"}>
       <div className={"flex max-w-2xl flex-col gap-4 lg:px-16"}>
@@ -69,6 +72,31 @@ export default function Page() {
               </div>
             </div>
           </Link>
+          <div
+            onClick={modal.open}
+            className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+          >
+            <span className="absolute inset-0 -z-10 h-full w-full rounded-lg bg-gradient-to-br from-sky-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[6px]" />
+
+            <div className={"flex flex-col gap-4"}>
+              <div className={"flex items-center gap-2 text-lg font-semibold"}>
+                <div className={"h-6 w-6"}>
+                  <Stars size={24} />
+                </div>
+                <p>Generative Art</p>
+              </div>
+              <div>Generate by script or AI promt</div>
+            </div>
+            <div className={"h-6 w-6"}>
+              <ArrowRight size={24} />
+            </div>
+          </div>
+          <Dialog onClose={modal.close} isOpen={modal.isOpen}>
+            <div className="flex flex-col">
+              <Link href={"/profile/p5js"}>Generate by script</Link>
+              <Link href={"/create/generateImg"}>Generate by AI</Link>
+            </div>
+          </Dialog>
         </div>
         <div className={"mb-5"}>
           <span className={"cursor-not-allowed text-link"}>

@@ -1,13 +1,26 @@
-import { WorldMap } from "@/components/ui/world-map";
+"use client";
+
+import EmptyText from "@/components/common/empty-text";
+import { NFTGridLoading } from "@/components/nft/nft-grid";
+import CollectionCard from "@/components/ui/collection-card";
+import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Suspense } from "react";
-import Loading from "../loading";
 
 export default function Page() {
   const t = useTranslations("home");
 
+  const { data, error, loading } = useAutoFetch<string[]>(
+    `/api/collection/get-collection`,
+    600000,
+    "collection"
+  );
+
+  if (error) <EmptyText text={`Error: ${error.message}`} />;
+
   return (
-    <div className="bg-background-light w-full py-10 dark:bg-background-dark">
+    <div className="w-full bg-background-light py-10 dark:bg-background-dark">
       <div className="mx-auto max-w-7xl text-center">
         <p className="text-xl font-bold text-black dark:text-white md:text-4xl">
           {t("title")}
@@ -16,42 +29,28 @@ export default function Page() {
           {t("content")}
         </p>
       </div>
-      <Suspense fallback={<Loading />}>
-        <WorldMap
-          dots={[
-            {
-              start: {
-                lat: 64.2008,
-                lng: -149.4937,
-              }, // Alaska (Fairbanks)
-              end: {
-                lat: 34.0522,
-                lng: -118.2437,
-              }, // Los Angeles
-            },
-            {
-              start: { lat: 64.2008, lng: -149.4937 }, // Alaska (Fairbanks)
-              end: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
-            },
-            {
-              start: { lat: -15.7975, lng: -47.8919 }, // Brazil (Brasília)
-              end: { lat: 38.7223, lng: -9.1393 }, // Lisbon
-            },
-            {
-              start: { lat: 51.5074, lng: -0.1278 }, // London
-              end: { lat: 28.6139, lng: 77.209 }, // New Delhi
-            },
-            {
-              start: { lat: 28.6139, lng: 77.209 }, // New Delhi
-              end: { lat: 43.1332, lng: 131.9113 }, // Vladivostok
-            },
-            {
-              start: { lat: 28.6139, lng: 77.209 }, // New Delhi
-              end: { lat: -1.2921, lng: 36.8219 }, // Nairobi
-            },
-          ]}
-        />
-      </Suspense>
+      {loading ? (
+        <NFTGridLoading />
+      ) : (
+        <div
+          className={cn(
+            "my-10 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+            data?.length && "grid"
+          )}
+        >
+          {data?.length ? (
+            <>
+              {data.map((address) => (
+                <Link key={address} href={`/buy/${address}`}>
+                  <CollectionCard key={address} address={address} />
+                </Link>
+              ))}
+            </>
+          ) : (
+            <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
+          )}
+        </div>
+      )}
     </div>
   );
 }
