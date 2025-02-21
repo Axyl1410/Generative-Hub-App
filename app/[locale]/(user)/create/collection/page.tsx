@@ -120,6 +120,8 @@ export default function Page() {
     }
   }, [generateDescription, name]);
 
+  if (account) <LoadingScreen />;
+
   const handle = useCallback(async () => {
     if (!account) return;
 
@@ -171,7 +173,7 @@ export default function Page() {
       await waitForContractDeployment(contractAddress);
 
       await axios.post("/api/user/add-address", {
-        username: account?.address,
+        username: account.address,
         address: contractAddress,
       });
 
