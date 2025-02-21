@@ -120,7 +120,7 @@ export default function Page() {
     }
   }, [generateDescription, name]);
 
-  if (account) <LoadingScreen />;
+  if (!account) <LoadingScreen />;
 
   const handle = useCallback(async () => {
     if (!account) return;
