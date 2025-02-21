@@ -29,28 +29,31 @@ export default function Page() {
           {t("content")}
         </p>
       </div>
-      {loading ? (
-        <NFTGridLoading />
-      ) : (
-        <div
-          className={cn(
-            "my-10 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
-            data?.length && "grid"
-          )}
-        >
-          {data?.length ? (
-            <>
-              {data.map((address) => (
-                <Link key={address} href={`/buy/${address}`}>
-                  <CollectionCard key={address} address={address} />
-                </Link>
-              ))}
-            </>
-          ) : (
-            <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
-          )}
-        </div>
-      )}
+      <div className="rounded-md border border-neutral-300 p-4 dark:border-neutral-800">
+        <div className="mb-6 font-semibold uppercase">Collection list</div>
+        {loading ? (
+          <NFTGridLoading />
+        ) : (
+          <div
+            className={cn(
+              "grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+              data?.length && "grid"
+            )}
+          >
+            {data?.length ? (
+              <>
+                {data.map((address) => (
+                  <Link key={address} href={`/buy/${address}`}>
+                    <CollectionCard key={address} address={address} />
+                  </Link>
+                ))}
+              </>
+            ) : (
+              <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
