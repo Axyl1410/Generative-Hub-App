@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export default function Buy() {
   const { data, error, loading } = useAutoFetch<string[]>(
     `/api/collection/get-collection`,
-    60000,
+    600000,
     "collection"
   );
   const t = useTranslations("buy");

@@ -12,7 +12,7 @@ const EmptyText = ({ text, link, textLink }: EmptyTextProps) => {
       <p className="max-w-lg text-center text-lg font-semibold text-black dark:text-white">
         {text}{" "}
         {link && (
-          <Link href={link} className="ml-2 text-blue-500 underline">
+          <Link href={link} className="ml-2 text-link underline">
             {textLink}
           </Link>
         )}

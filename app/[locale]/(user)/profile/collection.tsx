@@ -13,7 +13,7 @@ export const CollectedPage = () => {
   const t = useTranslations("profile");
   const { data, loading } = useAutoFetch<User>(
     `api/user/get-user?username=${account?.address}`,
-    60000,
+    600000,
     account?.address
   );
 
