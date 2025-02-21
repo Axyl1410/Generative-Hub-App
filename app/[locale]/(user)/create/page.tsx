@@ -92,9 +92,26 @@ export default function Page() {
             </div>
           </div>
           <Dialog onClose={modal.close} isOpen={modal.isOpen}>
-            <div className="flex flex-col">
-              <Link href={"/profile/p5js"}>Generate by script</Link>
-              <Link href={"/create/generateImg"}>Generate by AI</Link>
+            <div className="flex flex-col gap-4">
+              <Link
+                href={"/profile/p5js"}
+                className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+              >
+                <p>Generate by script</p>
+                <div className={"h-6 w-6"}>
+                  <ArrowRight size={24} />
+                </div>
+                <span className="absolute inset-0 -z-10 h-full w-full rounded-lg bg-gradient-to-br from-sky-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[6px]" />
+              </Link>
+              <Link
+                href={"/create/generateImg"}
+                className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+              >
+                <p>Generate by AI</p>
+                <div className={"h-6 w-6"}>
+                  <ArrowRight size={24} />
+                </div>
+              </Link>
             </div>
           </Dialog>
         </div>

@@ -1,6 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import styles from "@/styles/p5-art-creator.module.scss";
+import { ArrowDown, Play, RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, useRef, useState } from "react";
 
@@ -85,6 +88,10 @@ const P5ArtCreator: React.FC = () => {
     }
   };
 
+  const random = () => {
+    runCode(); // Simply rerun the code
+  };
+
   const handleDownload = (format: string) => {
     const iframe = previewRef.current?.querySelector("iframe");
     if (!iframe) return;
@@ -99,7 +106,7 @@ const P5ArtCreator: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={cn("my-10", styles.container)}>
       <h1>{t("p5")} </h1>
 
       <div className={styles.uploadSection}>
@@ -110,6 +117,27 @@ const P5ArtCreator: React.FC = () => {
           className={styles.fileInput}
         />
       </div>
+
+      <Button
+        onClick={runCode}
+        className={cn("hover:bg-green-500", styles.runButton)}
+      >
+        {t("Run_code")}
+        <Play />
+      </Button>
+
+      <Button onClick={random} className="mx-4">
+        Random
+        <RefreshCcw />
+      </Button>
+
+      <Button
+        onClick={() => handleDownload("png")}
+        className={cn("hover:bg-blue-500", styles.downloadButton)}
+      >
+        {t("Download_PNG")}
+        <ArrowDown />
+      </Button>
 
       <div className={styles.previewContainer}>
         <h2>{t("Preview")} </h2>
@@ -132,30 +160,20 @@ const P5ArtCreator: React.FC = () => {
         />
       </div>
 
-      <button onClick={runCode} className={styles.runButton}>
-        {t("Run_code")}
-      </button>
-
-      <div className={styles.downloadButtons}>
-        <button
-          onClick={() => handleDownload("png")}
-          className={styles.downloadButton}
-        >
-          {t("Download_PNG")}
-        </button>
-        <button
+      {/* <div className={styles.downloadButtons}> */}
+      {/* <Button
           onClick={() => handleDownload("jpg")}
           className={styles.downloadButton}
         >
           {t("Download_JPG")}
-        </button>
-        <button
+        </Button> */}
+      {/* <Button
           onClick={() => handleDownload("gif")}
           className={styles.downloadButton}
         >
           {t("Download_GIF")}
-        </button>
-      </div>
+        </Button> */}
+      {/* </div> */}
     </div>
   );
 };
