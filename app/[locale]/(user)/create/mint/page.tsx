@@ -320,8 +320,6 @@ export default function Page() {
                       <TransactionButton
                         className={"!w-full"}
                         transaction={() => {
-                          toast.info(t("minting_nft"));
-
                           const metadata = {
                             name,
                             description,
@@ -334,7 +332,6 @@ export default function Page() {
 
                           setIsOpen(true);
                           setCurrentStep("sent");
-                          setMessage("Đang xử lý giao dịch của bạn...");
 
                           return mintTo({
                             contract: handleContract(
@@ -345,21 +342,15 @@ export default function Page() {
                           });
                         }}
                         onTransactionSent={() => {
-                          toast.info(t("offer_sent"));
                           setCurrentStep("confirmed");
-                          setMessage("Transaction is being sent...");
                         }}
                         onTransactionConfirmed={() => {
-                          toast.success(t("offer_placed_successfully"));
                           setCurrentStep("success");
                           setMessage("Transaction is being confirmed...");
                         }}
                         onError={(error) => {
-                          toast.error(t("error_making_offer"), {
-                            description: error.message,
-                          });
                           setCurrentStep("error");
-                          setMessage("Transaction failed: An error occurred");
+                          setMessage("Transaction failed: " + error.message);
                         }}
                       >
                         <span>{t("Mint_NFT")}</span>

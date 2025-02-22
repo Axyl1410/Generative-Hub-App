@@ -1,12 +1,15 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { CheckCircle, Loader2, XCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
+import { Button } from "./button";
 import { TextMorph } from "./text-morph";
 
 export type TransactionStep = "sent" | "confirmed" | "success" | "error";
@@ -23,7 +26,9 @@ const StepIcon = ({ step }: { step: TransactionStep }) => {
   switch (step) {
     case "sent":
     case "confirmed":
-      return <Loader2 className="h-8 w-8 animate-spin text-primary" />;
+      return (
+        <div className="h-7 w-7 animate-spin rounded-full border-4 border-black border-t-transparent" />
+      );
     case "success":
       return <CheckCircle className="h-8 w-8 text-green-500" />;
     case "error":
@@ -73,7 +78,7 @@ const getStepMessage = (step: TransactionStep, message: string) => {
     case "confirmed":
       return "Transaction confirmed. Processing...";
     case "success":
-      return message || "Transaction completed successfully!";
+      return "Transaction completed successfully!";
     case "error":
       return message || "Transaction failed. Please try again.";
   }
@@ -104,7 +109,7 @@ const TransactionDialog = ({
             <StepIcon step={currentStep} />
             <TextMorph
               className={cn(
-                "text-center text-sm",
+                "text-nowrap text-center text-sm",
                 currentStep === "error"
                   ? "text-red-500"
                   : "text-muted-foreground"
@@ -114,6 +119,26 @@ const TransactionDialog = ({
             </TextMorph>
           </div>
         </motion.div>
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{
+                opacity:
+                  currentStep === "success" || currentStep === "error" ? 1 : 0,
+                height:
+                  currentStep === "success" || currentStep === "error"
+                    ? "auto"
+                    : 0,
+              }}
+              className="w-full"
+            >
+              <Button type="button" className="w-full">
+                Close
+              </Button>
+            </motion.div>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

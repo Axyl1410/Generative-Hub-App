@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Dialog from "@/components/ui/modal";
 import { Textarea } from "@/components/ui/textarea";
+import TransactionDialog, {
+  TransactionStep,
+} from "@/components/ui/transaction-dialog";
 import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
@@ -49,6 +52,14 @@ export default function Page() {
   const logoInfo = useToggle();
   const contractInfo = useToggle();
   const tokenInfo = useToggle();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("Processing your transaction...");
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
 
   // Utility functions
   const generateTokenSymbol = useCallback((name: string): string => {
@@ -124,33 +135,33 @@ export default function Page() {
     if (!account) return;
 
     setLoading(true);
+    setIsOpen(true);
+    setCurrentStep("sent");
     try {
-      const contractObject = toast.promise(
+      const contractObject = Promise.resolve(
         deployERC721Contract({
           chain: FORMA_SKETCHPAD,
           client,
           account: account,
           type: "TokenERC721",
           params: {
+            platformFeeRecipient: process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS,
+            platformFeeBps: BigInt(2000),
             name,
             description,
             symbol,
             image: files ?? undefined,
           },
-        }).catch((error) => {
-          throw error;
-        }),
-        {
-          loading: "Deploying Collection...",
-          success: "Contract deployed successfully",
-          error: (error) =>
-            `Failed to create collection: ${
-              error instanceof Error ? error.message : "Unknown error"
-            }`,
-        }
+        })
+          .catch((error) => {
+            throw error;
+          })
+          .finally(() => {
+            setCurrentStep("confirmed");
+          })
       );
 
-      const unwrapped: unknown = await contractObject.unwrap();
+      const unwrapped = await contractObject;
 
       let contractAddress: string | undefined = undefined;
 
@@ -165,9 +176,10 @@ export default function Page() {
         contractAddress = unwrapped;
       }
 
-      if (!contractAddress) {
+      if (!contractAddress)
         throw new Error("Failed to extract contract address");
-      }
+
+      console.log("Contract address:", contractAddress);
       await waitForContractDeployment(contractAddress);
 
       await axios.post("/api/user/add-address", {
@@ -178,12 +190,13 @@ export default function Page() {
       await axios.post("/api/collection/add-collection", {
         address: contractAddress,
       });
-      toast.success("Collection created successfully");
+      setCurrentStep("success");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create collection", {
-        description: error instanceof Error ? error.message : "Unknown error",
-      });
+      setCurrentStep("error");
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      setMessage("Failed to deploy contract: " + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -201,9 +214,7 @@ export default function Page() {
     handle();
   }, [name, files, handle, t]);
 
-  if (isLoading || !account) {
-    return <LoadingScreen />;
-  }
+  if (isLoading || !account) return <LoadingScreen />;
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -311,7 +322,7 @@ export default function Page() {
                 >
                   {isGenerating ? (
                     <div className="flex items-center space-x-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
                       <span className="text-xs">
                         {t("description_analyzing")}
                       </span>
@@ -319,7 +330,7 @@ export default function Page() {
                   ) : (
                     <div className="flex items-center space-x-1">
                       <span>✨</span>
-                      <span>{"Generate"}</span>
+                      <span className="text-xs">{"Generate"}</span>
                     </div>
                   )}
                 </button>
@@ -333,9 +344,6 @@ export default function Page() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                {!name && (
-                  <p className="mt-1 text-sm text-gray-500">{t("Enter")}</p>
-                )}
               </div>
             </div>
             <div className="flex justify-end">
@@ -383,9 +391,17 @@ export default function Page() {
                 </p>
               </div>
             </div>
+            <h1 className="text-md font-bold">Platform fee: 2.00%</h1>
           </div>
         </div>
       </div>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
     </div>
   );
 }
