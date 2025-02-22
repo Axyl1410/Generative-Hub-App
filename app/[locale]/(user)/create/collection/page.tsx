@@ -3,14 +3,13 @@
 import BackButton from "@/components/common/back-button";
 import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
-import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Dialog from "@/components/ui/modal";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
-import { useRouter } from "@/i18n/routing";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
@@ -38,7 +37,6 @@ function useLazyLoading() {
 export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
-  const router = useRouter();
 
   // State hooks
   const [description, setDescription] = useState<string>("");
@@ -188,9 +186,8 @@ export default function Page() {
       });
     } finally {
       setLoading(false);
-      router.push("/sell");
     }
-  }, [account, name, description, symbol, files, router]);
+  }, [account, name, description, symbol, files]);
 
   const handleContinue = useCallback(() => {
     if (!name) {

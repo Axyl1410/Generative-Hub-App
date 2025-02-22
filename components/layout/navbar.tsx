@@ -4,7 +4,7 @@ import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ThemeSwitcher from "@/components/theme/theme-switcher";
 import CustomConnectButton from "@/components/thirdweb/connect-button";
 import DisconnectButton from "@/components/thirdweb/disconnect-button";
-import Dialog from "@/components/ui/dialog";
+import Dialog from "@/components/ui/modal";
 import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
 import client from "@/lib/client";

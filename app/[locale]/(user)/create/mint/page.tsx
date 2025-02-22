@@ -11,8 +11,11 @@ import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import TransactionDialog, {
+  TransactionStep,
+} from "@/components/ui/transaction-dialog";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { Link, useRouter } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
@@ -35,7 +38,6 @@ interface Attribute {
 }
 
 export default function Page() {
-  const router = useRouter();
   const [files, setFiles] = useState<File | null>();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -45,7 +47,15 @@ export default function Page() {
   const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
     null
   );
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("Processing your transaction...");
   const t = useTranslations("mint");
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
 
   // Attribute states
   const [traitType, setTraitType] = useState<string>("");
@@ -322,6 +332,10 @@ export default function Page() {
                                 : undefined, // Include attributes if array is not empty
                           };
 
+                          setIsOpen(true);
+                          setCurrentStep("sent");
+                          setMessage("Đang xử lý giao dịch của bạn...");
+
                           return mintTo({
                             contract: handleContract(
                               selectAddress as string
@@ -332,20 +346,23 @@ export default function Page() {
                         }}
                         onTransactionSent={() => {
                           toast.info(t("offer_sent"));
+                          setCurrentStep("confirmed");
+                          setMessage("Transaction is being sent...");
                         }}
                         onTransactionConfirmed={() => {
                           toast.success(t("offer_placed_successfully"));
-                          setTimeout(() => {
-                            router.push("/sell");
-                          }, 2000);
+                          setCurrentStep("success");
+                          setMessage("Transaction is being confirmed...");
                         }}
                         onError={(error) => {
                           toast.error(t("error_making_offer"), {
                             description: error.message,
                           });
+                          setCurrentStep("error");
+                          setMessage("Transaction failed: An error occurred");
                         }}
                       >
-                        {t("Mint_NFT")}
+                        <span>{t("Mint_NFT")}</span>
                       </TransactionButton>
                     </motion.div>
                   )}
@@ -355,6 +372,13 @@ export default function Page() {
           </div>
         </div>
       </div>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
     </div>
   );
 }

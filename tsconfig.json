@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/[locale]/(user)/profile/p5js/page.jsx",
+    "app/[locale]/(user)/create/p5js/page.jsx",
     "app/api/my-sql/loginAPI.jsx"
   ],
   "exclude": ["node_modules"]
