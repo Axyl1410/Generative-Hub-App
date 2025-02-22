@@ -109,7 +109,7 @@ const TransactionDialog = ({
             <StepIcon step={currentStep} />
             <TextMorph
               className={cn(
-                "text-nowrap text-center text-sm",
+                "text-center text-sm",
                 currentStep === "error"
                   ? "text-red-500"
                   : "text-muted-foreground"

@@ -8,7 +8,7 @@ interface ButtonGradiantProps {
 const ButtonGradiant: React.FC<ButtonGradiantProps> = ({ text, ...props }) => {
   return (
     <button
-      className="group relative inline-block w-fit rounded-full bg-slate-800 p-[6px] text-md font-semibold leading-7 text-white no-underline  hover:shadow-[#C3CAF2] transition-all duration-300 hover:scale-105"
+      className="text-md group relative inline-block w-fit rounded-full bg-slate-800 p-[6px] text-xs font-semibold leading-7 text-white no-underline transition-all duration-300 hover:scale-105 hover:shadow-[#C3CAF2] sm:text-base"
       {...props}
     >
       {/* Hiệu ứng nền gradient động */}
@@ -37,7 +37,7 @@ const ButtonGradiant: React.FC<ButtonGradiantProps> = ({ text, ...props }) => {
       </div>
 
       {/* Viền phát sáng chạy liên tục */}
-      <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 animate-glow" />
+      <span className="animate-glow absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0" />
     </button>
   );
 };
