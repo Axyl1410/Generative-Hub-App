@@ -27,7 +27,7 @@ const StepIcon = ({ step }: { step: TransactionStep }) => {
     case "sent":
     case "confirmed":
       return (
-        <div className="h-7 w-7 animate-spin rounded-full border-4 border-black border-t-transparent" />
+        <div className="h-7 w-7 animate-spin rounded-full border-4 border-black border-t-transparent dark:border-neutral-500 dark:border-t-white" />
       );
     case "success":
       return <CheckCircle className="h-8 w-8 text-green-500" />;
@@ -74,11 +74,11 @@ const StepIndicator = ({ currentStep }: { currentStep: TransactionStep }) => {
 const getStepMessage = (step: TransactionStep, message: string) => {
   switch (step) {
     case "sent":
-      return "Transaction sent. Waiting for confirmation...";
+      return message || "Transaction sent. Waiting for confirmation...";
     case "confirmed":
-      return "Transaction confirmed. Processing...";
+      return message || "Transaction confirmed. Processing...";
     case "success":
-      return "Transaction completed successfully!";
+      return message || "Transaction completed successfully!";
     case "error":
       return message || "Transaction failed. Please try again.";
   }

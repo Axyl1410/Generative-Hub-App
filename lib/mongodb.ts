@@ -203,3 +203,66 @@ export async function getAllCollections() {
   const result = await collection.findOne({ _id: { $exists: true } });
   return result?.allCollection || [];
 }
+
+export async function addPriceToToken(
+  address: string,
+  tokenId: string,
+  price: number
+) {
+  const collection = await getCollection("prices");
+
+  const document = await collection.findOne({ address });
+
+  if (!document) {
+    // Create a new document if address does not exist
+    await collection
+      .insertOne({
+        address,
+        tokenID: {
+          Id: tokenId,
+          prices: [price],
+        },
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    // Check if tokenId exists in the document
+    const tokenIndex = document.tokenID.findIndex(
+      (token: any) => token.Id === tokenId
+    );
+
+    if (tokenIndex === -1) {
+      // Add new tokenId if it does not exist
+      await collection
+        .updateOne(
+          { address },
+          {
+            $addToSet: {
+              tokenID: {
+                Id: tokenId,
+                prices: [price],
+              },
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    } else {
+      // Add price to existing tokenId
+      await collection
+        .updateOne(
+          { address, "tokenID.Id": tokenId },
+          {
+            $addToSet: {
+              "tokenID.$.prices": price,
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    }
+  }
+}
