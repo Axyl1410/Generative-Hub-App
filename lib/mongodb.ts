@@ -266,3 +266,50 @@ export async function addPriceToToken(
     }
   }
 }
+
+export async function addMonthlyPrice(
+  address: string,
+  tokenId: string,
+  price: number
+) {
+  const collection = await getCollection("monthlyPrices");
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth(); // 0-11 (0 = January, 11 = December)
+
+  const document = await collection.findOne({
+    address,
+    tokenId,
+    year: currentYear,
+  });
+
+  if (!document) {
+    // Create a new document if address, tokenId, and year do not exist
+    const monthlyPrices = Array(12).fill(null);
+    monthlyPrices[currentMonth] = price;
+
+    await collection
+      .insertOne({
+        address,
+        tokenId,
+        year: currentYear,
+        monthlyPrices,
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    // Update the existing document
+    const updateQuery = {
+      $set: {
+        [`monthlyPrices.${currentMonth}`]: price,
+      },
+    };
+
+    await collection
+      .updateOne({ address, tokenId, year: currentYear }, updateQuery)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+}
