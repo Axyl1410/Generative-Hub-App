@@ -4,10 +4,10 @@ import { join } from "path";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  params: { params: { path: string[] } }
 ) {
   try {
-    const filePath = join(process.cwd(), "uploads", ...params.path);
+    const filePath = join(process.cwd(), "uploads", ...params.params.path);
     const fileContent = await readFile(filePath);
 
     const contentType = filePath.endsWith(".html")
