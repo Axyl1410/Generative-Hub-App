@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { CheckCircle, XCircle } from "lucide-react";
+import React from "react";
 import { Button } from "./button";
 import { TextMorph } from "./text-morph";
 
@@ -27,7 +28,7 @@ const StepIcon = ({ step }: { step: TransactionStep }) => {
     case "sent":
     case "confirmed":
       return (
-        <div className="h-7 w-7 animate-spin rounded-full border-4 border-black border-t-transparent dark:border-neutral-500 dark:border-t-white" />
+        <div className="h-7 w-7 animate-spin rounded-full border-[3px] border-black border-t-transparent dark:border-neutral-500 dark:border-t-white" />
       );
     case "success":
       return <CheckCircle className="h-8 w-8 text-green-500" />;
@@ -74,11 +75,11 @@ const StepIndicator = ({ currentStep }: { currentStep: TransactionStep }) => {
 const getStepMessage = (step: TransactionStep, message: string) => {
   switch (step) {
     case "sent":
-      return message || "Transaction sent. Waiting for confirmation...";
+      return "Transaction sent. Waiting for confirmation...";
     case "confirmed":
-      return message || "Transaction confirmed. Processing...";
+      return "Transaction confirmed. Processing...";
     case "success":
-      return message || "Transaction completed successfully!";
+      return "Transaction completed successfully!";
     case "error":
       return message || "Transaction failed. Please try again.";
   }
@@ -91,6 +92,35 @@ const TransactionDialog = ({
   title,
   message,
 }: TransactionDialogProps) => {
+  React.useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isOpen) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    if (isOpen) window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      if (isOpen) {
+        e.preventDefault();
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    if (isOpen) {
+      window.history.pushState(null, "", window.location.href);
+      window.addEventListener("popstate", handlePopState);
+    }
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>

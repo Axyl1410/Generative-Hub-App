@@ -50,7 +50,7 @@ export default function Page() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
-  const [message, setMessage] = useState("Processing your transaction...");
+  const [message, setMessage] = useState("");
   const t = useTranslations("mint");
 
   const handleOpenChange = (open: boolean) => {

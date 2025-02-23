@@ -1,8 +1,8 @@
 import { MARKETPLACE } from "@/contracts";
-import React from "react";
-import { toast } from "sonner";
+import React, { useState } from "react";
 import { cancelAuction, cancelListing } from "thirdweb/extensions/marketplace";
 import { TransactionButton } from "thirdweb/react";
+import TransactionDialog, { TransactionStep } from "../ui/transaction-dialog";
 
 interface CancelButtonProps {
   id?: bigint;
@@ -10,34 +10,55 @@ interface CancelButtonProps {
 }
 
 const CancelButton: React.FC<CancelButtonProps> = ({ id, type }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
+
   if (id === undefined) return null;
 
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
+
   return (
-    <TransactionButton
-      transaction={() => {
-        if (type === "listing") {
-          return cancelListing({
+    <>
+      <TransactionButton
+        transaction={() => {
+          setIsOpen(true);
+          setCurrentStep("sent");
+          if (type === "listing") {
+            return cancelListing({
+              contract: MARKETPLACE,
+              listingId: id,
+            });
+          }
+          return cancelAuction({
             contract: MARKETPLACE,
-            listingId: id,
+            auctionId: id,
           });
-        }
-        return cancelAuction({
-          contract: MARKETPLACE,
-          auctionId: id,
-        });
-      }}
-      onTransactionSent={() => {
-        toast.info("Cancelling...");
-      }}
-      onError={(error) => {
-        toast.error(`Cancellation Failed!`, { description: error.message });
-      }}
-      onTransactionConfirmed={() => {
-        toast.success("Cancelled Successfully!");
-      }}
-    >
-      Cancel Listing or Auction
-    </TransactionButton>
+        }}
+        onTransactionSent={() => {
+          setCurrentStep("confirmed");
+        }}
+        onError={(error) => {
+          setCurrentStep("error");
+          setMessage(error.message);
+        }}
+        onTransactionConfirmed={(txResult) => {
+          setCurrentStep("success");
+          console.log(txResult);
+        }}
+      >
+        Cancel Listing or Auction
+      </TransactionButton>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
+    </>
   );
 };
 
