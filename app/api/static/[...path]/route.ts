@@ -1,16 +1,18 @@
 import { readFile } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { join } from "path";
 
-interface StaticRouteContext {
-  params: {
-    path: string[];
-  };
-}
+// Define the segment params type
 
-export async function GET(request: NextRequest, context: StaticRouteContext) {
+// Update the GET handler with the correct type annotation
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> }
+): Promise<NextResponse> {
+  const { path } = await params;
   try {
-    const filePath = join(process.cwd(), "uploads", ...context.params.path);
+    const filePath = join(process.cwd(), "uploads", ...path);
     const fileContent = await readFile(filePath);
 
     const contentType = filePath.endsWith(".html")
