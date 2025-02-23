@@ -3,9 +3,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { join } from "path";
 
-// Define the segment params type
-
-// Update the GET handler with the correct type annotation
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }

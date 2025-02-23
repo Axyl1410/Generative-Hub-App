@@ -1,47 +1,41 @@
 "use client";
 
 import EmptyText from "@/components/common/empty-text";
-import { NFTGridLoading } from "@/components/nft/nft-grid";
-import SaleInfo from "@/components/sale-info";
-import { Badge } from "@/components/ui/badge";
+import Events from "@/components/token/events";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
-import { cn } from "@/lib/utils";
 import { Attribute } from "@/types";
+import { cn } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Badge } from "lucide-react";
 import { notFound } from "next/navigation";
 import { useState } from "react";
-import { Hex, NFT as NFTType } from "thirdweb";
-import { getOwnedNFTs } from "thirdweb/extensions/erc721";
+import { NFT as NFTType } from "thirdweb";
+import { getNFTs } from "thirdweb/extensions/erc721";
 import {
   MediaRenderer,
   NFTDescription,
   NFTMedia,
   NFTProvider,
-  useActiveAccount,
   useReadContract,
 } from "thirdweb/react";
+import { GetItemLoading } from "../../(user)/sell/[contractAddress]/get-item";
 
-export function GetItem({ address }: { address: string }) {
+export function GetItems({ address }: { address: string }) {
   const [selectedNft, setSelectedNft] = useState<NFTType | null>(null);
-  const account = useActiveAccount();
   const contract = CollectionContract(address);
-
   if (!contract) notFound();
 
   const {
     data: NFTs,
-    error,
     isLoading,
-  } = useReadContract(getOwnedNFTs, {
+    error,
+  } = useReadContract(getNFTs, {
     contract: contract,
-    owner: account?.address as Hex,
-    queryOptions: {
-      enabled: !!account?.address,
-    },
+    includeOwners: true,
   });
 
-  if (!account || isLoading) return <GetItemLoading />;
+  if (isLoading) return <GetItemLoading />;
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
@@ -115,6 +109,13 @@ export function GetItem({ address }: { address: string }) {
               className="relative top-0 w-full max-w-full"
               layoutId={`content-${selectedNft.id}`}
             >
+              <div
+                className="mb-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
+                onClick={() => setSelectedNft(null)}
+              >
+                Back
+              </div>
+
               <h1 className="mb-1 break-words text-3xl font-semibold">
                 {selectedNft.metadata.name}
               </h1>
@@ -134,31 +135,21 @@ export function GetItem({ address }: { address: string }) {
                     </Badge>
                   ))}
               </div>
-              <p className="mt-1 text-text dark:text-white/60">
-                You&rsquo;re about to list the following item for sale.
-              </p>
-
-              <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg bg-transparent py-4">
-                <SaleInfo nft={selectedNft} address={address} />
+              <div className="mt-2 flex flex-col border-t pt-2">
+                <h1 className="text-lg">history</h1>
+                <Events tokenId={selectedNft.id} address={address} />
               </div>
-              <div
-                className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
-                onClick={() => setSelectedNft(null)}
-              >
-                Back
+              <div className="mt-2 flex flex-col border-t pt-2">
+                <span> Owner: </span>
+                <p className="font-medium text-text dark:text-white/90">
+                  {selectedNft.owner?.slice(0, 4)}...
+                  {selectedNft.owner?.slice(-4)}
+                </p>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
-  );
-}
-
-export function GetItemLoading() {
-  return (
-    <div className="mt-6">
-      <NFTGridLoading />
-    </div>
   );
 }
