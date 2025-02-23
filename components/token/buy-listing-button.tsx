@@ -12,6 +12,7 @@ import {
   EnglishAuction,
 } from "thirdweb/extensions/marketplace";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
+import TransactionDialog, { TransactionStep } from "../ui/transaction-dialog";
 
 type Props = {
   auctionListing?: EnglishAuction;
@@ -28,6 +29,13 @@ export default function BuyListingButton({
 }: Props) {
   const account = useActiveAccount();
   const [isClient, setIsClient] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
 
   useEffect(() => {
     setIsClient(true);
@@ -69,45 +77,57 @@ export default function BuyListingButton({
   }
 
   return (
-    <TransactionButton
-      disabled={
-        account?.address === auctionListing?.creatorAddress ||
-        account?.address === directListing?.creatorAddress ||
-        (!directListing && !auctionListing)
-      }
-      transaction={() => {
-        if (!account) throw new Error("No account");
-        if (auctionListing) {
-          return buyoutAuction({
-            contract: MARKETPLACE,
-            auctionId: auctionListing.id,
-          });
-        } else if (directListing) {
-          return buyFromListing({
-            contract: MARKETPLACE,
-            listingId: directListing.id,
-            recipient: account.address,
-            quantity: BigInt(1),
-          });
-        } else {
-          throw new Error("No valid listing found for this NFT");
+    <>
+      <TransactionButton
+        disabled={
+          account?.address === auctionListing?.creatorAddress ||
+          account?.address === directListing?.creatorAddress ||
+          (!directListing && !auctionListing)
         }
-      }}
-      onTransactionSent={() => {
-        toast.info("Purchasing...");
-      }}
-      onError={(error) => {
-        toast.error("Purchase Failed!" + error.message);
-      }}
-      onTransactionConfirmed={() => {
-        handle();
-        toast.success("Purchase Successful!");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      }}
-    >
-      Buy Now
-    </TransactionButton>
+        transaction={() => {
+          setIsOpen(true);
+          setCurrentStep("sent");
+          if (!account) throw new Error("No account");
+          if (auctionListing) {
+            return buyoutAuction({
+              contract: MARKETPLACE,
+              auctionId: auctionListing.id,
+            });
+          } else if (directListing) {
+            return buyFromListing({
+              contract: MARKETPLACE,
+              listingId: directListing.id,
+              recipient: account.address,
+              quantity: BigInt(1),
+            });
+          } else {
+            throw new Error("No valid listing found for this NFT");
+          }
+        }}
+        onTransactionSent={() => {
+          setCurrentStep("confirmed");
+        }}
+        onError={(error) => {
+          setCurrentStep("error");
+          setMessage(error.message);
+        }}
+        onTransactionConfirmed={() => {
+          handle();
+          setCurrentStep("success");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }}
+      >
+        Buy Now
+      </TransactionButton>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
+    </>
   );
 }

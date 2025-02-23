@@ -93,7 +93,7 @@ export default async function Page({
                   {t("Current_Owner")}{" "}
                 </p>
                 <p className="font-medium text-text dark:text-white/90">
-                  {nft.owner.slice(0, 8)}...
+                  {nft.owner.slice(0, 4)}...
                   {nft.owner.slice(-4)}
                 </p>
               </div>

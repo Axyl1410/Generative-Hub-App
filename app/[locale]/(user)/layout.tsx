@@ -2,7 +2,7 @@
 
 import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ConnectButton from "@/components/thirdweb/connect-button";
-import Dialog from "@/components/ui/dialog";
+import Dialog from "@/components/ui/modal";
 import useToggle from "@/hooks/use-state-toggle";
 import { useRouter } from "@/i18n/routing";
 import React, { memo, useEffect } from "react";

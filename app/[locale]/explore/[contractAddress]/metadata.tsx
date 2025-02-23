@@ -1,17 +1,17 @@
 "use client";
 
-import EmptyText from "@/components/common/empty-text";
-import ReadMore from "@/components/common/read-more-text";
 import client from "@/lib/client";
-import CollectionContract from "@/lib/get-collection-contract";
+import { MediaRenderer, useReadContract } from "thirdweb/react";
 import Image from "next/image";
+import CollectionContract from "@/lib/get-collection-contract";
 import { notFound } from "next/navigation";
 import { getContractMetadata } from "thirdweb/extensions/common";
-import { MediaRenderer, useReadContract } from "thirdweb/react";
+import ReadMore from "@/components/common/read-more-text";
+import EmptyText from "@/components/common/empty-text";
+import { MetadataLoading } from "../../(user)/sell/[contractAddress]/metadata";
 
 export function Metadata({ address }: { address: string }) {
   const contract = CollectionContract(address);
-
   if (!contract) notFound();
 
   const {
@@ -60,11 +60,5 @@ export function Metadata({ address }: { address: string }) {
         </div>
       </div>
     </div>
-  );
-}
-
-export function MetadataLoading() {
-  return (
-    <div className="mt-4 h-[146px] w-full animate-pulse rounded-lg bg-gray-300" />
   );
 }

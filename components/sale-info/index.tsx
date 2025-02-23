@@ -10,6 +10,8 @@ import { NFT as NFTType } from "thirdweb";
 import { isApprovedForAll } from "thirdweb/extensions/erc721";
 import { useActiveAccount, useReadContract } from "thirdweb/react";
 import Loading from "../common/loading";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import ApprovalButton from "./approve-button";
 import AuctionListingButton from "./auction-listing-button";
 import DirectListingButton from "./direct-listing-button";
@@ -83,14 +85,15 @@ export default function SaleInfo({ nft, address }: Props) {
         {/* Direct listing fields */}
         <div className={cn(tab === "direct" ? "flex" : "hidden", "flex-col")}>
           {/* Input field for buyout price */}
-          <legend className={"legend-styles"}> Price per token</legend>
-          <input
-            className={"input-styles"}
+          <Label>Price per token</Label>
+
+          <Input
             type="number"
             step={0.000001}
             min="0"
             value={directListingState.price}
             onChange={(e) => setDirectListingState({ price: e.target.value })}
+            className="my-4"
           />
           {!hasApproval ? (
             <ApprovalButton contract={contract} />
@@ -107,14 +110,12 @@ export default function SaleInfo({ nft, address }: Props) {
 
         {/* Auction listing fields */}
         <div className={cn(tab === "auction" ? "flex" : "hidden", "flex-col")}>
-          <legend className={"legend-styles"}>
-            {" "}
-            Allow bids starting from{" "}
-          </legend>
-          <input
-            className={"input-styles"}
+          <Label>Allow bids starting from</Label>
+
+          <Input
             step={0.000001}
             type="number"
+            min={0}
             value={auctionListingState.minimumBidAmount}
             onChange={(e) =>
               setAuctionListingState({
@@ -122,12 +123,13 @@ export default function SaleInfo({ nft, address }: Props) {
                 minimumBidAmount: e.target.value,
               })
             }
+            className="my-4"
           />
-          <legend className={"legend-styles"}> Buyout price </legend>
-          <input
-            className={"input-styles"}
+          <Label>Buyout price</Label>
+          <Input
             type="number"
             step={0.000001}
+            min={0}
             value={auctionListingState.buyoutPrice}
             onChange={(e) =>
               setAuctionListingState({
@@ -135,6 +137,7 @@ export default function SaleInfo({ nft, address }: Props) {
                 buyoutPrice: e.target.value,
               })
             }
+            className="my-4"
           />
           {!hasApproval ? (
             <ApprovalButton contract={contract} />

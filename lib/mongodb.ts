@@ -203,3 +203,128 @@ export async function getAllCollections() {
   const result = await collection.findOne({ _id: { $exists: true } });
   return result?.allCollection || [];
 }
+
+export async function addPriceToToken(
+  address: string,
+  tokenId: string,
+  price: number
+) {
+  const collection = await getCollection("prices");
+
+  const document = await collection.findOne({ address });
+
+  if (!document) {
+    // Create a new document if address does not exist
+    await collection
+      .insertOne({
+        address,
+        tokenID: {
+          Id: tokenId,
+          prices: [price],
+        },
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    // Check if tokenId exists in the document
+    const tokenIndex = document.tokenID.findIndex(
+      (token: any) => token.Id === tokenId
+    );
+
+    if (tokenIndex === -1) {
+      // Add new tokenId if it does not exist
+      await collection
+        .updateOne(
+          { address },
+          {
+            $addToSet: {
+              tokenID: {
+                Id: tokenId,
+                prices: [price],
+              },
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    } else {
+      // Add price to existing tokenId
+      await collection
+        .updateOne(
+          { address, "tokenID.Id": tokenId },
+          {
+            $addToSet: {
+              "tokenID.$.prices": price,
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    }
+  }
+}
+
+export async function addMonthlyPrice(
+  address: string,
+  tokenId: string,
+  price: number
+) {
+  const collection = await getCollection("monthlyPrices");
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date()
+    .toLocaleString("default", { month: "long" })
+    .toLowerCase();
+
+  const document = await collection.findOne({
+    address,
+    tokenId,
+    year: currentYear,
+  });
+
+  if (!document) {
+    // Create a new document if address, tokenId, and year do not exist
+    const monthlyPrices: Record<string, number[]> = {
+      january: [],
+      february: [],
+      march: [],
+      april: [],
+      may: [],
+      june: [],
+      july: [],
+      august: [],
+      september: [],
+      october: [],
+      november: [],
+      december: [],
+    };
+    monthlyPrices[currentMonth as keyof typeof monthlyPrices].push(price);
+
+    await collection
+      .insertOne({
+        address,
+        tokenId,
+        year: currentYear,
+        monthlyPrices,
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } else {
+    // Update the existing document
+    const updateQuery = {
+      $push: {
+        [`monthlyPrices.${currentMonth}`]: price,
+      },
+    } as any;
+
+    await collection
+      .updateOne({ address, tokenId, year: currentYear }, updateQuery)
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+}

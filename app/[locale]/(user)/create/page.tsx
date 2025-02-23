@@ -1,7 +1,7 @@
 "use client";
 
 import BackButton from "@/components/common/back-button";
-import Dialog from "@/components/ui/dialog";
+import Dialog from "@/components/ui/modal";
 import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
 import { ArrowRight, ImageIcon, LayoutGrid, Stars } from "lucide-react";
@@ -94,7 +94,7 @@ export default function Page() {
           <Dialog onClose={modal.close} isOpen={modal.isOpen}>
             <div className="flex flex-col gap-4">
               <Link
-                href={"/profile/p5js"}
+                href={"/create/p5js"}
                 className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
               >
                 <p>Generate by script</p>

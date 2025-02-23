@@ -4,13 +4,12 @@ import SkeletonImage from "@/components/skeleton/skeleton-image";
 import ThemeSwitcher from "@/components/theme/theme-switcher";
 import CustomConnectButton from "@/components/thirdweb/connect-button";
 import DisconnectButton from "@/components/thirdweb/disconnect-button";
-import Dialog from "@/components/ui/dialog";
+import Dialog from "@/components/ui/modal";
 import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
 import client from "@/lib/client";
 import { ArrowRight, Menu, Plus, User2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 import { Blobbie, ConnectButton, useActiveAccount } from "thirdweb/react";
 import { LocaleSwitcherDropdown } from "../common/locale-switcher";
 import { GradientText } from "../ui/gradient-text";
@@ -22,8 +21,8 @@ const Navbar = () => {
   const menuItems = [
     { title: t("buy"), href: "/buy" },
     { title: t("sell"), href: "/sell" },
+    { title: "Explore", href: "/explore" },
   ];
-  const pathname = usePathname();
   return (
     <>
       <div className="dark:border-border-dark fixed z-50 h-[66px] w-full border-b border-border bg-background-light px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark">
@@ -48,14 +47,12 @@ const Navbar = () => {
                 Hub App
               </span>
             </Link>
-            <div className="ml-2 hidden gap-2 md:flex lg:ml-6 lg:gap-6">
+            <div className="ml-2 hidden gap-2 md:flex lg:ml-4 lg:gap-4">
               {menuItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.href}
-                  className={`text-sm transition-colors hover:text-sky-600 lg:text-base ${
-                    pathname.includes(item.href) ? "font-semibold" : ""
-                  }`}
+                  className={`text-sm transition-colors hover:text-sky-600 lg:text-base`}
                 >
                   {item.title}
                 </Link>
@@ -75,7 +72,6 @@ const Navbar = () => {
             <div className="hidden lg:block">
               <LocaleSwitcherDropdown />
             </div>
-            <CustomConnectButton type={"icon"} />
             <div className="flex h-[35px] w-10 items-center justify-center rounded-lg bg-nav shadow dark:bg-nav-dark">
               {account ? (
                 <Link href="/profile" onClick={dialog.close}>

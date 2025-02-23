@@ -8,6 +8,7 @@ export default async function Page({
 }) {
   const { contractAddress } = await params;
   const t = await getTranslations("buy");
+
   return (
     <>
       <div className="my-8">

@@ -7,15 +7,15 @@ import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Link } from "@/i18n/routing";
 import { checkCollectionHasNFTs } from "@/lib/check-collection-has-nft";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
 export const dynamic = "force-dynamic";
 
 export default function Buy() {
   const { data, error, loading } = useAutoFetch<string[]>(
-    `/api/collection/get-collection`,
+    `/api/collection`,
     600000,
     "collection"
   );

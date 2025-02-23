@@ -3,17 +3,20 @@
 import BackButton from "@/components/common/back-button";
 import LoadingScreen from "@/components/common/loading-screen";
 import ButtonGradiant from "@/components/ui/button-gradiant";
-import Dialog from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Dialog from "@/components/ui/modal";
 import { Textarea } from "@/components/ui/textarea";
+import TransactionDialog, {
+  TransactionStep,
+} from "@/components/ui/transaction-dialog";
 import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
-import { useRouter } from "@/i18n/routing";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
+import { AnimatePresence, motion } from "framer-motion";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useState } from "react";
@@ -38,19 +41,27 @@ function useLazyLoading() {
 export default function Page() {
   // Account loading hook
   const { isLoading, account } = useLazyLoading();
-  const router = useRouter();
 
   // State hooks
   const [description, setDescription] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [symbol, setSymbol] = useState<string>("");
   const [files, setFiles] = useState<File | null>();
+  const [royalty, setRoyalty] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const t = useTranslations("collection");
   // Toggle hooks
   const logoInfo = useToggle();
   const contractInfo = useToggle();
   const tokenInfo = useToggle();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
 
   // Utility functions
   const generateTokenSymbol = useCallback((name: string): string => {
@@ -120,37 +131,41 @@ export default function Page() {
     }
   }, [generateDescription, name]);
 
+  if (!account) <LoadingScreen />;
+
   const handle = useCallback(async () => {
     if (!account) return;
 
     setLoading(true);
+    setIsOpen(true);
+    setCurrentStep("sent");
     try {
-      const contractObject = toast.promise(
+      const contractObject = Promise.resolve(
         deployERC721Contract({
           chain: FORMA_SKETCHPAD,
           client,
           account: account,
           type: "TokenERC721",
           params: {
+            platformFeeRecipient: process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS,
+            platformFeeBps: BigInt(2000),
+            royaltyRecipient: account.address,
+            royaltyBps: BigInt(royalty),
             name,
             description,
             symbol,
             image: files ?? undefined,
           },
-        }).catch((error) => {
-          throw error;
-        }),
-        {
-          loading: "Deploying Collection...",
-          success: "Contract deployed successfully",
-          error: (error) =>
-            `Failed to create collection: ${
-              error instanceof Error ? error.message : "Unknown error"
-            }`,
-        }
+        })
+          .catch((error) => {
+            throw error;
+          })
+          .finally(() => {
+            setCurrentStep("confirmed");
+          })
       );
 
-      const unwrapped: unknown = await contractObject.unwrap();
+      const unwrapped = await contractObject;
 
       let contractAddress: string | undefined = undefined;
 
@@ -165,30 +180,31 @@ export default function Page() {
         contractAddress = unwrapped;
       }
 
-      if (!contractAddress) {
+      if (!contractAddress)
         throw new Error("Failed to extract contract address");
-      }
+
+      console.log("Contract address:", contractAddress);
       await waitForContractDeployment(contractAddress);
 
-      await axios.post("/api/user/add-address", {
-        username: account?.address,
+      await axios.post("/api/user", {
+        username: account.address,
         address: contractAddress,
       });
 
-      await axios.post("/api/collection/add-collection", {
+      await axios.post("/api/collection", {
         address: contractAddress,
       });
-      toast.success("Collection created successfully");
+      setCurrentStep("success");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create collection", {
-        description: error instanceof Error ? error.message : "Unknown error",
-      });
+      setCurrentStep("error");
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      setMessage("Failed to deploy contract: " + errorMessage);
     } finally {
       setLoading(false);
-      router.push("/sell");
     }
-  }, [account, name, description, symbol, files, router]);
+  }, [account, name, description, symbol, files]);
 
   const handleContinue = useCallback(() => {
     if (!name) {
@@ -202,9 +218,7 @@ export default function Page() {
     handle();
   }, [name, files, handle, t]);
 
-  if (isLoading || !account) {
-    return <LoadingScreen />;
-  }
+  if (isLoading || !account) return <LoadingScreen />;
 
   return (
     <div className="mt-10 flex w-full justify-center">
@@ -312,7 +326,7 @@ export default function Page() {
                 >
                   {isGenerating ? (
                     <div className="flex items-center space-x-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
                       <span className="text-xs">
                         {t("description_analyzing")}
                       </span>
@@ -320,7 +334,7 @@ export default function Page() {
                   ) : (
                     <div className="flex items-center space-x-1">
                       <span>✨</span>
-                      <span>{"Generate"}</span>
+                      <span className="text-xs">{"Generate"}</span>
                     </div>
                   )}
                 </button>
@@ -334,10 +348,33 @@ export default function Page() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                {!name && (
-                  <p className="mt-1 text-sm text-gray-500">{t("Enter")}</p>
-                )}
               </div>
+            </div>
+            <div className="w-full">
+              <Label className="flex flex-col">Royalties (0-5%)</Label>
+              <Input
+                type="number"
+                className="mt-2 w-full"
+                min={0}
+                max={5}
+                placeholder="0"
+                onChange={(e) => setRoyalty(parseFloat(e.target.value) || 0)}
+              />
+              <AnimatePresence>
+                {(royalty < 0 || royalty > 5) && (
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{
+                      opacity: royalty < 0 || royalty > 5 ? 1 : 0,
+                      height: royalty < 0 || royalty > 5 ? "auto" : 0,
+                    }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-1 text-sm text-red-500"
+                  >
+                    Royalty must be between 0 and 5%
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
             <div className="flex justify-end">
               <ButtonGradiant
@@ -384,9 +421,17 @@ export default function Page() {
                 </p>
               </div>
             </div>
+            <h1 className="text-md font-bold">Platform fee: 2.00%</h1>
           </div>
         </div>
       </div>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -12,7 +11,7 @@ export default function Page() {
   const t = useTranslations("home");
 
   const { data, error, loading } = useAutoFetch<string[]>(
-    `/api/collection/get-collection`,
+    `/api/collection`,
     600000,
     "collection"
   );
@@ -43,9 +42,7 @@ export default function Page() {
             {data?.length ? (
               <>
                 {data.map((address) => (
-                  <Link key={address} href={`/buy/${address}`}>
-                    <CollectionCard key={address} address={address} />
-                  </Link>
+                  <CollectionCard key={address} address={address} />
                 ))}
               </>
             ) : (
