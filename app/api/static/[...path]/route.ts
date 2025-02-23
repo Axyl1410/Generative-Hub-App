@@ -2,12 +2,15 @@ import { readFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 
-export async function GET(
-  request: NextRequest,
-  params: { params: { path: string[] } }
-) {
+interface StaticRouteContext {
+  params: {
+    path: string[];
+  };
+}
+
+export async function GET(request: NextRequest, context: StaticRouteContext) {
   try {
-    const filePath = join(process.cwd(), "uploads", ...params.params.path);
+    const filePath = join(process.cwd(), "uploads", ...context.params.path);
     const fileContent = await readFile(filePath);
 
     const contentType = filePath.endsWith(".html")
