@@ -275,7 +275,9 @@ export async function addMonthlyPrice(
   const collection = await getCollection("monthlyPrices");
 
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth(); // 0-11 (0 = January, 11 = December)
+  const currentMonth = new Date()
+    .toLocaleString("default", { month: "long" })
+    .toLowerCase();
 
   const document = await collection.findOne({
     address,
@@ -285,8 +287,21 @@ export async function addMonthlyPrice(
 
   if (!document) {
     // Create a new document if address, tokenId, and year do not exist
-    const monthlyPrices = Array(12).fill(null);
-    monthlyPrices[currentMonth] = price;
+    const monthlyPrices: Record<string, number[]> = {
+      january: [],
+      february: [],
+      march: [],
+      april: [],
+      may: [],
+      june: [],
+      july: [],
+      august: [],
+      september: [],
+      october: [],
+      november: [],
+      december: [],
+    };
+    monthlyPrices[currentMonth as keyof typeof monthlyPrices].push(price);
 
     await collection
       .insertOne({
@@ -301,10 +316,10 @@ export async function addMonthlyPrice(
   } else {
     // Update the existing document
     const updateQuery = {
-      $set: {
+      $push: {
         [`monthlyPrices.${currentMonth}`]: price,
       },
-    };
+    } as any;
 
     await collection
       .updateOne({ address, tokenId, year: currentYear }, updateQuery)

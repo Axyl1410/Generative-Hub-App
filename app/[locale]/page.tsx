@@ -12,7 +12,7 @@ export default function Page() {
   const t = useTranslations("home");
 
   const { data, error, loading } = useAutoFetch<string[]>(
-    `/api/collection/get-collection`,
+    `/api/collection`,
     600000,
     "collection"
   );

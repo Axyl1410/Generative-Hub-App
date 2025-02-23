@@ -182,12 +182,12 @@ export default function Page() {
       console.log("Contract address:", contractAddress);
       await waitForContractDeployment(contractAddress);
 
-      await axios.post("/api/user/add-address", {
+      await axios.post("/api/user", {
         username: account.address,
         address: contractAddress,
       });
 
-      await axios.post("/api/collection/add-collection", {
+      await axios.post("/api/collection", {
         address: contractAddress,
       });
       setCurrentStep("success");

@@ -1,4 +1,4 @@
-import { addPriceToToken, closeConnection } from "@/lib/mongodb";
+import { addMonthlyPrice, closeConnection } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -12,14 +12,14 @@ export async function POST(request: Request) {
       );
     }
 
-    await addPriceToToken(address, tokenId, price);
+    await addMonthlyPrice(address, tokenId, price);
 
     return NextResponse.json(
-      { message: "Price added successfully" },
+      { message: "Monthly price added successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error("Error adding price:", error);
+  } catch (error) {
+    console.error("Error adding monthly price:", error);
     return NextResponse.json(
       { error: `Internal Server Error: ${error}` },
       { status: 500 }
