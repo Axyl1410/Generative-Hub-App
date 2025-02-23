@@ -30,6 +30,7 @@
     "datastore-core": "^10.0.2",
     "dotted-map": "^2.2.3",
     "ethers": "^6.13.5",
+    "extract-zip": "^2.0.1",
     "helia": "^5.2.0",
     "jszip": "^3.10.1",
     "libp2p": "^2.5.1",
