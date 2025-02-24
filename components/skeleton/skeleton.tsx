@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "@/styles/skeleton.module.scss";
 
 type Props = {

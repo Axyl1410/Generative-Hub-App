@@ -1,6 +1,9 @@
-import { addAddressToUser, closeConnection } from "@/lib/mongodb";
+import {
+  addAddressToUser,
+  closeConnection,
+  getCollectionbyusername,
+} from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { getCollectionbyusername } from "@/lib/mongodb";
 
 export async function GET(request: Request) {
   try {

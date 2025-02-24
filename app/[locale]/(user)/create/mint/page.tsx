@@ -20,7 +20,7 @@ import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { User } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus, X } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
@@ -35,6 +35,11 @@ interface OptionContent {
 interface Attribute {
   trait_type: string;
   value: string;
+}
+
+interface Collection {
+  address: string;
+  name: string;
 }
 
 export default function Page() {
@@ -61,6 +66,7 @@ export default function Page() {
   const [traitType, setTraitType] = useState<string>("");
   const [attributeValue, setAttributeValue] = useState<string>("");
   const [attributesArray, setAttributesArray] = useState<Attribute[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleFileUpload = (files: File | null) => setFiles(files);
 
@@ -81,11 +87,17 @@ export default function Page() {
   const handleContract = (contract: string) => {
     return CollectionContract(contract);
   };
-  const options =
-    data?.address?.map((address) => ({
-      content: <DropdownCard address={address} />,
-      address: address,
-    })) || [];
+
+  const filteredOptions =
+    (data?.address as unknown as Collection[])
+      .filter((collection) =>
+        collection?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .map((collection: Collection) => ({
+        content: <DropdownCard address={collection.address} />,
+        address: collection.address,
+        name: collection.name,
+      })) || [];
 
   const handleAddAttribute = () => {
     if (traitType.trim() && attributeValue.trim()) {
@@ -167,23 +179,42 @@ export default function Page() {
                       <div
                         className={cn(
                           "z-10 w-full rounded-md bg-white shadow-lg dark:bg-neutral-900",
-                          options.length > 2 &&
+                          filteredOptions.length > 2 &&
                             "max-h-[300px] overflow-y-scroll"
                         )}
                       >
-                        {options.length === 0 ? (
+                        {/* Add search input at the top of dropdown */}
+                        <div className="sticky top-0 z-10 border-b bg-white p-2 dark:bg-neutral-900">
+                          <div className="relative">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                            <Input
+                              type="text"
+                              placeholder={"Search collections..."}
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                              className="w-full pl-8"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          </div>
+                        </div>
+
+                        {filteredOptions.length === 0 ? (
                           <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
-                            <p>
-                              {t("You_don_apost")}{" "}
-                              <span className="text-link">
-                                <Link href={"/create/collection"}>
-                                  {t("create_one")}
-                                </Link>
-                              </span>
-                            </p>
+                            {searchQuery ? (
+                              <p>No collections found</p>
+                            ) : (
+                              <p>
+                                {t("You_don_apost")}{" "}
+                                <span className="text-link">
+                                  <Link href={"/create/collection"}>
+                                    {t("create_one")}
+                                  </Link>
+                                </span>
+                              </p>
+                            )}
                           </div>
                         ) : (
-                          options.map((option, index) => (
+                          filteredOptions.map((option, index) => (
                             <div
                               key={index}
                               className={cn(

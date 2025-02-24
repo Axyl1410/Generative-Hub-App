@@ -4,17 +4,22 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { Link } from "@/i18n/routing";
-import { cn } from "@nextui-org/react";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+interface Collection {
+  address: string;
+  name: string;
+}
 
 export default function Page() {
-  const { data, error, loading } = useAutoFetch<string[]>(
+  const { data, error, loading } = useAutoFetch<Collection[]>(
     `/api/collection`,
     600000,
     "collection"
   );
 
-  if (error) <EmptyText text={`Error: ${error.message}`} />;
+  if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
     <div className="my-6">
@@ -29,14 +34,17 @@ export default function Page() {
         >
           {data?.length ? (
             <>
-              {data.map((address) => (
-                <Link key={address} href={`/explore/${address}`}>
-                  <CollectionCard key={address} address={address} />
+              {data.map((collection) => (
+                <Link
+                  key={collection.address}
+                  href={`/explore/${collection.address}`}
+                >
+                  <CollectionCard address={collection.address} />
                 </Link>
               ))}
             </>
           ) : (
-            <EmptyText text="Looks like there are no collection. Check back later!" />
+            <EmptyText text="Looks like there are no collections. Check back later!" />
           )}
         </div>
       )}

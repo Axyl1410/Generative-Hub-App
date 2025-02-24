@@ -13,26 +13,33 @@ import { toast } from "sonner";
 
 export const dynamic = "force-dynamic";
 
+interface Collection {
+  address: string;
+  name: string;
+}
+
 export default function Buy() {
-  const { data, error, loading } = useAutoFetch<string[]>(
+  const { data, error, loading } = useAutoFetch<Collection[]>(
     `/api/collection`,
     600000,
     "collection"
   );
   const t = useTranslations("buy");
-  const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<string[]>([]);
+  const [collectionsWithNFTs, setCollectionsWithNFTs] = useState<Collection[]>(
+    []
+  );
   const [loadingCollections, setLoadingCollections] = useState(true);
 
   useEffect(() => {
     const fetchCollectionsWithNFTs = async () => {
       if (data) {
         const collections = await Promise.all(
-          data.map(async (address) => {
-            const hasNFTs = await checkCollectionHasNFTs(address);
-            return hasNFTs ? address : null;
+          data?.map(async (collection) => {
+            const hasNFTs = await checkCollectionHasNFTs(collection.address);
+            return hasNFTs ? collection : null;
           })
         );
-        setCollectionsWithNFTs(collections.filter(Boolean) as string[]);
+        setCollectionsWithNFTs(collections.filter(Boolean) as Collection[]);
         setLoadingCollections(false);
       }
     };
@@ -60,9 +67,15 @@ export default function Buy() {
           )}
         >
           {collectionsWithNFTs.length > 0 ? (
-            collectionsWithNFTs.map((address: string) => (
-              <Link key={address} href={`/buy/${address}`}>
-                <CollectionCard address={address} />
+            collectionsWithNFTs.map((collection: Collection) => (
+              <Link
+                key={collection.address}
+                href={`/buy/${collection.address}`}
+              >
+                <CollectionCard
+                  address={collection.address}
+                  name={collection.name}
+                />
               </Link>
             ))
           ) : (

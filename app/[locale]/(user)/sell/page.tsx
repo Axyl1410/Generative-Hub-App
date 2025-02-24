@@ -13,6 +13,11 @@ import { useActiveAccount } from "thirdweb/react";
 
 export const dynamic = "force-dynamic";
 
+interface Collection {
+  address: string;
+  name: string;
+}
+
 export default function Page() {
   const account = useActiveAccount();
   const t = useTranslations("sell");
@@ -49,11 +54,16 @@ export default function Page() {
               )}
             >
               {data?.address && data.address.length > 0 ? (
-                data.address.map((address: string) => (
-                  <Link href={`/sell/${address}`} key={address}>
-                    <CollectionCard address={address} />
-                  </Link>
-                ))
+                (data.address as unknown as Collection[]).map(
+                  (collection: Collection) => (
+                    <Link
+                      href={`/sell/${collection.address}`}
+                      key={collection.address}
+                    >
+                      <CollectionCard address={collection.address} />
+                    </Link>
+                  )
+                )
               ) : (
                 <p className="text-sm font-bold">{t("nocollection")} </p>
               )}
