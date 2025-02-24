@@ -115,7 +115,9 @@
     "No_items_found_for": "このメニューにはアイテムが見つかりませんでした。",
     "Unnamed": "名前なし",
     "Copied": "コピーしました！",
-    "Settings": "設定"
+    "Settings": "設定",
+    "Joined": "参加",
+    "EditUsername": "ユーザー名を編集"
   },
   "use": {
     "Connect_Wallet": "ウォレットを接続",

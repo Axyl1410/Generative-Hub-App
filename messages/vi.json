@@ -28,7 +28,7 @@
     "backbutton": "Quay lại",
     "disconnect": "Ngắt kết nối",
     "themeSwitcher": {
-      "go": "Đi",
+      "go": "Giao diện",
       "light": "sáng",
       "dark": "tối"
     }
@@ -115,7 +115,9 @@
     "No_items_found_for": "Không tìm thấy mặt hàng cho menu này.",
     "Unnamed": "Không có tên",
     "Copied": "Đã sao chép!",
-    "Settings": "Cài đặt"
+    "Settings": "Cài đặt",
+    "Joined": "Ngày tham gia",
+    "EditUsername": "Chỉnh sửa tên"
   },
   "use": {
     "Connect_Wallet": "Kết nối ví",

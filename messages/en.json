@@ -115,7 +115,9 @@
     "No_items_found_for": "No items found for this menu.",
     "Unnamed": "Unnamed",
     "Copied": "Copied!",
-    "Settings": "Setting"
+    "Settings": "Setting",
+    "Joined": "Joined",
+    "EditUsername": "Edit Username"
   },
   "use": {
     "Connect_Wallet": "Connect Wallet",
