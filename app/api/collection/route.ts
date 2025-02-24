@@ -29,23 +29,28 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { address } = await request.json();
+    const { address, name } = await request.json();
 
     if (!address) {
       return NextResponse.json(
-        { error: "Username, address and token are required" },
+        { error: "Address is required" },
         { status: 400 }
       );
     }
 
-    await addCollectionToDatabase(address);
+    const collectionData = {
+      address,
+      ...(name && { name }), // Only include name if it exists
+    };
+
+    await addCollectionToDatabase(collectionData);
 
     return NextResponse.json(
-      { message: "Token added successfully" },
+      { message: "Collection added successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error adding address:", error);
+    console.error("Error adding collection:", error);
     return NextResponse.json(
       { error: `Internal Server Error: ${error}` },
       { status: 500 }

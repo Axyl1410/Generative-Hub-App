@@ -21,7 +21,8 @@
     "buy": "Mua NFT",
     "sell": "Bán NFT",
     "create": "Tạo",
-    "profile": "Hồ Sơ"
+    "profile": "Hồ Sơ",
+    "explore": "Khám Phá"
   },
   "component": {
     "backbutton": "Quay lại",

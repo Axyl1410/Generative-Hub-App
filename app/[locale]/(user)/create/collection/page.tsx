@@ -15,6 +15,7 @@ import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import TakeMetadate from "@/lib/take-metadata";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { AnimatePresence, motion } from "framer-motion";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
@@ -186,13 +187,17 @@ export default function Page() {
       console.log("Contract address:", contractAddress);
       await waitForContractDeployment(contractAddress);
 
+      const { metadata } = TakeMetadate(contractAddress);
+
       await axios.post("/api/user", {
         username: account.address,
         address: contractAddress,
+        name: metadata?.name,
       });
 
       await axios.post("/api/collection", {
         address: contractAddress,
+        name: metadata?.name,
       });
       setCurrentStep("success");
     } catch (error) {
@@ -204,7 +209,7 @@ export default function Page() {
     } finally {
       setLoading(false);
     }
-  }, [account, name, description, symbol, files]);
+  }, [account, royalty, name, description, symbol, files]);
 
   const handleContinue = useCallback(() => {
     if (!name) {

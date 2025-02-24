@@ -21,7 +21,8 @@
     "buy": "NFTを購入",
     "sell": "NFTを販売",
     "create": "作成",
-    "profile": "プロフィール"
+    "profile": "プロフィール",
+    "explore": "探索"
   },
   "component": {
     "backbutton": "戻る",

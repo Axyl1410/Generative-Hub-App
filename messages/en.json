@@ -21,7 +21,8 @@
     "buy": "Buy NFTs",
     "sell": "Sell NFTs",
     "create": "Create",
-    "profile": "Profile"
+    "profile": "Profile",
+    "explore": "Explore"
   },
   "component": {
     "backbutton": "Back",

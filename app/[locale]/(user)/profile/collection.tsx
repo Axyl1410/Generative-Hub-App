@@ -59,7 +59,7 @@ export const CollectedPage = () => {
                 className="group relative border-r border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-1"
               >
                 <Link
-                  href={`/sell/${address}`}
+                  href={`/explore/${address}`}
                   className="block overflow-hidden rounded-lg border-2 border-transparent transition-all duration-300 ease-in-out group-hover:border-blue-500 group-hover:shadow-lg"
                 >
                   <DropdownCard address={address} />
