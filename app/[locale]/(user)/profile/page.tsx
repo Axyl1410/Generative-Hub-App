@@ -25,8 +25,8 @@ import FormData from "form-data";
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
 
-  const [joinDate, setJoinDate] = useState<string>("Loading...");
-  const [userName, setUserName] = useState<string>("");
+  const [joinDate, setJoinDate] = useState<string>("--/--/--");
+  const [userName, setUserName] = useState<string>("Unknown");
   const [avatar, setAvatar] = useState<string>("https://placehold.co/100x100");
   const [coverPhoto, setCoverPhoto] = useState<string>(
     "https://placehold.co/800x400"
@@ -43,24 +43,42 @@ const ProfilePage: React.FC = () => {
           `${NEXT_PUBLIC_SERVER_URL}/api/user/get-user/${account?.address}`
         );
         const data = await response.json();
+  
         setJoinDate(
           data.user.createdAt
             ? new Date(data.user.createdAt).toLocaleDateString()
             : "Unknown"
         );
-        setAvatar(data.user.avatar_url || "https://placehold.co/100x100");
-        setCoverPhoto(data.user.cover_url || "https://placehold.co/800x400");
-        setUserName(data.user.username || "Unknown");
-        setNewUsername(data.user.username || ""); // Khởi tạo username mới từ dữ liệu hiện tại
+  
+        setAvatar(
+          data.user.avatar_url && data.user.avatar_url !== "null"
+            ? data.user.avatar_url
+            : "https://placehold.co/100x100"
+        );
+  
+        setCoverPhoto(
+          data.user.cover_url && data.user.cover_url !== "null"
+            ? `${NEXT_PUBLIC_SERVER_URL}${data.user.cover_url}`
+            : "https://placehold.co/800x400"
+        );
+  
+        setUserName(
+          data.user.username && data.user.username !== "null"
+            ? data.user.username
+            : "Unknown"
+        );
+  
+        setNewUsername(data.user.username || "");
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-
+  
     if (account?.address) {
       fetchUserData();
     }
   }, [account?.address]);
+  
 
   // Xử lý thay đổi avatar
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -204,7 +222,7 @@ const ProfilePage: React.FC = () => {
       {/* Cover Section */}
       <div className="relative h-32 overflow-hidden rounded-b-md md:h-64 lg:h-80">
         <img
-          src={`${NEXT_PUBLIC_SERVER_URL}${coverPhoto}`}
+          src={`${coverPhoto} `}
           alt="Cover"
           className="absolute inset-0 h-full w-full cursor-pointer rounded object-cover"
           onClick={() => document.getElementById("coverPhotoInput")?.click()}
