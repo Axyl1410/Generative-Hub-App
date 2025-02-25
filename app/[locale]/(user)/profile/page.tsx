@@ -13,15 +13,15 @@ import {
   DropdownTrigger,
   Input,
 } from "@nextui-org/react";
+import axios from "axios";
+import FormData from "form-data";
 import { useTranslations } from "next-intl";
 import React, { Suspense, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { FaCamera, FaCopy, FaEthereum , FaEdit } from "react-icons/fa";
+import { FaCamera, FaCopy, FaEdit, FaEthereum } from "react-icons/fa";
+import { toast } from "sonner";
 import { Blobbie, useActiveAccount } from "thirdweb/react";
 import { CollectedPage } from "./collection";
-import axios from "axios";
-import FormData from "form-data";
-import { toast } from "sonner";
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
 
@@ -32,12 +32,11 @@ const ProfilePage: React.FC = () => {
     "https://placehold.co/800x400"
   );
 
- 
   const [newUsername, setNewUsername] = useState<string>(""); // State cho username mới
   const [isEditing, setIsEditing] = useState(false); // State để bật/tắt chế độ chỉnh sửa
   const t = useTranslations("profile");
 
-  const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ;
+  const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,42 +45,41 @@ const ProfilePage: React.FC = () => {
           `${NEXT_PUBLIC_SERVER_URL}/api/user/get-user/${account?.address}`
         );
         const data = await response.json();
-  
+
         setJoinDate(
           data.user.createdAt
             ? new Date(data.user.createdAt).toLocaleDateString()
             : "Unknown"
         );
-  
+
         setAvatar(
           data.user.avatar_url && data.user.avatar_url !== "null"
             ? data.user.avatar_url
             : "https://placehold.co/100x100"
         );
-  
+
         setCoverPhoto(
           data.user.cover_url && data.user.cover_url !== "null"
             ? `${NEXT_PUBLIC_SERVER_URL}${data.user.cover_url}`
             : "https://placehold.co/800x400"
         );
-  
+
         setUserName(
           data.user.username && data.user.username !== "null"
             ? data.user.username
             : "Unknown"
         );
-  
+
         setNewUsername(data.user.username || "");
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     if (account?.address) {
       fetchUserData();
     }
   }, [account?.address]);
-  
 
   // Xử lý thay đổi avatar
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,31 +112,34 @@ const ProfilePage: React.FC = () => {
     const formData = new FormData();
     formData.append("wallet_address", account?.address || "");
     formData.append(type, file);
-  
+
     try {
       // Ép kiểu response về đúng AxiosResponse
-      const response = await axios.put<{ user: { avatar_url?: string; cover_url?: string } }>(
-        `${NEXT_PUBLIC_SERVER_URL}/api/user/update-user`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-  
+      const response = await axios.put<{
+        user: { avatar_url?: string; cover_url?: string };
+      }>(`${NEXT_PUBLIC_SERVER_URL}/api/user/update-user`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       // Kiểm tra dữ liệu trước khi sử dụng
       if (response?.data?.user) {
         if (type === "avatar") {
-          setAvatar(`${NEXT_PUBLIC_SERVER_URL}${response.data.user.avatar_url || avatar}`);
+          setAvatar(
+            `${NEXT_PUBLIC_SERVER_URL}${response.data.user.avatar_url || avatar}`
+          );
         } else {
-          setCoverPhoto(`${NEXT_PUBLIC_SERVER_URL}${response.data.user.cover_url || coverPhoto}`);
+          setCoverPhoto(
+            `${NEXT_PUBLIC_SERVER_URL}${response.data.user.cover_url || coverPhoto}`
+          );
         }
       }
-      
+
       toast.success("Image uploaded successfully!");
     } catch (error) {
       console.error(`Error uploading ${type}:`, error);
       toast.error(`Error uploading ${type}.`);
     }
   };
-  
 
   // Hàm cập nhật username
   const handleUsernameUpdate = async () => {
@@ -349,12 +350,7 @@ const ProfilePage: React.FC = () => {
       {/* Navigation Section */}
       <div className="mt-6 flex overflow-auto">
         <MenuSection
-          items={[
-            "Collected",
-            "Created",
-            "Favorited",
-            "Sell",
-          ]}
+          items={["Collected", "Created", "Favorited", "Sell"]}
           activeItem={activeMenu}
           onItemSelect={setActiveMenu}
           layout="horizontal"
