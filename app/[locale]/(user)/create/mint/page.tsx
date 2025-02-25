@@ -5,8 +5,9 @@
 import BackButton from "@/components/common/back-button";
 import Loading from "@/components/common/loading";
 import LoadingScreen from "@/components/common/loading-screen";
-import { Button } from "@/components/ui/button";
-import DropdownCard from "@/components/ui/dropdown-card";
+import AttributeInput from "@/components/form/attribute-input";
+import AttributeList from "@/components/form/attribute-list";
+import CollectionDropdown from "@/components/form/collection-dropdown";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,28 +15,14 @@ import { Textarea } from "@/components/ui/textarea";
 import TransactionDialog, {
   TransactionStep,
 } from "@/components/ui/transaction-dialog";
+import useAttributes from "@/hooks/use-attributes";
 import useAutoFetch from "@/hooks/use-auto-fetch";
-import { Link } from "@/i18n/routing";
 import CollectionContract from "@/lib/get-collection-contract";
-import { cn } from "@/lib/utils";
 import { User } from "@/types";
-import { AnimatePresence, motion } from "framer-motion";
-import { Plus, Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
-import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
-
-interface OptionContent {
-  content: React.ReactNode;
-  address: string;
-}
-
-interface Attribute {
-  trait_type: string;
-  value: string;
-}
 
 interface Collection {
   address: string;
@@ -47,26 +34,28 @@ export default function Page() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const account = useActiveAccount();
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectAddress, setSelectAddress] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
     null
   );
-
+  const [selectAddress, setSelectAddress] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
   const [message, setMessage] = useState("");
   const t = useTranslations("mint");
 
+  const {
+    traitType,
+    setTraitType,
+    attributeValue,
+    setAttributeValue,
+    attributesArray,
+    handleAddAttribute,
+    handleRemoveAttribute,
+  } = useAttributes();
+
   const handleOpenChange = (open: boolean) => {
     if (currentStep === "success" || currentStep === "error") setIsOpen(open);
   };
-
-  // Attribute states
-  const [traitType, setTraitType] = useState<string>("");
-  const [attributeValue, setAttributeValue] = useState<string>("");
-  const [attributesArray, setAttributesArray] = useState<Attribute[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleFileUpload = (files: File | null) => setFiles(files);
 
@@ -78,46 +67,9 @@ export default function Page() {
 
   if (!account || loading) return <LoadingScreen />;
 
-  const handleOptionSelect = (option: OptionContent): void => {
-    setSelectAddress(option.address);
-    setSelectedOption(option.content);
-    setShowDropdown(false);
-  };
-
   const handleContract = (contract: string) => {
     return CollectionContract(contract);
   };
-
-  const filteredOptions =
-    (data?.address as unknown as Collection[])
-      .filter((collection) =>
-        collection?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-      .map((collection: Collection) => ({
-        content: <DropdownCard address={collection.address} />,
-        address: collection.address,
-        name: collection.name,
-      })) || [];
-
-  const handleAddAttribute = () => {
-    if (traitType.trim() && attributeValue.trim()) {
-      // Check if traitType and attributeValue are not empty after trimming whitespace
-      setAttributesArray([
-        ...attributesArray,
-        { trait_type: traitType, value: attributeValue },
-      ]);
-      setTraitType("");
-      setAttributeValue("");
-    } else toast.error(" attributeValue are not empty ");
-  };
-
-  const handleRemoveAttribute = (indexToRemove: number) => {
-    setAttributesArray(
-      attributesArray.filter((_, index) => index !== indexToRemove)
-    );
-  };
-
-  const allowedTypes = ["image/*"];
 
   return (
     <div className="my-10 flex w-full justify-center">
@@ -135,7 +87,7 @@ export default function Page() {
               <div className="mx-auto w-full max-w-5xl gap-4 rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
                 <FileUpload
                   onChange={handleFileUpload}
-                  allowedTypes={allowedTypes}
+                  allowedTypes={["image/*"]}
                 />
               </div>
             </Suspense>
@@ -148,102 +100,12 @@ export default function Page() {
                 e.preventDefault();
               }}
             >
-              <div>
-                <Label
-                  htmlFor="collection"
-                  className="text-sm/6 font-bold dark:text-text-dark"
-                >
-                  {t("Collection")} <span className="text-red-600"> *</span>
-                </Label>
-                <div
-                  className="relative mt-2 flex h-24 w-full cursor-pointer items-center gap-4 overflow-hidden rounded-md bg-gray-100 p-4 shadow dark:border dark:bg-neutral-900"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
-                  {selectedOption || (
-                    <>
-                      <div className="grid h-16 w-16 place-items-center rounded-md bg-gray-200 dark:bg-neutral-800">
-                        <Plus />
-                      </div>
-
-                      <p className="text-sm/6 font-bold">
-                        {t("Select_a_collection")}
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                <AnimatePresence>
-                  {showDropdown && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <div
-                        className={cn(
-                          "z-10 w-full rounded-md bg-white shadow-lg dark:bg-neutral-900",
-                          filteredOptions.length > 2 &&
-                            "max-h-[300px] overflow-y-scroll"
-                        )}
-                      >
-                        {/* Add search input at the top of dropdown */}
-                        <div className="sticky top-0 z-10 border-b bg-white p-2 dark:bg-neutral-900">
-                          <div className="relative">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                            <Input
-                              type="text"
-                              placeholder={"Search collections..."}
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                              className="w-full pl-8"
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                          </div>
-                        </div>
-
-                        {filteredOptions.length === 0 ? (
-                          <div className="w-full p-4 text-center text-gray-500 dark:text-gray-400">
-                            {searchQuery ? (
-                              <p>No collections found</p>
-                            ) : (
-                              <p>
-                                {t("You_don_apost")}{" "}
-                                <span className="text-link">
-                                  <Link href={"/create/collection"}>
-                                    {t("create_one")}
-                                  </Link>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        ) : (
-                          filteredOptions.map((option, index) => (
-                            <div
-                              key={index}
-                              className={cn(
-                                "w-full cursor-pointer border-y px-4 transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800",
-                                index === 0 && "border-t-0"
-                              )}
-                              onClick={() => handleOptionSelect(option)}
-                            >
-                              {option.content}
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <p className="mt-3 text-sm/6">
-                  {t("notall")}
-                  <span className="cursor-not-allowed text-link">
-                    {t("Learn_more")}
-                  </span>
-                </p>
-              </div>
+              <CollectionDropdown
+                data={data?.address as unknown as Collection[]}
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+                setSelectAddress={setSelectAddress}
+              />
 
               <div>
                 <Label
@@ -282,118 +144,62 @@ export default function Page() {
                 <p className="mt-3 text-sm/6">{t("Write_a_few")} </p>
               </div>
 
-              {/* Attributes Input Fields */}
-              <div>
-                <Label>
-                  {t("Attributes")}{" "}
-                  <span className="text-gray-600">({t("Optional")} )</span>
-                </Label>
-                <div className="mt-2 flex gap-2">
-                  <div className="flex-1">
-                    <Input
-                      type="text"
-                      placeholder={t("trait_type_placeholder")}
-                      value={traitType}
-                      onChange={(e) => setTraitType(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <Input
-                      type="text"
-                      placeholder={t("value_placeholder")}
-                      value={attributeValue}
-                      onChange={(e) => setAttributeValue(e.target.value)}
-                    />
-                  </div>
-                  <Button onClick={handleAddAttribute}>{t("Add")}</Button>
-                </div>
-              </div>
+              <AttributeInput
+                traitType={traitType}
+                attributeValue={attributeValue}
+                setTraitType={setTraitType}
+                setAttributeValue={setAttributeValue}
+                handleAddAttribute={handleAddAttribute}
+              />
 
-              {/* Display Attributes Array */}
               {attributesArray.length > 0 && (
-                <div>
-                  <Label> {t("Added_Attributes")}</Label>
-                  <ul className="mt-2 space-y-2">
-                    <AnimatePresence>
-                      {attributesArray.map((attribute, index) => (
-                        <motion.li
-                          key={index}
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          className="flex items-center justify-between rounded-md bg-gray-100 px-3 py-1.5 dark:bg-neutral-800"
-                        >
-                          <div>
-                            <span className="font-semibold dark:text-white">
-                              {attribute.trait_type}:
-                            </span>{" "}
-                            <span className="text-gray-700 dark:text-gray-300">
-                              {attribute.value}
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            className="rounded-full p-1 hover:bg-gray-200 dark:hover:bg-neutral-700"
-                            onClick={() => handleRemoveAttribute(index)}
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </motion.li>
-                      ))}
-                    </AnimatePresence>
-                  </ul>
-                </div>
+                <AttributeList
+                  attributesArray={attributesArray}
+                  handleRemoveAttribute={handleRemoveAttribute}
+                />
               )}
 
               <div className={"h-[45px]"}>
-                <AnimatePresence>
-                  {name && selectedOption && files && description && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <TransactionButton
-                        className={"!w-full"}
-                        transaction={() => {
-                          const metadata = {
-                            name,
-                            description,
-                            image: files,
-                            attributes:
-                              attributesArray.length > 0
-                                ? attributesArray
-                                : undefined, // Include attributes if array is not empty
-                          };
+                <TransactionButton
+                  disabled={!name || !selectedOption || !files || !description}
+                  className={"!w-full"}
+                  transaction={() => {
+                    const metadata = {
+                      name,
+                      description,
+                      image: files,
+                      attributes:
+                        attributesArray.length > 0
+                          ? attributesArray
+                          : undefined,
+                    };
 
-                          setIsOpen(true);
-                          setCurrentStep("sent");
+                    setIsOpen(true);
+                    setCurrentStep("sent");
 
-                          return mintTo({
-                            contract: handleContract(
-                              selectAddress as string
-                            ) as any,
-                            to: account.address,
-                            nft: metadata,
-                          });
-                        }}
-                        onTransactionSent={() => {
-                          setCurrentStep("confirmed");
-                        }}
-                        onTransactionConfirmed={() => {
-                          setCurrentStep("success");
-                          setMessage("Transaction is being confirmed...");
-                        }}
-                        onError={(error) => {
-                          setCurrentStep("error");
-                          setMessage("Transaction failed: " + error.message);
-                        }}
-                      >
-                        <span>{t("Mint_NFT")}</span>
-                      </TransactionButton>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    return mintTo({
+                      contract: handleContract(selectAddress as string) as any,
+                      to: account.address,
+                      nft: {
+                        ...metadata,
+                        image: files || undefined,
+                      },
+                    });
+                  }}
+                  onTransactionSent={() => {
+                    setCurrentStep("confirmed");
+                  }}
+                  onTransactionConfirmed={() => {
+                    setCurrentStep("success");
+                    setMessage("Transaction is being confirmed...");
+                  }}
+                  onError={(error) => {
+                    setCurrentStep("error");
+                    setMessage("Transaction failed: " + error.message);
+                  }}
+                >
+                  <span>{t("Mint_NFT")}</span>
+                </TransactionButton>
               </div>
             </form>
           </div>

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 // import MintNFT from "@/components/mint";
 import BackBtn from "@/components/common/back-button";
 import ImagePreviewModal from "@/components/common/ImagePreviewModal";
+import { cn } from "@/lib/utils";
 
 export default function Page() {
   const OPENAI_API_KEY = process.env.NEXT_PUBLIC_HF_API_KEY;
@@ -25,23 +26,24 @@ export default function Page() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
-  const initialSuggestions = [
-    "A futuristic city at sunset",
-    "A cute cat astronaut",
-    "A cyberpunk street with neon lights",
-    "A serene beach with palm trees",
-    "A bustling market in Morocco",
-    "A tranquil mountain lake",
-    "A space station orbiting Earth",
-    "A colorful underwater coral reef",
-    "A medieval castle on a hill",
-    "A vibrant rainforest with exotic animals",
-    "A snowy village during Christmas",
-    "A desert with towering sand dunes",
-  ];
   useEffect(() => {
+    const initialSuggestions = [
+      "A futuristic city at sunset",
+      "A cute cat astronaut",
+      "A cyberpunk street with neon lights",
+      "A serene beach with palm trees",
+      "A bustling market in Morocco",
+      "A tranquil mountain lake",
+      "A space station orbiting Earth",
+      "A colorful underwater coral reef",
+      "A medieval castle on a hill",
+      "A vibrant rainforest with exotic animals",
+      "A snowy village during Christmas",
+      "A desert with towering sand dunes",
+    ];
     setSuggestions(initialSuggestions.sort(() => 0.5 - Math.random()));
   }, []);
+
   useEffect(() => {
     if (cooldown > 0) {
       const timer = setInterval(() => {
@@ -120,23 +122,33 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex flex-col-reverse justify-between gap-8 pb-10 md:flex-row md:items-center "> 
+      <div className="flex flex-col-reverse justify-between gap-8 pb-10 md:flex-row md:items-center">
         <h1 className="mt-6 text-2xl font-bold">Generate Image from Text</h1>
-        <BackBtn className="mt-6"/>
+        <BackBtn className="mt-6" />
       </div>
 
-      <div className="flex h-full w-full flex-col items-start p-6 md:flex-row ">
+      <div className="flex h-full w-full flex-col items-start md:flex-row md:p-6">
         {/* Steps Navigation */}
-        <div className=" w-full flex-col items-start p-4 md:w-1/4 hidden md:flex">
+        <div className="hidden w-full flex-col items-start p-4 md:flex md:w-1/4">
           <h2 className="mb-4 text-xl font-bold">Steps</h2>
           <div
-            className={`mb-2 cursor-pointer p-2 ${step === 1 ? "rounded bg-blue-100 font-bold" : "rounded"}`}
+            className={cn(
+              "mb-2 cursor-pointer p-2",
+              step === 1
+                ? "rounded bg-blue-500 font-bold"
+                : "rounded bg-gray-200 text-black"
+            )}
             onClick={() => setStep(1)}
           >
             1. Generate Image
           </div>
           <div
-            className={`mb-2 cursor-pointer p-2 ${step === 2 && selectedImage ? "rounded bg-blue-100 font-bold" : "cursor-not-allowed rounded bg-gray-200"}`}
+            className={cn(
+              "mb-2 cursor-pointer p-2",
+              step === 2 && selectedImage
+                ? "rounded bg-blue-500 font-bold text-gray-700"
+                : "cursor-not-allowed rounded bg-gray-200 dark:text-black"
+            )}
             onClick={() => selectedImage && setStep(2)}
           >
             2. Mint NFT
@@ -144,10 +156,10 @@ export default function Page() {
         </div>
 
         {/* Main Content */}
-        <div className="flex w-full flex-col border-l border-gray-200 p-6 md:w-3/4">
+        <div className="flex w-full flex-col border-gray-200 md:w-3/4 md:border-l md:p-6">
           {step === 1 && (
             <>
-              <p className="mb-4 text-gray-600">
+              <p className="mb-4 text-gray-600 dark:text-text-dark">
                 Enter a prompt and generate an image.
               </p>
               <div className="flex w-full max-w-4xl flex-col gap-6 md:flex-row">
@@ -271,12 +283,12 @@ export default function Page() {
                   {suggestions.slice(0, 5).map((sug) => (
                     <div
                       key={sug}
-                      className="break-words rounded bg-white p-2 shadow transition-shadow hover:shadow-lg"
+                      className="break-words rounded bg-white p-2 shadow transition-all hover:bg-accent hover:shadow-lg dark:hover:bg-neutral-300"
                     >
                       <Button
                         variant="ghost"
                         onClick={() => setPrompt(sug)}
-                        className="w-auto text-center"
+                        className="w-auto text-center dark:text-black dark:hover:bg-neutral-300"
                       >
                         {sug}
                       </Button>
