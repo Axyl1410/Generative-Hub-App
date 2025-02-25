@@ -1,4 +1,4 @@
-import { toast } from "sonner";
+import { notFound } from "next/navigation";
 import { getContract } from "thirdweb";
 import client, { FORMA_SKETCHPAD } from "./client";
 
@@ -10,10 +10,8 @@ const CollectionContract = (address: string) => {
       address: address,
     });
   } catch (e) {
-    toast.error("Invalid contract address", {
-      description: e as string,
-    });
-    return null;
+    console.log(e);
+    return notFound();
   }
 };
 

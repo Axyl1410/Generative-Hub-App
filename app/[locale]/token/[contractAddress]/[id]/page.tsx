@@ -6,8 +6,10 @@ import MakeOfferButton from "@/components/token/make-offer-button";
 import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
+import { formatAddress } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getNFT } from "thirdweb/extensions/erc721";
 import {
   getAllValidAuctions,
@@ -66,7 +68,7 @@ export default async function Page({
   return (
     <div className="mx-auto my-10 flex max-w-2xl flex-col gap-16 lg:max-w-full lg:flex-row">
       <div className="flex flex-1 flex-col">
-        <BackButton className="mb-4 h-fit" href={"/buy"} />
+        <BackButton className="mb-4 h-fit" />
         <MediaRenderer
           src={nft.metadata.image}
           client={client}
@@ -93,22 +95,23 @@ export default async function Page({
                   {t("Current_Owner")}{" "}
                 </p>
                 <p className="font-medium text-text dark:text-white/90">
-                  {nft.owner.slice(0, 4)}...
-                  {nft.owner.slice(-4)}
+                  {formatAddress(nft.owner)}
                 </p>
               </div>
             )}
           </div>
         </div>
-        <div className="px-4">
-          <h3 className="mt-8">{t("History")} </h3>
-          <Events tokenId={nft.id} address={contractAddress} />
-        </div>
+        <Suspense fallback={<div>loading...</div>}>
+          <div className="px-4">
+            <h3 className="mt-8">{t("History")} </h3>
+            <Events tokenId={nft.id} address={contractAddress} />
+          </div>
+        </Suspense>
       </div>
 
       <div className="sticky w-full flex-shrink sm:min-w-[370px] lg:max-w-[550px]">
         <div className="relative mb-6 flex w-full grow flex-col overflow-hidden rounded-lg bg-transparent">
-          <div className="w-full rounded-lg bg-white/[.04] p-4">
+          <div className="w-full rounded-lg bg-neutral-50 p-4 dark:bg-white/[.04]">
             <p className="mb-1 text-text dark:text-white/60">Price</p>
             <div className="rounded-md text-lg font-medium text-text dark:text-white/90">
               {directListing ? (
@@ -140,25 +143,37 @@ export default async function Page({
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
-          <BuyListingButton
-            directListing={directListing}
-            auctionListing={auctionListing}
-            contractAddress={contractAddress}
-            tokenId={id.toString()}
-          />
+        <Suspense fallback={<div>loading...</div>}>
+          <div className="flex flex-col">
+            <BuyListingButton
+              directListing={directListing}
+              auctionListing={auctionListing}
+              contractAddress={contractAddress}
+              tokenId={id.toString()}
+            />
 
-          <div className="my-4 flex w-full justify-center text-center">
-            <p className="text-text dark:text-white/60">or</p>
+            <div className="my-4 flex w-full justify-center text-center">
+              <p className="text-text dark:text-white/60">or</p>
+            </div>
+            <MakeOfferButton
+              auctionListing={auctionListing}
+              directListing={directListing}
+            />
+
+            <Suspense
+              fallback={
+                <div className="flex justify-center py-8">
+                  Loading comments...
+                </div>
+              }
+            >
+              <CommentSection
+                nft_contract={contractAddress}
+                token_Id={id.toString()}
+              />
+            </Suspense>
           </div>
-          <MakeOfferButton
-            auctionListing={auctionListing}
-            directListing={directListing}
-          />
-
-          {/* ✅ Thêm Comment Section */}
-          <CommentSection tokenId={id.toString()} />
-        </div>
+        </Suspense>
       </div>
     </div>
   );

@@ -14,12 +14,12 @@ interface LoginResponse {
 }
 
 const walletLoginAPI = async (walletAddress: string): Promise<void> => {
-  const NEXT_PUBLIC_SERVER_ULR = process.env.NEXT_PUBLIC_SERVER_ULR;
+  const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
   // const NEXT_PUBLIC_SERVER_LOCATION_ULR = process.env.NEXT_PUBLIC_SERVER_LOCATION_ULR | "http://localhost:5000";
   try {
     console.log("Logging in with wallet address:", walletAddress);
     const response = await axios.post<LoginResponse>(
-      `${NEXT_PUBLIC_SERVER_ULR}/api/user/wallet-login`,
+      `${NEXT_PUBLIC_SERVER_URL}/api/user/wallet-login`,
       { wallet_address: walletAddress },
       {
         headers: {

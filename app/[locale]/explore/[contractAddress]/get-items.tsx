@@ -1,15 +1,17 @@
 "use client";
 
 import EmptyText from "@/components/common/empty-text";
+import CommentSection from "@/components/token/commentSection";
 import Events from "@/components/token/events";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
+import { formatAddress } from "@/lib/utils";
 import { Attribute } from "@/types";
 import { cn } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Badge } from "lucide-react";
 import { notFound } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { NFT as NFTType } from "thirdweb";
 import { getNFTs } from "thirdweb/extensions/erc721";
 import {
@@ -39,7 +41,7 @@ export function GetItems({ address }: { address: string }) {
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
-    <motion.div className="my-6" layout style={{ height: "auto" }}>
+    <motion.div className="my-6">
       <AnimatePresence>
         {!selectedNft ? (
           <motion.div
@@ -47,7 +49,6 @@ export function GetItems({ address }: { address: string }) {
               "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
               NFTs && NFTs.length > 0 && "grid"
             )}
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -58,7 +59,6 @@ export function GetItems({ address }: { address: string }) {
                   key={nft.id.toString()}
                   className="min-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
                   onClick={() => setSelectedNft(nft)}
-                  layout
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.9, opacity: 0 }}
@@ -88,16 +88,12 @@ export function GetItems({ address }: { address: string }) {
         ) : (
           <motion.div
             className="mt-0 flex max-w-full flex-col gap-8 sm:flex-row"
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <motion.div
-              className="flex w-full flex-col"
-              layoutId={`image-${selectedNft.id}`}
-            >
+            <motion.div className="flex w-full flex-col">
               <MediaRenderer
                 client={client}
                 src={selectedNft.metadata.image}
@@ -105,10 +101,7 @@ export function GetItems({ address }: { address: string }) {
               />
             </motion.div>
 
-            <motion.div
-              className="relative top-0 w-full max-w-full"
-              layoutId={`content-${selectedNft.id}`}
-            >
+            <motion.div className="relative top-0 w-full max-w-full">
               <div
                 className="mb-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
                 onClick={() => setSelectedNft(null)}
@@ -142,10 +135,17 @@ export function GetItems({ address }: { address: string }) {
               <div className="mt-2 flex flex-col border-t pt-2">
                 <span> Owner: </span>
                 <p className="font-medium text-text dark:text-white/90">
-                  {selectedNft.owner?.slice(0, 4)}...
-                  {selectedNft.owner?.slice(-4)}
+                  {selectedNft.owner
+                    ? formatAddress(selectedNft.owner)
+                    : "Unknown"}
                 </p>
               </div>
+              <Suspense fallback={<div>loading...</div>}>
+                <CommentSection
+                  nft_contract={address}
+                  token_Id={selectedNft.id.toString()}
+                />
+              </Suspense>
             </motion.div>
           </motion.div>
         )}

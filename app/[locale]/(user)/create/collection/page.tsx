@@ -2,6 +2,7 @@
 
 import BackButton from "@/components/common/back-button";
 import LoadingScreen from "@/components/common/loading-screen";
+import { Button } from "@/components/ui/button";
 import ButtonGradiant from "@/components/ui/button-gradiant";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import { useGenerateDescription } from "@/hooks/use-auto-generate-desc";
 import useToggle from "@/hooks/use-state-toggle";
 import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import TakeMetadata from "@/lib/take-metadata";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
 import { AnimatePresence, motion } from "framer-motion";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
@@ -148,9 +150,9 @@ export default function Page() {
           type: "TokenERC721",
           params: {
             platformFeeRecipient: process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS,
-            platformFeeBps: BigInt(2000),
+            platformFeeBps: BigInt(200),
             royaltyRecipient: account.address,
-            royaltyBps: BigInt(royalty),
+            royaltyBps: BigInt(royalty * 100),
             name,
             description,
             symbol,
@@ -186,13 +188,17 @@ export default function Page() {
       console.log("Contract address:", contractAddress);
       await waitForContractDeployment(contractAddress);
 
+      const { metadata } = TakeMetadata(contractAddress);
+
       await axios.post("/api/user", {
         username: account.address,
         address: contractAddress,
+        name: (await metadata).name as string,
       });
 
       await axios.post("/api/collection", {
         address: contractAddress,
+        name: (await metadata).name as string,
       });
       setCurrentStep("success");
     } catch (error) {
@@ -204,7 +210,7 @@ export default function Page() {
     } finally {
       setLoading(false);
     }
-  }, [account, name, description, symbol, files]);
+  }, [account, royalty, name, description, symbol, files]);
 
   const handleContinue = useCallback(() => {
     if (!name) {
@@ -455,12 +461,12 @@ const DialogContent: React.FC<DialogContentProps> = ({
     <div className="flex flex-col gap-4">
       <h1 className="text-xl font-bold sm:text-3xl">{title}</h1>
       {splitDescription(description)}
-      <button
+      <Button
         onClick={onClose}
-        className="rounded-md bg-gray-200 p-4 transition-colors hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+        className="bg-gray-200 text-black hover:bg-gray-300 dark:bg-neutral-700 dark:text-white dark:hover:bg-neutral-600"
       >
         {t("ok")}
-      </button>
+      </Button>
     </div>
   );
 };

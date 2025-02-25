@@ -91,7 +91,7 @@ export default function NFTComponent({
 export function LoadingNFTComponent() {
   return (
     <div className="h-[350px] w-full rounded-lg">
-      <Skeleton width="100%" height="100%" />
+      <Skeleton type="image" imageAspectRatio="4:3" height="350px" />
     </div>
   );
 }

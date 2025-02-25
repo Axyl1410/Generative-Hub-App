@@ -1,10 +1,10 @@
 "use client";
 
 import { Link } from "@/i18n/routing";
-import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { Button } from "../ui/button";
 
 interface BackButtonProps {
   text?: string;
@@ -35,28 +35,16 @@ const BackButton: React.FC<BackButtonProps> = ({
     <>
       {href ? (
         <Link href={href} {...props}>
-          <button
-            className={cn(
-              "flex items-center rounded-md bg-[#ebe9e9] px-[1rem] py-[0.25rem] text-base hover:bg-[#adadad] hover:underline dark:text-black",
-              className
-            )}
-          >
+          <Button className={className}>
             <ArrowLeft size={16} />
             <p>{text}</p>
-          </button>
+          </Button>
         </Link>
       ) : (
-        <button
-          onClick={handleBackClick}
-          className={cn(
-            "flex items-center rounded-md bg-[#ebe9e9] px-[1rem] py-[0.25rem] text-base hover:bg-[#adadad] hover:underline dark:text-black",
-            className
-          )}
-          {...props}
-        >
+        <Button onClick={handleBackClick} className={className} {...props}>
           <ArrowLeft size={16} />
           <p>{text}</p>
-        </button>
+        </Button>
       )}
     </>
   );

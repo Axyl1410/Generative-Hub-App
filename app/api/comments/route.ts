@@ -1,58 +1,60 @@
-import CommentModel from "@/lib/comment-model";
-import { dbConnect } from "@/lib/dbConnect";
+import { addComment, closeConnection, getComments } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
-// Xử lý POST request: Thêm comment vào database
-export async function POST(req: Request) {
-  // Kết nối MongoDB
-  await dbConnect();
+export async function GET(request: Request) {
   try {
-    const body = await req.json();
-    console.log("📥 Received Data:", body); // 🔥 Kiểm tra dữ liệu API nhận được
+    const { searchParams } = new URL(request.url);
+    const nft_contract = searchParams.get("nft_contract");
+    const token_Id = searchParams.get("token_Id");
 
-    const { tokenId, username, content } = body;
+    if (!nft_contract || !token_Id) {
+      return NextResponse.json(
+        { error: "NFT contract and token ID are required" },
+        { status: 400 }
+      );
+    }
 
-    // 🔥 Kiểm tra xem có giá trị bị thiếu không
-    console.log("Parsed Data:", { tokenId, username, content });
+    const comments = await getComments(nft_contract, token_Id);
+    return NextResponse.json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return NextResponse.json(
+      { error: `Internal Server Error: ${error}` },
+      { status: 500 }
+    );
+  } finally {
+    await closeConnection();
+  }
+}
 
-    if (!tokenId || !username || !content) {
-      console.error("❌ Missing fields:", { tokenId, username, content });
+export async function POST(request: Request) {
+  try {
+    const { nft_contract, token_Id, content, user_wallet } =
+      await request.json();
+
+    if (!nft_contract || !token_Id || !content || !user_wallet) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    await dbConnect();
-    const comment = new CommentModel({ tokenId, username, content });
-    await comment.save();
-
-    console.log("✅ Saved comment:", comment); // 🔥 Kiểm tra comment đã lưu thành công
-
-    return NextResponse.json(comment, { status: 201 });
-  } catch (error) {
-    console.error("❌ Error saving comment:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
-
-// Xử lý GET request: Lấy danh sách comment theo tokenId
-export async function GET(req: Request) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const tokenId = searchParams.get("tokenId");
-
-    if (!tokenId) {
-      return NextResponse.json({ error: "Missing tokenId" }, { status: 400 });
-    }
-
-    const comments = await CommentModel.find({ tokenId }).sort({
-      createdAt: -1,
+    await addComment(nft_contract, token_Id, {
+      content,
+      user_wallet,
     });
 
-    return NextResponse.json(comments, { status: 200 });
+    return NextResponse.json(
+      { message: "Comment added successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("❌ Error fetching comments:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    console.error("Error adding comment:", error);
+    return NextResponse.json(
+      { error: `Internal Server Error: ${error}` },
+      { status: 500 }
+    );
+  } finally {
+    await closeConnection();
   }
 }

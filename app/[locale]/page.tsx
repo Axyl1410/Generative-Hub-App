@@ -4,13 +4,19 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionCard from "@/components/ui/collection-card";
 import useAutoFetch from "@/hooks/use-auto-fetch";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+
+interface Collection {
+  address: string;
+  name: string;
+}
 
 export default function Page() {
   const t = useTranslations("home");
 
-  const { data, error, loading } = useAutoFetch<string[]>(
+  const { data, error, loading } = useAutoFetch<Collection[]>(
     `/api/collection`,
     600000,
     "collection"
@@ -28,29 +34,32 @@ export default function Page() {
           {t("content")}
         </p>
       </div>
-      <div className="rounded-md border border-neutral-300 p-4 dark:border-neutral-800">
-        <div className="mb-6 font-semibold uppercase">Collection list</div>
-        {loading ? (
-          <NFTGridLoading />
-        ) : (
-          <div
-            className={cn(
-              "grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
-              data?.length && "grid"
-            )}
-          >
-            {data?.length ? (
-              <>
-                {data.map((address) => (
-                  <CollectionCard key={address} address={address} />
-                ))}
-              </>
-            ) : (
-              <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
-            )}
-          </div>
-        )}
-      </div>
+      <div className="mb-6 font-semibold uppercase">Collection list</div>
+      {loading ? (
+        <NFTGridLoading />
+      ) : (
+        <div
+          className={cn(
+            "grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5",
+            data?.length && "grid"
+          )}
+        >
+          {data?.length ? (
+            <>
+              {data.map((collection) => (
+                <Link
+                  key={collection.address}
+                  href={`/explore/${collection.address}`}
+                >
+                  <CollectionCard address={collection.address} />
+                </Link>
+              ))}
+            </>
+          ) : (
+            <EmptyText text="Looks like there are no listed NFTs in this collection. Check back later!" />
+          )}
+        </div>
+      )}
     </div>
   );
 }

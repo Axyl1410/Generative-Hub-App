@@ -7,6 +7,22 @@ const uri = process.env.DB_URI;
 let client: MongoClient | null;
 let db: Db | null;
 
+interface AddressData {
+  address: string;
+  name?: string;
+}
+
+interface CollectionData {
+  address: string;
+  name?: string;
+}
+
+interface Comment {
+  content: string;
+  user_wallet: string;
+  timestamp: number;
+}
+
 if (!uri) throw new Error("Please define DB_URI in your environment variables");
 
 async function connectToDatabase(dbname: string = "genhub") {
@@ -45,22 +61,58 @@ export async function getCollectionbyusername(username: string) {
   return user || null;
 }
 
-export async function addAddressToUser(username: string, address: string) {
+export async function addAddressToUser(
+  username: string,
+  addressData: AddressData
+) {
   const collection = await getCollection();
-
   const user = await collection.findOne({ username });
 
   if (user) {
-    await collection
-      .updateOne({ username }, { $addToSet: { address: address } })
-      .catch((error) => {
-        throw new Error(error);
-      });
+    // Check if address already exists
+    const existingAddress = user.address?.find(
+      (addr: AddressData) => addr.address === addressData.address
+    );
+
+    if (existingAddress) {
+      // Update existing address metadata
+      await collection
+        .updateOne(
+          {
+            username,
+            "address.address": addressData.address,
+          },
+          {
+            $set: {
+              "address.$.name": addressData.name,
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    } else {
+      // Add new address with metadata
+      await collection
+        .updateOne(
+          { username },
+          {
+            $addToSet: {
+              address: addressData,
+            },
+          }
+        )
+        .catch((error) => {
+          throw new Error(error);
+        });
+    }
   } else {
+    // Create new user with address
     await collection
       .insertOne({
         username,
-        address: [address],
+        address: [addressData],
+        nft: [],
       })
       .catch((error) => {
         throw new Error(error);
@@ -180,14 +232,22 @@ export async function removeNftFromUser(
   }
 }
 
-export async function addCollectionToDatabase(address: string) {
+// Update the function to accept collection metadata
+export async function addCollectionToDatabase(collectionData: CollectionData) {
   const collection = await getCollection("collection");
 
   try {
     await collection
       .updateOne(
         { _id: { $exists: true } },
-        { $addToSet: { allCollection: address } },
+        {
+          $addToSet: {
+            allCollection: {
+              address: collectionData.address,
+              name: collectionData.name,
+            },
+          },
+        },
         { upsert: true }
       )
       .catch((error) => {
@@ -326,5 +386,46 @@ export async function addMonthlyPrice(
       .catch((error) => {
         throw new Error(error);
       });
+  }
+}
+
+export async function addComment(
+  nft_contract: string,
+  token_Id: string,
+  commentData: Omit<Comment, "timestamp">
+) {
+  const collection = await getCollection("comments");
+
+  const comment: Comment = {
+    ...commentData,
+    timestamp: Date.now(),
+  };
+
+  try {
+    await collection.updateOne(
+      { nft_contract, token_Id },
+      {
+        $push: {
+          comment: comment,
+        } as any,
+      },
+      { upsert: true } // Creates new document if not found
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getComments(
+  nft_contract: string,
+  token_Id: string
+): Promise<Comment[]> {
+  const collection = await getCollection("comments");
+
+  try {
+    const result = await collection.findOne({ nft_contract, token_Id });
+    return result?.comment || [];
+  } catch (error) {
+    throw error;
   }
 }

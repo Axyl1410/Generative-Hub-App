@@ -21,14 +21,18 @@ const Navbar = () => {
   const menuItems = [
     { title: t("buy"), href: "/buy" },
     { title: t("sell"), href: "/sell" },
-    { title: "Explore", href: "/explore" },
+    { title: t("explore"), href: "/explore" },
   ];
   return (
     <>
       <div className="dark:border-border-dark fixed z-50 h-[66px] w-full border-b border-border bg-background-light px-5 py-4 text-base text-text transition-colors duration-300 ease-out dark:bg-background-dark dark:text-text-dark">
         <div className="!container flex w-full items-center justify-between text-nowrap">
           <section className="flex items-center gap-2 lg:gap-6">
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5"
+              onClick={dialog.close}
+            >
               <SkeletonImage
                 src="/logo.png"
                 width="35px"
@@ -167,6 +171,16 @@ const Navbar = () => {
                     <div className="flex items-center gap-2.5 text-link">
                       <ArrowRight size={22} strokeWidth={1} />
                       <p>{t("sell")}</p>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/explore"
+                    className="dark:hover:bg-border-dark flex items-center p-2.5 pl-6 transition-colors hover:bg-border"
+                    onClick={dialog.close}
+                  >
+                    <div className="flex items-center gap-2.5 text-link">
+                      <ArrowRight size={22} strokeWidth={1} />
+                      <p>{t("explore")}</p>
                     </div>
                   </Link>
                 </>

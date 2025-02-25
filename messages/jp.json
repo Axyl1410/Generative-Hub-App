@@ -21,7 +21,8 @@
     "buy": "NFTを購入",
     "sell": "NFTを販売",
     "create": "作成",
-    "profile": "プロフィール"
+    "profile": "プロフィール",
+    "explore": "探索"
   },
   "component": {
     "backbutton": "戻る",
@@ -114,7 +115,9 @@
     "No_items_found_for": "このメニューにはアイテムが見つかりませんでした。",
     "Unnamed": "名前なし",
     "Copied": "コピーしました！",
-    "Settings": "設定"
+    "Settings": "設定",
+    "Joined": "参加",
+    "EditUsername": "ユーザー名を編集"
   },
   "use": {
     "Connect_Wallet": "ウォレットを接続",
@@ -162,6 +165,12 @@
   "comment": {
     "comment": "コメント",
     "placeholder": "コメントを書く...",
-    "submit": "提出"
+    "submit": "提出",
+    "submitting": "Posting...",
+    "connect_wallet": "Please connect your wallet to comment",
+    "no_comments": "No comments yet. Be the first to comment!",
+    "all_comments": "All Comments",
+    "recent": "Recent",
+    "connect": "Connect Wallet"
   }
 }

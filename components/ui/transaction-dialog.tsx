@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import React from "react";
 import { Button } from "./button";
 import { TextMorph } from "./text-morph";
@@ -27,9 +27,7 @@ const StepIcon = ({ step }: { step: TransactionStep }) => {
   switch (step) {
     case "sent":
     case "confirmed":
-      return (
-        <div className="h-7 w-7 animate-spin rounded-full border-[3px] border-black border-t-transparent dark:border-neutral-500 dark:border-t-white" />
-      );
+      return <Loader2 className="h-8 w-8 animate-spin text-gray-500" />;
     case "success":
       return <CheckCircle className="h-8 w-8 text-green-500" />;
     case "error":

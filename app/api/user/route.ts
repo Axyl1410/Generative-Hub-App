@@ -1,6 +1,9 @@
-import { addAddressToUser, closeConnection } from "@/lib/mongodb";
+import {
+  addAddressToUser,
+  closeConnection,
+  getCollectionbyusername,
+} from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import { getCollectionbyusername } from "@/lib/mongodb";
 
 export async function GET(request: Request) {
   try {
@@ -33,7 +36,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { username, address } = await request.json();
+    const { username, address, name } = await request.json();
 
     if (!username || !address) {
       return NextResponse.json(
@@ -42,7 +45,13 @@ export async function POST(request: Request) {
       );
     }
 
-    await addAddressToUser(username, address);
+    // Create address data object matching AddressData interface
+    const addressData = {
+      address,
+      ...(name && { name }), // Only include name if it exists
+    };
+
+    await addAddressToUser(username, addressData);
 
     return NextResponse.json(
       { message: "Address added successfully" },
