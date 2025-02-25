@@ -165,6 +165,12 @@
   "comment": {
     "comment": "コメント",
     "placeholder": "コメントを書く...",
-    "submit": "提出"
+    "submit": "提出",
+    "submitting": "Posting...",
+    "connect_wallet": "Please connect your wallet to comment",
+    "no_comments": "No comments yet. Be the first to comment!",
+    "all_comments": "All Comments",
+    "recent": "Recent",
+    "connect": "Connect Wallet"
   }
 }

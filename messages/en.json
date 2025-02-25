@@ -163,8 +163,14 @@
     "Contact_support": "Contact support"
   },
   "comment": {
-    "comment": "Comment",
+    "comment": "Comments",
     "placeholder": "Write a comment...",
-    "submit": "Submit"
+    "submit": "Post Comment",
+    "submitting": "Posting...",
+    "connect_wallet": "Please connect your wallet to comment",
+    "no_comments": "No comments yet. Be the first to comment!",
+    "all_comments": "All Comments",
+    "recent": "Recent",
+    "connect": "Connect Wallet"
   }
 }

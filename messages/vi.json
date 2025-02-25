@@ -164,6 +164,12 @@
   "comment": {
     "comment": "Bình luận",
     "placeholder": "Viết bình luận...",
-    "submit": "Gửi"
+    "submit": "Gửi",
+    "submitting": "Posting...",
+    "connect_wallet": "Please connect your wallet to comment",
+    "no_comments": "No comments yet. Be the first to comment!",
+    "all_comments": "All Comments",
+    "recent": "Recent",
+    "connect": "Connect Wallet"
   }
 }

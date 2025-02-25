@@ -1,5 +1,7 @@
 "use client"; // Error boundaries must be Client Components
 
+import { Button } from "@/components/ui/button";
+
 export default function GlobalError({
   error,
 }: {
@@ -9,9 +11,9 @@ export default function GlobalError({
     // global-error must include html and body tags
     <html>
       <body>
-        <div className="mt-10 flex h-full w-full flex-col items-center justify-center gap-4">
+        <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
           <h2>Something went wrong!</h2>
-          <p className="text-sm/6">{error.message}</p>
+          <p className="text-balance text-center text-sm/6">{error.message}</p>
           <div className="grid grid-cols-2 items-center justify-center gap-2">
             <a
               className="h-9 flex-1 items-center justify-center text-nowrap rounded-md border border-border bg-gray-300 px-4 py-2 text-sm dark:text-black"
@@ -21,12 +23,12 @@ export default function GlobalError({
             >
               Report Error on GitHub
             </a>
-            <button
-              className="rounded-md border bg-sky-500 px-4 py-2 text-sm text-white shadow hover:bg-sky-600"
+            <Button
+              className="bg-sky-500 hover:bg-sky-600"
               onClick={() => window.location.reload()}
             >
               Refresh
-            </button>
+            </Button>
           </div>
         </div>
       </body>

@@ -12,10 +12,15 @@ interface AddressData {
   name?: string;
 }
 
-// Add interface for collection data
 interface CollectionData {
   address: string;
   name?: string;
+}
+
+interface Comment {
+  content: string;
+  user_wallet: string;
+  timestamp: number;
 }
 
 if (!uri) throw new Error("Please define DB_URI in your environment variables");
@@ -381,5 +386,46 @@ export async function addMonthlyPrice(
       .catch((error) => {
         throw new Error(error);
       });
+  }
+}
+
+export async function addComment(
+  nft_contract: string,
+  token_Id: string,
+  commentData: Omit<Comment, "timestamp">
+) {
+  const collection = await getCollection("comments");
+
+  const comment: Comment = {
+    ...commentData,
+    timestamp: Date.now(),
+  };
+
+  try {
+    await collection.updateOne(
+      { nft_contract, token_Id },
+      {
+        $push: {
+          comment: comment,
+        } as any,
+      },
+      { upsert: true } // Creates new document if not found
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getComments(
+  nft_contract: string,
+  token_Id: string
+): Promise<Comment[]> {
+  const collection = await getCollection("comments");
+
+  try {
+    const result = await collection.findOne({ nft_contract, token_Id });
+    return result?.comment || [];
+  } catch (error) {
+    throw error;
   }
 }
