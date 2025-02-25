@@ -21,7 +21,7 @@ import { Blobbie, useActiveAccount } from "thirdweb/react";
 import { CollectedPage } from "./collection";
 import axios from "axios";
 import FormData from "form-data";
-
+import { toast } from "sonner";
 const ProfilePage: React.FC = () => {
   const account = useActiveAccount();
 
@@ -31,9 +31,12 @@ const ProfilePage: React.FC = () => {
   const [coverPhoto, setCoverPhoto] = useState<string>(
     "https://placehold.co/800x400"
   );
+
+ 
   const [newUsername, setNewUsername] = useState<string>(""); // State cho username mới
   const [isEditing, setIsEditing] = useState(false); // State để bật/tắt chế độ chỉnh sửa
   const t = useTranslations("profile");
+
   const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL ;
 
   useEffect(() => {
@@ -108,36 +111,34 @@ const ProfilePage: React.FC = () => {
 
   // Hàm upload ảnh lên server
   const uploadImage = async (file: File, type: "avatar" | "cover") => {
+    const formData = new FormData();
+    formData.append("wallet_address", account?.address || "");
+    formData.append(type, file);
+  
     try {
-      const formData = new FormData();
-      formData.append("wallet_address", account?.address || "");
-      if (type === "avatar") {
-        formData.append("avatar", file);
-      } else {
-        formData.append("cover", file);
-      }
-
-      const response = await axios.put(
+      // Ép kiểu response về đúng AxiosResponse
+      const response = await axios.put<{ user: { avatar_url?: string; cover_url?: string } }>(
         `${NEXT_PUBLIC_SERVER_URL}/api/user/update-user`,
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
-
-      console.log("Image uploaded successfully:", response.data);
-      // Cập nhật state nếu cần
-      if (type === "avatar") {
-        setAvatar(response.data.user.avatar_url || avatar);
-      } else {
-        setCoverPhoto(response.data.user.cover_url || coverPhoto);
+  
+      // Kiểm tra dữ liệu trước khi sử dụng
+      if (response?.data?.user) {
+        if (type === "avatar") {
+          setAvatar(`${NEXT_PUBLIC_SERVER_URL}${response.data.user.avatar_url || avatar}`);
+        } else {
+          setCoverPhoto(`${NEXT_PUBLIC_SERVER_URL}${response.data.user.cover_url || coverPhoto}`);
+        }
       }
+      
+      toast.success("Image uploaded successfully!");
     } catch (error) {
       console.error(`Error uploading ${type}:`, error);
+      toast.error(`Error uploading ${type}.`);
     }
   };
+  
 
   // Hàm cập nhật username
   const handleUsernameUpdate = async () => {
@@ -161,6 +162,7 @@ const ProfilePage: React.FC = () => {
       setUserName(response.data.user.username);
       setIsEditing(false); // Tắt chế độ chỉnh sửa sau khi cập nhật
       console.log("Username updated successfully:", response.data);
+      toast.success("Username updated successfully");
     } catch (error) {
       console.error("Error updating username:", error);
     }
