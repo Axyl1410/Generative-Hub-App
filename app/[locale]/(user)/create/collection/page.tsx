@@ -226,6 +226,8 @@ export default function Page() {
 
   if (isLoading || !account) return <LoadingScreen />;
 
+  const allowedTypes = ["image/*"];
+
   return (
     <div className="mt-10 flex w-full justify-center">
       <div className="flex w-full flex-col">
@@ -251,7 +253,10 @@ export default function Page() {
                 </span>
               </p>
               <div className="mx-auto rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
-                <FileUpload onChange={handleFileUpload} />
+                <FileUpload
+                  onChange={handleFileUpload}
+                  allowedTypes={allowedTypes}
+                />
               </div>
               <Dialog isOpen={logoInfo.isOpen} onClose={logoInfo.close}>
                 <DialogContent

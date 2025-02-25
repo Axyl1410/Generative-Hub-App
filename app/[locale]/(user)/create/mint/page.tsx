@@ -117,6 +117,8 @@ export default function Page() {
     );
   };
 
+  const allowedTypes = ["image/*"];
+
   return (
     <div className="my-10 flex w-full justify-center">
       <div className="flex w-full flex-col">
@@ -131,7 +133,10 @@ export default function Page() {
           <div className="flex-1">
             <Suspense fallback={<Loading />}>
               <div className="mx-auto w-full max-w-5xl gap-4 rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
-                <FileUpload onChange={handleFileUpload} />
+                <FileUpload
+                  onChange={handleFileUpload}
+                  allowedTypes={allowedTypes}
+                />
               </div>
             </Suspense>
           </div>
