@@ -3,6 +3,7 @@
 import EmptyText from "@/components/common/empty-text";
 import CommentSection from "@/components/token/commentSection";
 import Events from "@/components/token/events";
+import { Button } from "@/components/ui/button";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { formatAddress } from "@/lib/utils";
@@ -102,12 +103,12 @@ export function GetItems({ address }: { address: string }) {
             </motion.div>
 
             <motion.div className="relative top-0 w-full max-w-full">
-              <div
-                className="mb-2 flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
+              <Button
+                className="mb-4 w-full"
                 onClick={() => setSelectedNft(null)}
               >
                 Back
-              </div>
+              </Button>
 
               <h1 className="mb-1 break-words text-3xl font-semibold">
                 {selectedNft.metadata.name}

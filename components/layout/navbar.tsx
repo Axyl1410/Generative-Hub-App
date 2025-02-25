@@ -216,7 +216,7 @@ const Navbar = () => {
                 </>
               ) : (
                 <div onClick={dialog.close}>
-                  <CustomConnectButton className="ml-0.5 pl-3" />
+                  <CustomConnectButton className="ml-0.5 pl-3 hover:bg-border" />
                 </div>
               ),
             },

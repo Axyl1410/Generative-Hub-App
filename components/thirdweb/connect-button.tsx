@@ -24,11 +24,13 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
   const { connect } = useConnectModal();
   const account = useActiveAccount();
   const hasLoggedIn = useRef(false);
+
   useEffect(() => {
     if (!account) {
       hasLoggedIn.current = false; // Reset khi logout
     }
   }, [account]);
+
   useEffect(() => {
     if (!hasLoggedIn.current && account?.address) {
       const walletAddress = account.address;
@@ -36,6 +38,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
       hasLoggedIn.current = true; // Đánh dấu đã gọi API
     }
   }, [account?.address]);
+
   const handleConnect = async () => {
     const wallet = await connect({
       client,
@@ -61,10 +64,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
     <>
       {type === "text" ? (
         <div
-          className={cn(
-            "dark:hover:bg-border-dark flex cursor-pointer items-center transition-colors hover:bg-border",
-            className
-          )}
+          className={cn("flex cursor-pointer items-center", className)}
           onClick={handleConnect}
           {...props}
         >

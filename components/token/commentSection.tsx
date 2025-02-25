@@ -1,15 +1,16 @@
 "use client";
 
 import axios from "@/lib/axios-config";
+import { formatAddress } from "@/lib/utils";
 import { Clock, Loader2, MessageSquare, Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Suspense, useEffect, useState } from "react";
 import { useActiveAccount } from "thirdweb/react";
+import ConnectButton from "../thirdweb/connect-button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Textarea } from "../ui/textarea";
-import { formatAddress } from "@/lib/utils";
 
 interface Comment {
   content: string;
@@ -190,8 +191,12 @@ export default function CommentSection({
               </form>
             ) : (
               <div className="flex flex-col items-center justify-center py-6">
-                <p className="mb-3 text-neutral-500">{t("connect_wallet")}</p>
-                <Button variant="outline">{t("connect")}</Button>
+                <p className="mb-3 text-neutral-500 dark:text-white">
+                  {t("connect_wallet")}
+                </p>
+                <Button variant="outline" className="p-0">
+                  <ConnectButton />
+                </Button>
               </div>
             )}
           </div>
