@@ -6,6 +6,7 @@ import MakeOfferButton from "@/components/token/make-offer-button";
 import { MARKETPLACE } from "@/contracts";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
+import { formatAddress } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -94,8 +95,7 @@ export default async function Page({
                   {t("Current_Owner")}{" "}
                 </p>
                 <p className="font-medium text-text dark:text-white/90">
-                  {nft.owner.slice(0, 5)}...
-                  {nft.owner.slice(-4)}
+                  {formatAddress(nft.owner)}
                 </p>
               </div>
             )}
@@ -111,7 +111,7 @@ export default async function Page({
 
       <div className="sticky w-full flex-shrink sm:min-w-[370px] lg:max-w-[550px]">
         <div className="relative mb-6 flex w-full grow flex-col overflow-hidden rounded-lg bg-transparent">
-          <div className="w-full rounded-lg bg-white/[.04] p-4">
+          <div className="w-full rounded-lg bg-neutral-50 p-4 dark:bg-white/[.04]">
             <p className="mb-1 text-text dark:text-white/60">Price</p>
             <div className="rounded-md text-lg font-medium text-text dark:text-white/90">
               {directListing ? (

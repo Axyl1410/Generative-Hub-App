@@ -1,16 +1,15 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import axios from "axios";
-import { formatDistanceToNow } from "date-fns";
-import { AnimatePresence, motion } from "framer-motion";
+import axios from "@/lib/axios-config";
 import { Clock, Loader2, MessageSquare, Send } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useActiveAccount } from "thirdweb/react";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Textarea } from "../ui/textarea";
+import { formatAddress } from "@/lib/utils";
 
 interface Comment {
   content: string;
@@ -30,12 +29,40 @@ export default function CommentSection({
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false); // Start as false to avoid initial loading state
+  const [shouldFetch, setShouldFetch] = useState(false);
   const t = useTranslations("comment");
   const account = useActiveAccount();
 
-  // Fetch comments from API
+  // Fetch comments when in viewport or after initial render
   useEffect(() => {
+    // Create intersection observer to detect when component is in viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !shouldFetch) {
+          setShouldFetch(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    // Get the comment section element
+    const commentSection = document.getElementById("comment-section");
+    if (commentSection) {
+      observer.observe(commentSection);
+    }
+
+    return () => {
+      if (commentSection) {
+        observer.unobserve(commentSection);
+      }
+    };
+  }, [shouldFetch]);
+
+  // Fetch comments from API only when shouldFetch is true
+  useEffect(() => {
+    if (!shouldFetch) return;
+
     const fetchComments = async () => {
       setIsFetching(true);
       try {
@@ -51,7 +78,7 @@ export default function CommentSection({
     };
 
     fetchComments();
-  }, [nft_contract, token_Id]);
+  }, [nft_contract, token_Id, shouldFetch]);
 
   // Submit new comment
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,18 +115,28 @@ export default function CommentSection({
     return address.substring(2, 4).toUpperCase();
   };
 
-  // Format wallet address for display
-  const formatAddress = (address: string) => {
-    return `${address.substring(0, 6)}...${address.substring(
-      address.length - 4
-    )}`;
+  const formatTime = (timestamp: number) => {
+    // Simple formatting as fallback
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+
+    if (diffMins < 1) return "just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays < 30) return `${diffDays}d ago`;
+
+    return date.toLocaleDateString();
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+    <div
+      id="comment-section"
       className="mt-6 w-full rounded-xl bg-neutral-50 p-4 shadow-md dark:bg-neutral-900 md:p-6"
     >
       <div className="mb-6 flex items-center justify-between">
@@ -160,7 +197,7 @@ export default function CommentSection({
           </div>
 
           {/* Comments List */}
-          <AnimatePresence>
+          <div>
             {isFetching ? (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
@@ -168,16 +205,12 @@ export default function CommentSection({
             ) : comments.length > 0 ? (
               <div className="space-y-4">
                 {comments.map((comment, index) => (
-                  <motion.div
+                  <div
                     key={`${comment.user_wallet}-${comment.timestamp}`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.2,
-                      delay: index * 0.05,
-                      ease: "easeOut",
-                    }}
-                    className="group relative rounded-lg border border-neutral-100 bg-white p-4 transition-all hover:shadow-md dark:border-neutral-800 dark:bg-neutral-800/40"
+                    className={`group relative rounded-lg border border-neutral-100 bg-white p-4 transition-all hover:shadow-md dark:border-neutral-800 dark:bg-neutral-800/40 ${
+                      index > 5 ? "animate-fadeIn opacity-0" : ""
+                    }`}
+                    style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="flex gap-3">
                       <Avatar className="h-8 w-8 border">
@@ -194,12 +227,11 @@ export default function CommentSection({
                           <div className="flex items-center gap-1 text-xs text-neutral-400">
                             <Clock className="h-3 w-3" />
                             <span>
-                              {formatDistanceToNow(
-                                new Date(comment.timestamp),
-                                {
-                                  addSuffix: true,
-                                }
-                              )}
+                              <Suspense
+                                fallback={formatTime(comment.timestamp)}
+                              >
+                                {formatTime(comment.timestamp)}
+                              </Suspense>
                             </span>
                           </div>
                         </div>
@@ -209,7 +241,7 @@ export default function CommentSection({
                         </p>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -220,11 +252,11 @@ export default function CommentSection({
                 </p>
               </div>
             )}
-          </AnimatePresence>
+          </div>
         </TabsContent>
 
         <TabsContent value="recent">
-          <AnimatePresence>
+          <div>
             {isFetching ? (
               <div className="flex items-center justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
@@ -235,16 +267,9 @@ export default function CommentSection({
                   .slice()
                   .sort((a, b) => b.timestamp - a.timestamp)
                   .slice(0, 5)
-                  .map((comment, index) => (
-                    <motion.div
+                  .map((comment) => (
+                    <div
                       key={`recent-${comment.user_wallet}-${comment.timestamp}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        delay: index * 0.05,
-                        ease: "easeOut",
-                      }}
                       className="group relative rounded-lg border border-neutral-100 bg-white p-4 transition-all hover:shadow-md dark:border-neutral-800 dark:bg-neutral-800/40"
                     >
                       <div className="flex gap-3">
@@ -262,12 +287,11 @@ export default function CommentSection({
                             <div className="flex items-center gap-1 text-xs text-neutral-400">
                               <Clock className="h-3 w-3" />
                               <span>
-                                {formatDistanceToNow(
-                                  new Date(comment.timestamp),
-                                  {
-                                    addSuffix: true,
-                                  }
-                                )}
+                                <Suspense
+                                  fallback={formatTime(comment.timestamp)}
+                                >
+                                  {formatTime(comment.timestamp)}
+                                </Suspense>
                               </span>
                             </div>
                           </div>
@@ -277,13 +301,13 @@ export default function CommentSection({
                           </p>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
               </div>
             )}
-          </AnimatePresence>
+          </div>
         </TabsContent>
       </Tabs>
-    </motion.div>
+    </div>
   );
 }

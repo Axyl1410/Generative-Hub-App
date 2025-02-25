@@ -45,7 +45,7 @@ export function GetItem({ address }: { address: string }) {
   if (error) return <EmptyText text={`Error: ${error.message}`} />;
 
   return (
-    <motion.div className="my-6" layout style={{ height: "auto" }}>
+    <motion.div className="my-6">
       <AnimatePresence>
         {!selectedNft ? (
           <motion.div
@@ -53,7 +53,6 @@ export function GetItem({ address }: { address: string }) {
               "grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4",
               NFTs && NFTs.length > 0 && "grid"
             )}
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -64,7 +63,6 @@ export function GetItem({ address }: { address: string }) {
                   key={nft.id.toString()}
                   className="min-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
                   onClick={() => setSelectedNft(nft)}
-                  layout
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.9, opacity: 0 }}
@@ -94,16 +92,12 @@ export function GetItem({ address }: { address: string }) {
         ) : (
           <motion.div
             className="mt-0 flex max-w-full flex-col gap-8 sm:flex-row"
-            layout
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <motion.div
-              className="flex w-full flex-col"
-              layoutId={`image-${selectedNft.id}`}
-            >
+            <motion.div className="flex w-full flex-col">
               <MediaRenderer
                 client={client}
                 src={selectedNft.metadata.image}
@@ -111,10 +105,7 @@ export function GetItem({ address }: { address: string }) {
               />
             </motion.div>
 
-            <motion.div
-              className="relative top-0 w-full max-w-full"
-              layoutId={`content-${selectedNft.id}`}
-            >
+            <motion.div className="relative top-0 w-full max-w-full">
               <h1 className="mb-1 break-words text-3xl font-semibold">
                 {selectedNft.metadata.name}
               </h1>
