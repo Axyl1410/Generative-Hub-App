@@ -1,10 +1,10 @@
+import Loading from "@/components/common/loading";
+import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { motion } from "motion/react";
 import React, { useState } from "react";
 import { getContract, sendTransaction } from "thirdweb";
 import { burn } from "thirdweb/extensions/erc721";
-import Loading from "@/components/common/loading";
 import { Account } from "thirdweb/wallets";
-import { motion } from "framer-motion";
-import client, { FORMA_SKETCHPAD } from "@/lib/client";
 
 interface BurnButtonProps {
   tokenId: bigint; // ID of the NFT to burn
