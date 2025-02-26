@@ -196,13 +196,27 @@ const P5ArtCreator: React.FC = () => {
 
   return (
     <div className={cn("my-10", styles.container)}>
+     
       {step === 1 && (
         <>
           <div className="flex w-full items-center justify-between">
             <h1 className="text-3xl">{t("p5")} </h1>
             <BackButton />
           </div>
+          <section className="text-center p-6 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto">
+      <h2 className="text-xl font-semibold text-gray-800">Download an example project</h2>
+      <p className="text-gray-600 text-sm my-2">
+        Tải về file script mẫu để bắt đầu tạo NFT từ code của bạn.
+      </p>
 
+      <a
+        href="\p5js\scripts\sketch.js" // Thay bằng đường dẫn thật của file
+        className="inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition hover:bg-blue-700"
+        download
+      >
+        Download an example project
+      </a>
+    </section>
           <div className="flex w-full gap-8">
             <div className="flex-1">
               <Suspense fallback={<Loading />}>
