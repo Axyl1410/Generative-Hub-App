@@ -7,7 +7,7 @@ import useAutoFetch from "@/hooks/use-auto-fetch";
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { NFT, User } from "@/types";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useActiveAccount } from "thirdweb/react";
 

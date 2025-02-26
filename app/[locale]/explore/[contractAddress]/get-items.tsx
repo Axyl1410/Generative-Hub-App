@@ -9,7 +9,7 @@ import CollectionContract from "@/lib/get-collection-contract";
 import { formatAddress } from "@/lib/utils";
 import { Attribute } from "@/types";
 import { cn } from "@nextui-org/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { Badge } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense, useState } from "react";

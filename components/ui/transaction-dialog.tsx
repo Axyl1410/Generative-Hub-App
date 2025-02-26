@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import React from "react";
 import { Button } from "./button";

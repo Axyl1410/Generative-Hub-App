@@ -2,7 +2,7 @@
 
 import { useTheme } from "@/components/theme/theme-context";
 import DottedMap from "dotted-map";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -68,7 +68,7 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
   }, [dots, projectPoint, createCurvedPath]);
 
   return (
-    <div className="bg-background-light relative aspect-[2/1] w-full rounded-lg font-sans dark:bg-background-dark">
+    <div className="relative aspect-[2/1] w-full rounded-lg bg-background-light font-sans dark:bg-background-dark">
       <Image
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
         className="pointer-events-none h-full w-full select-none [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)]"

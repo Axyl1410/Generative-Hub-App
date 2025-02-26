@@ -18,7 +18,7 @@ import axios from "@/lib/axios-config";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import TakeMetadata from "@/lib/take-metadata";
 import { waitForContractDeployment } from "@/lib/waitForContractDeployment";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { Eye, EyeOff, Info, Newspaper } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useState } from "react";

@@ -9,7 +9,7 @@ import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { Attribute } from "@/types";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { notFound } from "next/navigation";
 import { useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";

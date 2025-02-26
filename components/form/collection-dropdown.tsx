@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";

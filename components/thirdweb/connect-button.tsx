@@ -5,7 +5,7 @@ import Loading from "@/components/common/loading";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Wallet } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 import { toast } from "sonner";
