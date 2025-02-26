@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import TransactionDialog, {
   TransactionStep,
 } from "@/components/ui/transaction-dialog";
+import useAttributes from "@/hooks/use-attributes";
 import useAutoFetch from "@/hooks/use-auto-fetch";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
@@ -27,11 +28,6 @@ import { Suspense, useRef, useState } from "react";
 import { toast } from "sonner";
 import { mintTo } from "thirdweb/extensions/erc721";
 import { TransactionButton, useActiveAccount } from "thirdweb/react";
-
-interface Attribute {
-  trait_type: string;
-  value: string;
-}
 
 interface Collection {
   address: string;
@@ -54,9 +50,16 @@ const P5ArtCreator: React.FC = () => {
   const t = useTranslations("pjs");
   const account = useActiveAccount();
 
-  const [traitType, setTraitType] = useState<string>("");
-  const [attributeValue, setAttributeValue] = useState<string>("");
-  const [attributesArray, setAttributesArray] = useState<Attribute[]>([]);
+  const {
+    traitType,
+    setTraitType,
+    attributeValue,
+    setAttributeValue,
+    attributesArray,
+    handleAddAttribute,
+    handleRemoveAttribute,
+  } = useAttributes();
+
   const [selectAddress, setSelectAddress] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -78,23 +81,6 @@ const P5ArtCreator: React.FC = () => {
   );
 
   if (!account || loading) return <LoadingScreen />;
-
-  const handleAddAttribute = () => {
-    if (traitType.trim() && attributeValue.trim()) {
-      setAttributesArray([
-        ...attributesArray,
-        { trait_type: traitType, value: attributeValue },
-      ]);
-      setTraitType("");
-      setAttributeValue("");
-    } else toast.error("Attribute type and value cannot be empty");
-  };
-
-  const handleRemoveAttribute = (indexToRemove: number) => {
-    setAttributesArray(
-      attributesArray.filter((_, index) => index !== indexToRemove)
-    );
-  };
 
   const handleContract = (contract: string) => {
     return CollectionContract(contract);
@@ -176,10 +162,20 @@ const P5ArtCreator: React.FC = () => {
 
   const handleStep = (format: string) => {
     const iframe = previewRef.current?.querySelector("iframe");
-    if (!iframe) return;
+    if (!iframe) {
+      toast.warning("No iframe found!", {
+        description: "Please run the code first!",
+      });
+      return;
+    }
 
     const canvas = iframe.contentDocument?.querySelector("canvas");
-    if (!canvas) return;
+    if (!canvas) {
+      toast.warning("No canvas found!", {
+        description: "Please run the code first!",
+      });
+      return;
+    }
 
     canvas.toBlob((blob) => {
       if (!blob) return;
@@ -196,27 +192,13 @@ const P5ArtCreator: React.FC = () => {
 
   return (
     <div className={cn("my-10", styles.container)}>
-     
       {step === 1 && (
         <>
           <div className="flex w-full items-center justify-between">
             <h1 className="text-3xl">{t("p5")} </h1>
             <BackButton />
           </div>
-          <section className="text-center p-6 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto">
-      <h2 className="text-xl font-semibold text-gray-800">Download an example project</h2>
-      <p className="text-gray-600 text-sm my-2">
-        Tải về file script mẫu để bắt đầu tạo NFT từ code của bạn.
-      </p>
 
-      <a
-        href="\p5js\scripts\sketch.js" // Thay bằng đường dẫn thật của file
-        className="inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition hover:bg-blue-700"
-        download
-      >
-        Download an example project
-      </a>
-    </section>
           <div className="flex w-full gap-8">
             <div className="flex-1">
               <Suspense fallback={<Loading />}>
@@ -247,6 +229,22 @@ const P5ArtCreator: React.FC = () => {
                   <ArrowDown />
                 </Button>
               </div>
+              <section className="mx-auto mt-4 max-w-md rounded-lg bg-gray-100 p-6 text-center shadow-md dark:bg-neutral-800">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+                  Download an example project
+                </h2>
+                <p className="my-2 text-sm text-gray-600 dark:text-neutral-200">
+                  Tải về file script mẫu để bắt đầu tạo NFT từ code của bạn.
+                </p>
+
+                <a
+                  href="\scripts\sketch.js"
+                  className="inline-block rounded-lg bg-blue-600 px-4 py-2 font-bold text-white transition hover:bg-blue-700"
+                  download
+                >
+                  Download an example project
+                </a>
+              </section>
             </div>
             <div className="flex-1">
               <div className={styles.previewContainer}>

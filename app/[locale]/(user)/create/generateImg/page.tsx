@@ -1,14 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import Loading from "@/components/common/loading";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
-// import MintNFT from "@/components/mint";
 import BackBtn from "@/components/common/back-button";
 import ImagePreviewModal from "@/components/common/ImagePreviewModal";
+import Loading from "@/components/common/loading";
+import LoadingScreen from "@/components/common/loading-screen";
+import AttributeInput from "@/components/form/attribute-input";
+import AttributeList from "@/components/form/attribute-list";
+import CollectionDropdown from "@/components/form/collection-dropdown";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import TransactionDialog, {
+  TransactionStep,
+} from "@/components/ui/transaction-dialog";
+import useAttributes from "@/hooks/use-attributes";
+import useAutoFetch from "@/hooks/use-auto-fetch";
+import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
+import { User } from "@/types";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { mintTo } from "thirdweb/extensions/erc721";
+import { TransactionButton, useActiveAccount } from "thirdweb/react";
+
+interface Collection {
+  address: string;
+  name: string;
+}
 
 export default function Page() {
   const OPENAI_API_KEY = process.env.NEXT_PUBLIC_HF_API_KEY;
@@ -26,6 +47,41 @@ export default function Page() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const account = useActiveAccount();
+
+  const [selectedOption, setSelectedOption] = useState<React.ReactNode | null>(
+    null
+  );
+  const [selectAddress, setSelectAddress] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
+
+  const { data, loading: isLoading } = useAutoFetch<User>(
+    `/api/user?username=${account?.address}`,
+    600000,
+    account?.address
+  );
+
+  const t = useTranslations("mint");
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
+
+  const {
+    traitType,
+    setTraitType,
+    attributeValue,
+    setAttributeValue,
+    attributesArray,
+    handleAddAttribute,
+    handleRemoveAttribute,
+  } = useAttributes();
 
   useEffect(() => {
     const initialSuggestions = [
@@ -65,6 +121,12 @@ export default function Page() {
     }
   }, [loading]);
 
+  if (!account || isLoading) return <LoadingScreen />;
+
+  const handleContract = (contract: string) => {
+    return CollectionContract(contract);
+  };
+
   async function query() {
     if (!OPENAI_API_KEY) {
       setError("API Key is missing!");
@@ -97,7 +159,8 @@ export default function Page() {
         } else {
           const errorData = await response.json();
           throw new Error(
-            errorData.error?.message || `HTTP Error ${response.status}. Please try again.`
+            errorData.error?.message ||
+              `HTTP Error ${response.status}. Please try again.`
           );
         }
         return;
@@ -106,6 +169,11 @@ export default function Page() {
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       setImageUrl(url);
+
+      // Convert blob to File object
+      const fileName = `generated-image-${Date.now()}.png`;
+      const fileFromBlob = new File([blob], fileName, { type: blob.type });
+      setFile(fileFromBlob);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error occurred");
     } finally {
@@ -136,7 +204,7 @@ export default function Page() {
             className={cn(
               "mb-2 cursor-pointer p-2",
               step === 1
-                ? "rounded bg-blue-500 font-bold"
+                ? "rounded bg-blue-500 font-bold text-white"
                 : "rounded bg-gray-200 text-black"
             )}
             onClick={() => setStep(1)}
@@ -147,7 +215,7 @@ export default function Page() {
             className={cn(
               "mb-2 cursor-pointer p-2",
               step === 2 && selectedImage
-                ? "rounded bg-blue-500 font-bold"
+                ? "rounded bg-blue-500 font-bold text-white"
                 : "cursor-not-allowed rounded bg-gray-200 dark:text-black"
             )}
             onClick={() => selectedImage && setStep(2)}
@@ -163,14 +231,14 @@ export default function Page() {
               <p className="mb-4 text-gray-600 dark:text-text-dark">
                 Enter a prompt and generate an image.
               </p>
-              <div className="flex w-ful flex-col gap-6 md:flex-row">
+              <div className="w-ful flex flex-col gap-6 md:flex-row">
                 {/* Input Section */}
                 <div className="flex w-full flex-col md:w-1/2">
                   <Textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Enter prompt..."
-                    className="mb-2 h-64 dark:border-white " // Increased height
+                    className="mb-2 h-64 dark:border-white" // Increased height
                   />
                   <div className="flex gap-2">
                     <Button
@@ -179,7 +247,11 @@ export default function Page() {
                     >
                       {loading ? `Generating... (${cooldown}s)` : "✨ Generate"}
                     </Button>
-                    <Button variant="outline" className="" onClick={() => setPrompt("")}>
+                    <Button
+                      variant="outline"
+                      className=""
+                      onClick={() => setPrompt("")}
+                    >
                       Clear
                     </Button>
                   </div>
@@ -187,7 +259,7 @@ export default function Page() {
                 </div>
 
                 {/* Output Section */}
-                <div className="relative flex w-full flex-col items-center rounded border dark:border-white  p-4 shadow md:w-1/2">
+                <div className="relative flex w-full flex-col items-center rounded border p-4 shadow dark:border-white md:w-1/2">
                   {loading && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-200 bg-opacity-75">
                       <Loading />
@@ -270,10 +342,138 @@ export default function Page() {
                   )}
                 </div>
               </div>
+
+              <Button
+                onClick={handleNextStep}
+                disabled={!selectedImage}
+                className="mt-4 flex"
+              >
+                Next: Mint NFT
+              </Button>
             </>
           )}
 
-          {step === 2 && selectedImage && <>Mint NFT </>}
+          {step === 2 && selectedImage && (
+            <div className="flex-1">
+              <form
+                className="flex flex-col gap-8"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <CollectionDropdown
+                  data={data?.address as unknown as Collection[]}
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
+                  setSelectAddress={setSelectAddress}
+                />
+
+                <div>
+                  <Label
+                    htmlFor="title"
+                    className="text-sm/6 font-bold dark:text-text-dark"
+                  >
+                    {t("name_label")} <span className="text-red-600"> *</span>
+                  </Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder={t("name_placeholder")}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="mt-2"
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="description"
+                    className="text-sm/6 font-bold text-gray-900 dark:text-text-dark"
+                  >
+                    {t("description_label")}{" "}
+                    <span className="text-red-600"> *</span>
+                  </Label>
+                  <Textarea
+                    name="description"
+                    id="description"
+                    rows={3}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="mt-2"
+                  />
+                  <p className="mt-3 text-sm/6">{t("Write_a_few")} </p>
+                </div>
+
+                <AttributeInput
+                  traitType={traitType}
+                  attributeValue={attributeValue}
+                  setTraitType={setTraitType}
+                  setAttributeValue={setAttributeValue}
+                  handleAddAttribute={handleAddAttribute}
+                />
+
+                {attributesArray.length > 0 && (
+                  <AttributeList
+                    attributesArray={attributesArray}
+                    handleRemoveAttribute={handleRemoveAttribute}
+                  />
+                )}
+
+                <div className={"h-[45px]"}>
+                  <TransactionButton
+                    disabled={!name || !selectedOption || !file || !description}
+                    className={"!w-full"}
+                    transaction={() => {
+                      const metadata = {
+                        name,
+                        description,
+                        image: file,
+                        attributes:
+                          attributesArray.length > 0
+                            ? attributesArray
+                            : undefined,
+                      };
+
+                      setIsOpen(true);
+                      setCurrentStep("sent");
+
+                      return mintTo({
+                        contract: handleContract(
+                          selectAddress as string
+                        ) as any,
+                        to: account.address,
+                        nft: {
+                          ...metadata,
+                          image: file || undefined,
+                        },
+                      });
+                    }}
+                    onTransactionSent={() => {
+                      setCurrentStep("confirmed");
+                    }}
+                    onTransactionConfirmed={() => {
+                      setCurrentStep("success");
+                      setMessage("Transaction is being confirmed...");
+                    }}
+                    onError={(error) => {
+                      setCurrentStep("error");
+                      setMessage("Transaction failed: " + error.message);
+                    }}
+                  >
+                    <span>{t("Mint_NFT")}</span>
+                  </TransactionButton>
+                </div>
+              </form>
+              <Button
+                onClick={() => setStep(1)}
+                variant={"destructive"}
+                className="mt-4 w-full"
+              >
+                Back to step 1
+              </Button>
+            </div>
+          )}
 
           {/* Prompt Suggestion */}
           {step === 1 && (
@@ -296,8 +496,8 @@ export default function Page() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 size-[14px] w-full "></div>
-                <p className="text-gray-600  rounded bg-neutral-300 p-2 ">
+                <div className="mt-4 size-[14px] w-full"></div>
+                <p className="rounded bg-neutral-300 p-2 text-gray-600">
                   📝Note: You can add &#34;v1&#34;, &#34;v2&#34;, etc. at the
                   end of the prompt to generate different images by modifying
                   the prompt like this: &#34;prompt v1&#34;, &#34;prompt
@@ -307,13 +507,13 @@ export default function Page() {
             </>
           )}
 
-          <Button
-            onClick={handleNextStep}
-            disabled={!selectedImage}
-            className="mt-4 flex"
-          >
-            Next: Mint NFT
-          </Button>
+          <TransactionDialog
+            isOpen={isOpen}
+            onOpenChange={handleOpenChange}
+            currentStep={currentStep}
+            title="Transaction Status"
+            message={message}
+          />
         </div>
       </div>
     </>
