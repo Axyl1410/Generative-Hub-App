@@ -3,6 +3,7 @@
 import Loading from "@/app/loading";
 import { MARKETPLACE } from "@/contracts";
 import axios from "@/lib/axios-config";
+import TakeMetadata from "@/lib/take-metadata";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -45,11 +46,14 @@ export default function BuyListingButton({
 
   const handle = async () => {
     try {
+      const { metadata } = TakeMetadata(contractAddress);
+
       await Promise.all([
         axios.post("/api/token/add-token", {
           username: account?.address,
           address: contractAddress,
           token: tokenId,
+          name_collection: (await metadata).name,
         }),
         axios.post("/api/token/remove-token", {
           username:

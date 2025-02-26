@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { username, address, token } = await request.json();
+    const { username, address, token, name_collection } = await request.json();
 
     if (!username || !address || !token) {
       return NextResponse.json(
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await addNftToUser(username, address, token);
+    await addNftToUser(username, address, token, name_collection);
 
     return NextResponse.json(
       { message: "Token added successfully" },
