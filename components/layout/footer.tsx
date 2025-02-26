@@ -2,7 +2,7 @@ const Footer = () => {
   const currentYear: number = new Date().getFullYear();
 
   return (
-    <div className="border-t py-8 dark:border-border-dark">
+    <div className="dark:border-border-dark footer border-t py-8">
       <div className="px-5">
         <div className="!container flex items-center justify-between">
           <span className="text-sm/6">

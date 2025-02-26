@@ -32,8 +32,8 @@ const useAttributes = () => {
     traitType,
     setTraitType,
     attributeValue,
-    setAttributeValue,
     attributesArray,
+    setAttributeValue,
     handleAddAttribute,
     handleRemoveAttribute,
   };

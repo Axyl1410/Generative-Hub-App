@@ -1,17 +1,35 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { ChevronUp } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 const BackToTop = () => {
-  const [Visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleScroll = () =>
-      window.scrollY > 50 ? setVisible(true) : setVisible(false);
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+
+      // Show button when scrolled down more than 50px
+      const shouldShowButton = scrollTop > 50;
+
+      // Check if user has reached the footer area
+      const footer = document.querySelector("div.footer");
+      const isAtFooter = footer
+        ? scrollTop + clientHeight >=
+          footer.getBoundingClientRect().top + window.scrollY
+        : scrollTop + clientHeight >= scrollHeight - 100;
+
+      // Only show button if scrolled down AND not at footer
+      setVisible(shouldShowButton && !isAtFooter);
+    };
 
     window.addEventListener("scroll", handleScroll);
+    // Initial check
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -27,7 +45,7 @@ const BackToTop = () => {
 
   return (
     <AnimatePresence>
-      {Visible && (
+      {visible && (
         <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -37,7 +55,7 @@ const BackToTop = () => {
             stiffness: 300,
             damping: 20,
           }}
-          className="group fixed bottom-2 right-2 rounded-lg shadow"
+          className="group fixed bottom-2 right-2 z-30 rounded-lg shadow"
           onClick={handleClick}
         >
           <span className="absolute inset-0 -z-10 h-full w-full rounded-xl bg-gradient-to-br from-purple-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[8px]" />

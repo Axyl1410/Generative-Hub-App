@@ -66,7 +66,7 @@ const Navbar = () => {
           </section>
 
           <div className="flex items-center gap-3">
-            <div className="relative">
+            <div className="relative hidden xl:block">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
               <Input
                 type="text"
