@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import BackBtn from "@/components/common/back-button";
 import ImagePreviewModal from "@/components/common/ImagePreviewModal";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function Page() {
   const OPENAI_API_KEY = process.env.NEXT_PUBLIC_HF_API_KEY;
@@ -96,7 +97,7 @@ export default function Page() {
         } else {
           const errorData = await response.json();
           throw new Error(
-            errorData.error?.message || `HTTP Error ${response.status}`
+            errorData.error?.message || `HTTP Error ${response.status}. Please try again.`
           );
         }
         return;
@@ -116,7 +117,7 @@ export default function Page() {
     if (selectedImage) {
       setStep(2);
     } else {
-      alert("Please select an image first.");
+      toast.warning("Please select an image first.");
     }
   }
 
@@ -146,7 +147,7 @@ export default function Page() {
             className={cn(
               "mb-2 cursor-pointer p-2",
               step === 2 && selectedImage
-                ? "rounded bg-blue-500 font-bold text-gray-700"
+                ? "rounded bg-blue-500 font-bold"
                 : "cursor-not-allowed rounded bg-gray-200 dark:text-black"
             )}
             onClick={() => selectedImage && setStep(2)}
@@ -162,14 +163,14 @@ export default function Page() {
               <p className="mb-4 text-gray-600 dark:text-text-dark">
                 Enter a prompt and generate an image.
               </p>
-              <div className="flex w-full max-w-4xl flex-col gap-6 md:flex-row">
+              <div className="flex w-ful flex-col gap-6 md:flex-row">
                 {/* Input Section */}
                 <div className="flex w-full flex-col md:w-1/2">
                   <Textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Enter prompt..."
-                    className="mb-2 h-64" // Increased height
+                    className="mb-2 h-64 dark:border-white " // Increased height
                   />
                   <div className="flex gap-2">
                     <Button
@@ -178,7 +179,7 @@ export default function Page() {
                     >
                       {loading ? `Generating... (${cooldown}s)` : "✨ Generate"}
                     </Button>
-                    <Button variant="outline" onClick={() => setPrompt("")}>
+                    <Button variant="outline" className="" onClick={() => setPrompt("")}>
                       Clear
                     </Button>
                   </div>
@@ -186,7 +187,7 @@ export default function Page() {
                 </div>
 
                 {/* Output Section */}
-                <div className="relative flex w-full flex-col items-center rounded border p-4 shadow md:w-1/2">
+                <div className="relative flex w-full flex-col items-center rounded border dark:border-white  p-4 shadow md:w-1/2">
                   {loading && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-200 bg-opacity-75">
                       <Loading />
@@ -230,7 +231,7 @@ export default function Page() {
                         </div>
                       )}
                       <div className="mt-2 flex items-center justify-between">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 dark:text-white">
                           Click image to select
                         </p>
                         <Button
@@ -295,8 +296,8 @@ export default function Page() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 size-[14px] w-full text-base"></div>
-                <p>
+                <div className="mt-4 size-[14px] w-full "></div>
+                <p className="text-gray-600  rounded bg-neutral-300 p-2 ">
                   📝Note: You can add &#34;v1&#34;, &#34;v2&#34;, etc. at the
                   end of the prompt to generate different images by modifying
                   the prompt like this: &#34;prompt v1&#34;, &#34;prompt
