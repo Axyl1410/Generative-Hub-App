@@ -1,8 +1,14 @@
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 
-const SearchBar = () => {
+type SearchBarProps = {
+  className?: string;
+  [key: string]: unknown;
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({ className, ...props }) => {
   return (
-    <div className="relative">
+    <div className={cn("relative", className)} {...props}>
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
         <Search className="h-5 w-5 text-gray-500" />
       </div>

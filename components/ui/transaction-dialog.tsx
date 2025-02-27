@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import React from "react";
 import { Button } from "./button";
@@ -27,7 +27,9 @@ const StepIcon = ({ step }: { step: TransactionStep }) => {
   switch (step) {
     case "sent":
     case "confirmed":
-      return <Loader2 className="h-8 w-8 animate-spin text-gray-500" />;
+      return (
+        <Loader2 className="h-8 w-8 animate-spin text-gray-500 dark:text-white" />
+      );
     case "success":
       return <CheckCircle className="h-8 w-8 text-green-500" />;
     case "error":
@@ -48,8 +50,8 @@ const StepIndicator = ({ currentStep }: { currentStep: TransactionStep }) => {
               currentStep === "error"
                 ? "bg-red-500"
                 : steps.indexOf(currentStep) >= index
-                  ? "bg-primary"
-                  : "bg-gray-200"
+                  ? "bg-emerald-500"
+                  : "bg-gray-300"
             )}
           />
           {index < steps.length - 1 && (
@@ -59,8 +61,8 @@ const StepIndicator = ({ currentStep }: { currentStep: TransactionStep }) => {
                 currentStep === "error"
                   ? "bg-red-500"
                   : steps.indexOf(currentStep) > index
-                    ? "bg-primary"
-                    : "bg-gray-200"
+                    ? "bg-emerald-500"
+                    : "bg-gray-300"
               )}
             />
           )}
@@ -140,7 +142,7 @@ const TransactionDialog = ({
                 "text-center text-sm",
                 currentStep === "error"
                   ? "text-red-500"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground dark:text-white"
               )}
             >
               {getStepMessage(currentStep, message)}

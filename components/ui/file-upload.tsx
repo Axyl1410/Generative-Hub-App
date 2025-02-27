@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { Upload, X } from "lucide-react";
+import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
@@ -28,15 +28,16 @@ const secondaryVariant = {
 
 export const FileUpload = ({
   onChange,
+  allowedTypes = ["*/*"], // Allow all file types by default
 }: {
   onChange?: (file: File | null) => void;
+  allowedTypes?: string[];
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
     const newFile = newFiles[0];
-    const acceptedTypes = ["image/*", "audio/*"];
     const maxSizeInMB = 50;
     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
@@ -46,12 +47,14 @@ export const FileUpload = ({
     }
 
     if (
-      acceptedTypes.some((type) => newFile.type.startsWith(type.split("/")[0]))
+      allowedTypes[0] === "*/*" || // Allow all file types if "*/*" is present
+      allowedTypes.some((type) => newFile.type.startsWith(type.split("/")[0]))
     ) {
       setFile(newFile);
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      onChange && onChange(newFile);
-    } else toast.error("Only image and audio files are accepted.");
+      if (onChange) onChange(newFile);
+    } else {
+      toast.error("File type not allowed.");
+    }
   };
 
   const handleClick = () => fileInputRef.current?.click();

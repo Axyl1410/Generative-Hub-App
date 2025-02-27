@@ -3,7 +3,7 @@ import { MARKETPLACE } from "@/contracts";
 import CheckNFTListing from "@/lib/check-nft-listing";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NFT as NFTType } from "thirdweb";

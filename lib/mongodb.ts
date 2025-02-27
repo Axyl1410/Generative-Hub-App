@@ -123,7 +123,8 @@ export async function addAddressToUser(
 export async function addNftToUser(
   username: string,
   contract: string,
-  tokenId: string
+  tokenId: string,
+  name_collection?: string
 ) {
   const collection = await getCollection();
 
@@ -147,6 +148,7 @@ export async function addNftToUser(
             nft: {
               contract,
               tokenId: [tokenId],
+              name_collection: name_collection || null,
             },
           },
         }
@@ -160,15 +162,21 @@ export async function addNftToUser(
       throw new Error("NFT already exists for this user");
     }
 
+    // Update token ID and name_collection if provided
+    const updateData: any = {
+      $addToSet: {
+        "nft.$.tokenId": tokenId,
+      },
+    };
+
+    if (name_collection) {
+      updateData.$set = {
+        "nft.$.name_collection": name_collection,
+      };
+    }
+
     await collection
-      .updateOne(
-        { username, "nft.contract": contract },
-        {
-          $addToSet: {
-            "nft.$.tokenId": tokenId,
-          },
-        }
-      )
+      .updateOne({ username, "nft.contract": contract }, updateData)
       .catch((error) => {
         throw new Error(error);
       });

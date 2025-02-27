@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useCallback, useEffect } from "react";

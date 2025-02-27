@@ -20,9 +20,8 @@ export async function waitForContractDeployment(
   timeout = 60000,
   interval = 1000
 ): Promise<void> {
-  if (typeof window === "undefined" || !window.ethereum) {
+  if (typeof window === "undefined" || !window.ethereum)
     throw new Error("Ethereum provider not found");
-  }
 
   // Kiểm tra phiên bản của ethers và sử dụng provider tương ứng
   const provider = new ethers.BrowserProvider(window.ethereum as any); // Ethers v6
@@ -36,9 +35,10 @@ export async function waitForContractDeployment(
         console.log("Contract deployed successfully. Contract code:", code);
         return;
       }
-      if (Date.now() - startTime > timeout) {
+
+      if (Date.now() - startTime > timeout)
         throw new Error("Timeout waiting for contract deployment");
-      }
+
       await new Promise((resolve) => setTimeout(resolve, interval));
     } catch (error) {
       console.error("Error checking contract code:", error);

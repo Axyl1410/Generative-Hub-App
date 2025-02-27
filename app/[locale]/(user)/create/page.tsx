@@ -4,7 +4,7 @@ import BackButton from "@/components/common/back-button";
 import Dialog from "@/components/ui/modal";
 import useToggle from "@/hooks/use-state-toggle";
 import { Link } from "@/i18n/routing";
-import { ArrowRight, ImageIcon, LayoutGrid, Stars } from "lucide-react";
+import { ArrowRight, ImageIcon, LayoutGrid, Stars} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function Page() {
@@ -74,7 +74,7 @@ export default function Page() {
           </Link>
           <div
             onClick={modal.open}
-            className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+            className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800 cursor-pointer"
           >
             <span className="absolute inset-0 -z-10 h-full w-full rounded-lg bg-gradient-to-br from-sky-600 to-blue-500 filter transition-all duration-300 ease-out group-hover:blur-[6px]" />
 
@@ -85,7 +85,7 @@ export default function Page() {
                 </div>
                 <p>Generative Art</p>
               </div>
-              <div>Generate by script or AI promt</div>
+              <div>Use your extraordinary coding skills or ideas from prompts to have AI generate unique images for you</div>
             </div>
             <div className={"h-6 w-6"}>
               <ArrowRight size={24} />
@@ -95,8 +95,9 @@ export default function Page() {
             <div className="flex flex-col gap-4">
               <Link
                 href={"/create/p5js"}
-                className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800"
+                className="group relative flex w-full items-center justify-between gap-8 rounded-lg border border-gray-50 bg-gray-50 p-6 pr-8 shadow dark:border-neutral-800 dark:bg-neutral-800 "
               >
+              
                 <p>Generate by script</p>
                 <div className={"h-6 w-6"}>
                   <ArrowRight size={24} />

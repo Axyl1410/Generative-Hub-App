@@ -1,65 +1,64 @@
+import CollectionContract from "@/lib/get-collection-contract";
+import { notFound } from "next/navigation";
 import React, { useState } from "react";
-import { getContract, sendTransaction } from "thirdweb";
 import { burn } from "thirdweb/extensions/erc721";
-import Loading from "@/components/common/loading";
-import { Account } from "thirdweb/wallets";
-import { motion } from "framer-motion";
-import client, { FORMA_SKETCHPAD } from "@/lib/client";
+import { TransactionButton } from "thirdweb/react";
+import TransactionDialog, { TransactionStep } from "../ui/transaction-dialog";
 
 interface BurnButtonProps {
   tokenId: bigint; // ID of the NFT to burn
-  account: Account;
   address: string;
 }
 
-const BurnButton: React.FC<BurnButtonProps> = ({
-  tokenId,
-  account,
-  address,
-}) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+const BurnButton: React.FC<BurnButtonProps> = ({ tokenId, address }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
 
-  const handleBurn = async () => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
+  const contract = CollectionContract(address);
 
-    const Contract = getContract({
-      client: client,
-      address: address,
-      chain: FORMA_SKETCHPAD,
-    });
-
-    try {
-      const transaction = burn({
-        contract: Contract,
-        tokenId: tokenId,
-      });
-
-      await sendTransaction({ transaction, account });
-      setSuccess(true);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
   };
 
+  if (!contract) notFound();
+
+  //todo - check is owner for disable button
+
   return (
-    <div>
-      <motion.button
-        onClick={handleBurn}
-        disabled={loading}
-        layout
-        style={{ width: "auto" }}
+    <>
+      <TransactionButton
+        transaction={() => {
+          setIsOpen(true);
+          setCurrentStep("sent");
+
+          return burn({
+            contract: contract,
+            tokenId: tokenId,
+          });
+        }}
+        onError={(error) => {
+          setCurrentStep("error");
+          setMessage("Transaction failed: " + error.message);
+        }}
+        onTransactionSent={() => {
+          setCurrentStep("confirmed");
+        }}
+        onTransactionConfirmed={() => {
+          setCurrentStep("success");
+          setMessage("Transaction is being confirmed...");
+        }}
       >
-        {loading ? <Loading text={"Burning..."} /> : "Burn NFT"}
-      </motion.button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>NFT burned successfully!</p>}
-    </div>
+        Burn NFT
+      </TransactionButton>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
+    </>
   );
 };
 

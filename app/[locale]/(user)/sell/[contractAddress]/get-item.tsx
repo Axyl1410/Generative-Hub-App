@@ -4,11 +4,12 @@ import EmptyText from "@/components/common/empty-text";
 import { NFTGridLoading } from "@/components/nft/nft-grid";
 import SaleInfo from "@/components/sale-info";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { Attribute } from "@/types";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { notFound } from "next/navigation";
 import { useState } from "react";
 import { Hex, NFT as NFTType } from "thirdweb";
@@ -132,12 +133,9 @@ export function GetItem({ address }: { address: string }) {
               <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg bg-transparent py-4">
                 <SaleInfo nft={selectedNft} address={address} />
               </div>
-              <div
-                className="flex w-full cursor-pointer items-center justify-center rounded-md bg-gray-200 py-3 text-sm text-black"
-                onClick={() => setSelectedNft(null)}
-              >
+              <Button className="w-full" onClick={() => setSelectedNft(null)}>
                 Back
-              </div>
+              </Button>
             </motion.div>
           </motion.div>
         )}

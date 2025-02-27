@@ -1,8 +1,9 @@
 import CollectionContract from "@/lib/get-collection-contract";
 import { notFound } from "next/navigation";
-import { toast } from "sonner";
+import { useState } from "react";
 import { updateMetadata } from "thirdweb/extensions/erc721";
 import { TransactionButton } from "thirdweb/react";
+import TransactionDialog, { TransactionStep } from "../ui/transaction-dialog";
 
 type Props = {
   name: string;
@@ -19,40 +20,57 @@ const UpdateMetadata: React.FC<Props> = ({
   address,
   tokenID,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
+  const [message, setMessage] = useState("");
+
   const contract = CollectionContract(address);
+
+  const handleOpenChange = (open: boolean) => {
+    if (currentStep === "success" || currentStep === "error") setIsOpen(open);
+  };
 
   if (!contract) notFound();
 
   return (
-    <TransactionButton
-      transaction={() => {
-        return updateMetadata({
-          contract,
-          targetTokenId: BigInt(tokenID),
-          newMetadata: {
-            name: name,
-            description: description,
-            image: image,
-          },
-        });
-      }}
-      onError={(error) => {
-        toast.error("Failed to update metadata", {
-          description: error instanceof Error ? error.message : undefined,
-        });
-      }}
-      onTransactionSent={() => {
-        toast("Metadata updated sent");
-      }}
-      onTransactionConfirmed={() => {
-        toast("Metadata updated confirmed");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }}
-    >
-      Update Metadata Nft
-    </TransactionButton>
+    <>
+      <TransactionButton
+        transaction={() => {
+          setIsOpen(true);
+          setCurrentStep("sent");
+
+          return updateMetadata({
+            contract,
+            targetTokenId: BigInt(tokenID),
+            newMetadata: {
+              name: name,
+              description: description,
+              image: image,
+            },
+          });
+        }}
+        onError={(error) => {
+          setCurrentStep("error");
+          setMessage("Transaction failed: " + error.message);
+        }}
+        onTransactionSent={() => {
+          setCurrentStep("confirmed");
+        }}
+        onTransactionConfirmed={() => {
+          setCurrentStep("success");
+          setMessage("Transaction is being confirmed...");
+        }}
+      >
+        Update Metadata Nft
+      </TransactionButton>
+      <TransactionDialog
+        isOpen={isOpen}
+        onOpenChange={handleOpenChange}
+        currentStep={currentStep}
+        title="Transaction Status"
+        message={message}
+      />
+    </>
   );
 };
 

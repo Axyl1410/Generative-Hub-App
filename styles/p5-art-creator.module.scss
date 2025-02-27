@@ -1,9 +1,3 @@
-.container-page {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .fileInput {
   margin: 20px 0;
 }
@@ -20,30 +14,6 @@
   font-family: monospace;
   padding: 10px;
   margin: 10px 0;
-}
-
-.runButton {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.downloadButtons {
-  display: flex;
-  gap: 10px;
-}
-
-.downloadButton {
-  background: #0070f3;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
 .errorMessage {
