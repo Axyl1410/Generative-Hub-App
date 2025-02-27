@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 
 type SearchBarProps = {
   className?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ className, ...props }) => {
