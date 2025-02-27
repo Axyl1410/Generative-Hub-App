@@ -68,7 +68,7 @@ root/
 
 - Node.js
 - MongoDB
-
+- MySQL 8.0
 ## 🚀 Getting Started
 
 ### Clone the Repository
