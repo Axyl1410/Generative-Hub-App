@@ -60,10 +60,9 @@ root/
 │   ├── lib/                 # Helper functions
 │   ├── messages/            # Messages for i18n
 │   ├── public/              # Static assets
-│   ├── scripts/             # Script examble for p5js
 │   ├── styles/              # Style of Frontend application
-|   ├── .env.example         # Example environment file to guide setup   
-|   ├── package.json         # Package of project  
+|   ├── .env.example         # Example environment file to guide setup
+|   ├── package.json         # Package of project
 │   └── types/               # Types
 ├── backend                  # Server
 |   ├── artifacts            # Stores build files or smart contract-related artifacts
