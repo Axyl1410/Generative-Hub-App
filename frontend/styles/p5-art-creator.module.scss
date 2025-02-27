@@ -1,0 +1,25 @@
+.fileInput {
+  margin: 20px 0;
+}
+
+.previewContainer {
+  margin: 20px 0;
+  border: 2px solid #ccc;
+  padding: 15px;
+}
+
+.codeTextarea {
+  width: 100%;
+  height: 300px;
+  font-family: monospace;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.errorMessage {
+  color: #ff0000;
+  background: #ffecec;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}

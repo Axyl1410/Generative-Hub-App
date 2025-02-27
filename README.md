@@ -38,36 +38,67 @@ The project consists of two components:
 
 ```
 root/
-├── app/          # Frontend React application
-│   ├── [locale]/   # Source code for the frontend
-│   └── api/        # API routes and handlers
-├── components/     # Reusable React components
-│   ├── common/     # Common component
-│   ├── form/       # Form field
-│   ├── layout/     # Main layout
-│   ├── nft/        # NFT listing
-│   ├── sale-info/  # NFT sale info
-│   ├── skeleton/   # Skeleton placeholder
-│   ├── theme/      # Theme Providers
-│   ├── thirdweb/   # Thirdweb custom component
-│   ├── token/      # Token UI
-│   └── ui/         # Common UI application
-├── contracts/    # Process Contracts
-├── font/         # Fonts style for application
-├── hooks/        # Custom React hooks
-├── i18n/         # i18 providers
-├── lib/          # Helper functions
-├── messages/     # Messages for i18n
-├── public/       # Static assets
-├── scripts/      # Script examble for p5js
-├── styles/       # Style of Frontend application
-└── types/        # Types
+├── frontend                 # Client
+│   ├── app/                 # Frontend React application
+│   │   ├── [locale]/        # Source code for the frontend
+│   │   └── api/             # API routes and handlers
+│   ├── components/          # Reusable React components
+│   │   ├── common/          # Common component
+│   │   ├── form/            # Form field
+│   │   ├── layout/          # Main layout
+│   │   ├── nft/             # NFT listing
+│   │   ├── sale-info/       # NFT sale info
+│   │   ├── skeleton/        # Skeleton placeholder
+│   │   ├── theme/           # Theme Providers
+│   │   ├── thirdweb/        # Thirdweb custom component
+│   │   ├── token/           # Token UI
+│   │   └── ui/              # Common UI application
+│   ├── contracts/           # Process Contracts
+│   ├── font/                # Fonts style for application
+│   ├── hooks/               # Custom React hooks
+│   ├── i18n/                # i18 providers
+│   ├── lib/                 # Helper functions
+│   ├── messages/            # Messages for i18n
+│   ├── public/              # Static assets
+│   ├── styles/              # Style of Frontend application
+|   ├── .env.example         # Example environment file to guide setup
+|   ├── package.json         # Package of project
+│   └── types/               # Types
+├── backend                  # Server
+|   ├── artifacts            # Stores build files or smart contract-related artifacts
+|   ├── cache                # Stores temporary cache data to optimize performance
+|   ├── config               # Contains configuration files for the project
+|   ├── contracts            # Holds smart contracts for blockchain development
+|   ├── node_modules         # Installed npm libraries (auto-generated)
+|   ├── scripts              # Includes automation scripts or deployment scripts for smart contracts
+|   ├── src                  # Main source code directory
+|   │   ├── controllers      # Handles business logic for API requests (Controller Layer)
+|   │   ├── middleware       # Middleware functions for request validation and processing
+|   │   ├── models           # Defines database models (ORM)
+|   │   ├── routes           # API routing configuration (Router Layer)
+|   │   ├── services         # Business logic and services for handling operations
+|   │   ├── uploads          # Stores temporarily uploaded files (if file upload feature exists)
+|   │   ├── utils            # Utility functions used across the project
+|   │   └── index.js         # Main entry point for the application
+|   ├── test                 # Contains test scripts for smart contracts and APIs
+|   │   ├── Collection.js    # Tests for the Collection smart contract
+|   │   └── Token.js         # Tests for the Token smart contract
+|   ├── .env.example         # Example environment file to guide setup
+|   ├── .gitignore                                      # Specifies files and directories to ignore in Git commits
+|   ├── APP_GENERATE_HUB_TEST.postman_collection.json   # Postman API collection for testing endpoints
+|   ├── deployedCollectionContract.json                 # Stores deployed smart contract information
+|   ├── GHA_SQL.sql                                     # SQL file, possibly for database structure or sample data
+|   ├── hardhat.config.js    # Hardhat configuration file for Ethereum smart contract development
+|   ├── package-lock.json    # Manages exact versions of installed dependencies
+|   └── package.json         # Manages dependencies and project metadata
+└── readme.md                # Readme
 ```
 
 ## 📋 Prerequisites
 
 - Node.js
 - MongoDB
+- MySQL 8.0
 
 ## 🚀 Getting Started
 
@@ -139,10 +170,9 @@ Stay tuned for updates on our development progress!
 
 We are a team of software engineers specializing in Web3 development, with a focus on:
 
-- Building high-load, scalable solutions
-- Expertise in fintech and cybersecurity
-- Passion for decentralization and user empowerment
-- Commitment to blockchain technology innovation
+- Designing systems that are light yet powerful
+- Blending technical expertise with innovative design to craft engaging digital experiences
+- build user-friendly interfaces that not only look great but also function
 
 ## Learn More
 
