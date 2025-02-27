@@ -29,6 +29,12 @@ export default function MakeOfferButton({
     if (currentStep === "success" || currentStep === "error") setIsOpen(open);
   };
 
+  const isDisabled =
+    account?.address === auctionListing?.creatorAddress ||
+    account?.address === directListing?.creatorAddress ||
+    (!directListing && !auctionListing) ||
+    !account;
+
   return (
     <div className="flex flex-col">
       <Input
@@ -40,11 +46,7 @@ export default function MakeOfferButton({
         className="mb-4"
       />
       <TransactionButton
-        disabled={
-          account?.address === auctionListing?.creatorAddress ||
-          account?.address === directListing?.creatorAddress ||
-          (!directListing && !auctionListing)
-        }
+        disabled={isDisabled}
         transaction={() => {
           setIsOpen(true);
           setCurrentStep("sent");

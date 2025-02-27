@@ -1,10 +1,9 @@
 "use client";
 
-import Loading from "@/app/loading";
 import { MARKETPLACE } from "@/contracts";
 import axios from "@/lib/axios-config";
 import TakeMetadata from "@/lib/take-metadata";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   buyFromListing,
@@ -29,7 +28,6 @@ export default function BuyListingButton({
   tokenId,
 }: Props) {
   const account = useActiveAccount();
-  const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<TransactionStep>("sent");
   const [message, setMessage] = useState("");
@@ -38,22 +36,18 @@ export default function BuyListingButton({
     if (currentStep === "success" || currentStep === "error") setIsOpen(open);
   };
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!account) Loading();
-
   const handle = async () => {
     try {
       const { metadata } = TakeMetadata(contractAddress);
+
+      const metadataResult = await metadata;
 
       await Promise.all([
         axios.post("/api/token/add-token", {
           username: account?.address,
           address: contractAddress,
           token: tokenId,
-          name_collection: (await metadata).name,
+          name_collection: metadataResult.name,
         }),
         axios.post("/api/token/remove-token", {
           username:
@@ -76,18 +70,16 @@ export default function BuyListingButton({
     }
   };
 
-  if (!isClient) {
-    return null;
-  }
+  const isDisabled =
+    account?.address === auctionListing?.creatorAddress ||
+    account?.address === directListing?.creatorAddress ||
+    (!directListing && !auctionListing) ||
+    !account;
 
   return (
     <>
       <TransactionButton
-        disabled={
-          account?.address === auctionListing?.creatorAddress ||
-          account?.address === directListing?.creatorAddress ||
-          (!directListing && !auctionListing)
-        }
+        disabled={isDisabled}
         transaction={() => {
           setIsOpen(true);
           setCurrentStep("sent");
