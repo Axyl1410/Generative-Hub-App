@@ -1,7 +1,6 @@
 "use client";
 
 import Skeleton from "@/components/skeleton/skeleton";
-import { Link } from "@/i18n/routing";
 import client from "@/lib/client";
 import CollectionContract from "@/lib/get-collection-contract";
 import { notFound } from "next/navigation";
@@ -47,7 +46,7 @@ export default function NFTComponent({
   if (!nft) return <LoadingNFTComponent />;
 
   return (
-    <Link href={`/token/${address}/${tokenId.toString()}`}>
+    <a href={`/token/${address}/${tokenId.toString()}`}>
       <div className="flex h-[400px] w-full cursor-pointer flex-col justify-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[.04] transition-all hover:scale-105 hover:shadow-lg">
         <div className="relative w-full overflow-hidden bg-white/[.04]">
           {nft.metadata.image && (
@@ -84,7 +83,7 @@ export default function NFTComponent({
           )}
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 
