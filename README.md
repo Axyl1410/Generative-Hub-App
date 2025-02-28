@@ -229,12 +229,12 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 ---
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 Made with ❤️ by the Generative Hub App Team
+
 ## Image Demo Website
 ![Image](https://github.com/user-attachments/assets/6bd7b2ef-59f7-4c50-9aff-48f66b8733a8)
 ![Image](https://github.com/user-attachments/assets/7b9bcedc-9d59-43c4-9acc-87db9fef2dc6)
