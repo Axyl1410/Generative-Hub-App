@@ -5,8 +5,8 @@ import Loading from "@/components/common/loading";
 import client, { FORMA_SKETCHPAD } from "@/lib/client";
 import { cn } from "@/lib/utils";
 import { ThirdwebButtonProps } from "@/types";
-import { motion } from "motion/react";
 import { Wallet } from "lucide-react";
+import { motion } from "motion/react";
 import React, { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import {
@@ -44,6 +44,8 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
       client,
       chain: FORMA_SKETCHPAD,
       showThirdwebBranding: false,
+      title: "Generative hub app",
+      titleIcon: "https://nguyentruonggiang.id.vn/favicon.ico",
       appMetadata: {
         name: "Generative Hub App",
         url: "https://generative-hub-app.vercel.app/",
@@ -76,7 +78,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
           </div>
         </div>
       ) : (
-        <motion.div
+        <div
           className={cn(
             "flex h-[35px] items-center justify-center gap-2 overflow-hidden rounded-lg bg-nav p-2 text-sm shadow dark:bg-nav-dark",
             !account && "cursor-pointer"
@@ -97,7 +99,7 @@ const ConnectButton: React.FC<ThirdwebButtonProps> = ({
               </motion.div>
             </AccountProvider>
           )}
-        </motion.div>
+        </div>
       )}
     </>
   );

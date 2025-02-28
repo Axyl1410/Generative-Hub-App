@@ -111,11 +111,13 @@ cd Generative-Hub-App
 
 ### Frontend Setup
 
-#### Download package
+#### Install dependencies
 
 ```sh
+cd frontend
 npm i
 # or
+cd frontend
 pnpm i
 ```
 
@@ -127,15 +129,25 @@ npm run dev
 pnpm dev
 ```
 
+The frontend will be available at [http://localhost:3000](http://localhost:3000)
+
 ### Backend Setup
 
-#### Copy .env.example into .env.local
+#### Install dependencies
 
 ```bash
-cp .env.example .env.local
+npm install
+#or
+pnpm install
 ```
 
-The frontend will be available at [http://localhost:3000](http://localhost:3000)
+#### Start the server
+
+```bash
+npm start
+```
+
+View the website at: [http://localhost:5000](http://localhost:5000)
 
 ## 🛠️ Tech Stack
 
@@ -152,6 +164,8 @@ The frontend will be available at [http://localhost:3000](http://localhost:3000)
 ### Backend
 
 - MongoDB
+- Expressjs
+- Mysql
 - Api router
 - Forma NFTs Protocol
 - Axios
@@ -168,13 +182,13 @@ Stay tuned for updates on our development progress!
 
 ## 👥 About Us
 
-We are a team of software engineers specializing in Web3 development, with a focus on:
+We are a team of software engineers specializing in Web3 and Web2 development, with a focus on:
 
 - Designing systems that are light yet powerful
 - Blending technical expertise with innovative design to craft engaging digital experiences
 - build user-friendly interfaces that not only look great but also function
 
-## Learn More
+## 🔎 Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
