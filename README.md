@@ -102,52 +102,63 @@ root/
 
 ## 🚀 Getting Started
 
-### Clone the Repository
-
-```sh
+### **Clone the Repository**
+```bash
 git clone https://github.com/Axyl1410/Generative-Hub-App
 cd Generative-Hub-App
 ```
 
-### Frontend Setup
+---
 
-#### Install dependencies
+## **Frontend Setup**
 
-```sh
+### **1. Navigate to Frontend Directory**
+```bash
 cd frontend
-npm i
-# or
-cd frontend
-pnpm i
 ```
 
-#### Run the development server:
+### **2. Install Dependencies**
+Use **npm** or **pnpm** to install the required packages:
+```bash
+npm i  # Using npm
+# or
+pnpm i  # Using pnpm
+```
 
+### **3. Run the Development Server**
+Start the frontend development server with:
+```bash
+npm run dev  # Using npm
+# or
+pnpm dev  # Using pnpm
+```
+The frontend will be available at **http://localhost:3000**
+
+---
+
+## **Backend Setup**
+
+### **1. Navigate to Backend Directory**
+```bash
+cd backend
+```
+
+### **2. Install Dependencies**
+```bash
+npm i
+```
+
+### **3. Configure Environment Variables**
+Ensure you have a `.env` file set up in the `backend` directory.
+
+### **4. Start the Backend Server**
+Run the backend development server with:
 ```bash
 npm run dev
-# or
-pnpm dev
 ```
+The backend will be available at **http://localhost:5000**
 
-The frontend will be available at [http://localhost:3000](http://localhost:3000)
-
-### Backend Setup
-
-#### Install dependencies
-
-```bash
-npm install
-#or
-pnpm install
-```
-
-#### Start the server
-
-```bash
-npm start
-```
-
-View the website at: [http://localhost:5000](http://localhost:5000)
+---
 
 ## 🛠️ Tech Stack
 
@@ -165,24 +176,48 @@ View the website at: [http://localhost:5000](http://localhost:5000)
 
 - MongoDB
 - Expressjs
-- Mysql
+- MySql
 - Api router
 - Forma NFTs Protocol
 - Axios
+## 🚀 **Technology Stack & Partner Integration**
+### **Using FORMA Technology**
+We utilize **FORMA** technology to optimize smart contract interactions and reduce gas fees. This integration ensures:
+- **Low gas fees**: Minimizing transaction costs for users.
+- **Seamless smart contract execution**: Enhancing performance and usability.
+- **Security and scalability**: Providing a stable and secure environment for NFT transactions.
 
+Our platform is designed to fully leverage FORMA’s capabilities while maintaining a user-friendly experience.
+
+---
+## ✅ **Additional Notes**
+- Ensure you have **Node.js v18+** and **npm/pnpm** installed.
+- Some libraries may require a specific version of Node.js to function properly.
+- If you encounter errors, check for missing dependencies and ensure your environment variables are correctly set up.
+
+---
 ## 🚀 Future Plans
 
-We are actively working on improve UI and securing for account and database
+We are actively working on improving UI and securing accounts and databases.
 
-Technical: Ensure efficient onchain metadata processing without increasing costs.
-User Experience: Build an interface that is intuitive enough for non-tech artists.
-Competitive Market: Compete with other innovative NFT platforms. Add more new type of contract and have supply per token
+### **Technical Enhancements:**
+- Ensure efficient on-chain metadata processing without increasing costs.
+- Add more new types of contracts and have supply per token.
+- Upgrade AI for generative image processing.
+
+### **User Experience Improvements:**
+- Build an interface that is intuitive enough for non-tech artists.
+- Implement AI-powered chatbots for users to ask about NFTs, get recommendations, event updates, and search for top-ranked users.
+
+### **Competitive Market Strategy:**
+- Compete with other innovative NFT platforms.
+- Enhance AI capabilities to improve generative image models.
 
 Stay tuned for updates on our development progress!
-
+---
 ## 👥 About Us
 
-We are a team of software engineers specializing in Web3 and Web2 development, with a focus on:
+We are a team of software engineers students specializing in Web3 and Web2 development, with a focus on:
 
 - Designing systems that are light yet powerful
 - Blending technical expertise with innovative design to craft engaging digital experiences
