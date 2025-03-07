@@ -4,7 +4,6 @@ import EmptyText from "@/components/common/empty-text";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@nextui-org/react";
 import { AnimatePresence, motion } from "motion/react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NFT as NFTType } from "thirdweb";
 import { getNFTs } from "thirdweb/extensions/erc721";
@@ -46,10 +45,7 @@ export function GetItems({ address }: { address: string }) {
         >
           {NFTs && NFTs.length ? (
             NFTs.map((nft: NFTType) => (
-              <Link
-                key={nft.id.toString()}
-                href={`/explore/${address}/${nft.id}`}
-              >
+              <a key={nft.id.toString()} href={`/explore/${address}/${nft.id}`}>
                 <div className="min-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105">
                   <NFTProvider contract={contract} tokenId={nft.id}>
                     <NFTMedia className="aspect-square w-full rounded-lg object-cover object-center" />
@@ -62,7 +58,7 @@ export function GetItems({ address }: { address: string }) {
                     <NFTDescription className="mt-2 line-clamp-2 truncate text-sm" />
                   </NFTProvider>
                 </div>
-              </Link>
+              </a>
             ))
           ) : (
             <EmptyText

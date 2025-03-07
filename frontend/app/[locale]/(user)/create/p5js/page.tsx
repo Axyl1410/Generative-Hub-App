@@ -202,7 +202,7 @@ const P5ArtCreator: React.FC = () => {
           <div className="flex w-full gap-8">
             <div className="flex-1">
               <Suspense fallback={<Loading />}>
-                <div className="mx-auto my-4 w-full max-w-5xl gap-4 rounded-lg border border-dashed dark:border-neutral-800">
+                <div className="mx-auto my-4 w-full max-w-5xl gap-4 rounded-lg border border-dashed border-gray-500 dark:border-neutral-600">
                   <FileUpload onChange={handleFileUpload} />
                 </div>
               </Suspense>
