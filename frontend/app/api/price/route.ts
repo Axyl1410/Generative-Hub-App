@@ -1,16 +1,30 @@
 import { addMonthlyPrice, closeConnection } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const postSchema = z.object({
+  address: z.string().nonempty(),
+  tokenId: z.string().nonempty(),
+  price: z.number().min(0),
+});
 
 export async function POST(request: Request) {
   try {
-    const { address, tokenId, price } = await request.json();
+    const body = await request.json();
+    const result = postSchema.safeParse(body);
 
-    if (!address || !tokenId || price === undefined) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "Address, tokenId, and price are required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { address, tokenId, price } = result.data;
 
     await addMonthlyPrice(address, tokenId, price);
 

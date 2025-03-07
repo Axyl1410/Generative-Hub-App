@@ -128,6 +128,9 @@ importers:
       uuid:
         specifier: ^11.0.5
         version: 11.1.0
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -17226,5 +17229,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.24.2:
-    optional: true
+  zod@3.24.2: {}
