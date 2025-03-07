@@ -4,6 +4,12 @@ import {
   getAllCollections,
 } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const postSchema = z.object({
+  address: z.string().nonempty(),
+  name: z.string().nonempty(),
+});
 
 export async function GET() {
   try {
@@ -29,14 +35,21 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { address, name } = await request.json();
+    const body = await request.json();
+    const result = postSchema.safeParse(body);
 
-    if (!address) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "Address is required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { address, name } = result.data;
 
     const collectionData = {
       address,
