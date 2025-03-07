@@ -48,7 +48,8 @@
     "recharts": "^2.15.1",
     "tailwindcss-animate": "^1.0.7",
     "thirdweb": "^5.87.3",
-    "uuid": "^11.0.5"
+    "uuid": "^11.0.5",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NFT } from "@/types";
-import { Db, MongoClient } from "mongodb";
+import { Db, MongoClient, ServerApiVersion } from "mongodb";
 
 const uri = process.env.DB_URI;
 
@@ -26,12 +26,20 @@ interface Comment {
 if (!uri) throw new Error("Please define DB_URI in your environment variables");
 
 async function connectToDatabase(dbname: string = "genhub") {
-  if (client && db) return;
+  if (client && db) return db;
 
   try {
-    client = new MongoClient(uri as string);
+    client = new MongoClient(uri as string, {
+      // These options help with SSL/TLS issues
+      serverApi: ServerApiVersion.v1,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+    });
+
     await client.connect();
+
     db = client.db(dbname);
+    return db;
   } catch (error) {
     console.error(error);
     throw error;
@@ -47,8 +55,15 @@ export async function closeConnection() {
 }
 
 export async function getCollection(collectionName: string = "genhub") {
-  await connectToDatabase();
-  return db!.collection(collectionName);
+  const database = await connectToDatabase();
+
+  // Check if collection exists, create it if it doesn't
+  const collections = await database
+    .listCollections({ name: collectionName })
+    .toArray();
+  if (collections.length === 0) await database.createCollection(collectionName);
+
+  return database.collection(collectionName);
 }
 
 export async function getCollectionbyusername(username: string) {

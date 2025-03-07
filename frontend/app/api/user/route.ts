@@ -4,18 +4,37 @@ import {
   getCollectionbyusername,
 } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const postSchema = z.object({
+  username: z.string().nonempty(),
+  address: z.string().nonempty(),
+  name: z.string().optional(),
+});
+
+const getSchema = z.object({
+  username: z.string().nonempty(),
+});
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const username = searchParams.get("username");
+    const result = getSchema.safeParse({
+      username: searchParams.get("username") || "",
+    });
 
-    if (!username) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "Username is required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { username } = result.data;
 
     const user = await getCollectionbyusername(username);
 
@@ -36,14 +55,21 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { username, address, name } = await request.json();
+    const body = await request.json();
+    const result = postSchema.safeParse(body);
 
-    if (!username || !address) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "Username and address are required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { username, address, name } = result.data;
 
     // Create address data object matching AddressData interface
     const addressData = {

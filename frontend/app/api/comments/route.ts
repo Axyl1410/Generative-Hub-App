@@ -1,18 +1,39 @@
 import { addComment, closeConnection, getComments } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const getSchema = z.object({
+  nft_contract: z.string().nonempty(),
+  token_Id: z.string().nonempty(),
+});
+
+const postSchema = z.object({
+  nft_contract: z.string().nonempty(),
+  token_Id: z.string().nonempty(),
+  content: z.string().nonempty(),
+  user_wallet: z.string().nonempty(),
+});
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const nft_contract = searchParams.get("nft_contract");
-    const token_Id = searchParams.get("token_Id");
+    const result = getSchema.safeParse({
+      nft_contract: searchParams.get("nft_contract") || "",
+      token_Id: searchParams.get("token_Id") || "",
+    });
 
-    if (!nft_contract || !token_Id) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "NFT contract and token ID are required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { nft_contract, token_Id } = result.data;
 
     const comments = await getComments(nft_contract, token_Id);
     return NextResponse.json(comments);
@@ -29,15 +50,17 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { nft_contract, token_Id, content, user_wallet } =
-      await request.json();
+    const body = await request.json();
+    const result = postSchema.safeParse(body);
 
-    if (!nft_contract || !token_Id || !content || !user_wallet) {
+    if (!result.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Invalid request body" },
         { status: 400 }
       );
     }
+
+    const { nft_contract, token_Id, content, user_wallet } = body;
 
     await addComment(nft_contract, token_Id, {
       content,

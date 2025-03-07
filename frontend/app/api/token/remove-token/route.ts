@@ -1,16 +1,30 @@
 import { closeConnection, removeNftFromUser } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+const postSchema = z.object({
+  username: z.string().nonempty(),
+  address: z.string().nonempty(),
+  token: z.string().nonempty(),
+});
 
 export async function POST(request: Request) {
   try {
-    const { username, address, token } = await request.json();
+    const body = await request.json();
+    const result = postSchema.safeParse(body);
 
-    if (!username || !address || !token) {
+    if (!result.success) {
+      const errorMessages = result.error.format();
       return NextResponse.json(
-        { error: "Username, contract and token are required" },
+        {
+          error: "Validation error",
+          details: errorMessages,
+        },
         { status: 400 }
       );
     }
+
+    const { username, address, token } = result.data;
 
     await removeNftFromUser(username, address, token);
 
@@ -21,9 +35,8 @@ export async function POST(request: Request) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.message === "Contract is already in user's addresses") {
-      return NextResponse.json({ message: "" }, { status: 200 });
-    }
+    if (error.message === "Contract is already in user's addresses")
+      return NextResponse.next();
 
     console.error("Error removing token:", error);
     return NextResponse.json(
