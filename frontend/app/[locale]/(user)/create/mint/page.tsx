@@ -84,7 +84,7 @@ export default function Page() {
         <div className="flex w-full flex-col gap-12 md:flex-row">
           <div className="flex-1">
             <Suspense fallback={<Loading />}>
-              <div className="mx-auto w-full max-w-5xl gap-4 rounded-lg border border-dashed border-border bg-white dark:border-neutral-800 dark:bg-black">
+              <div className="mx-auto w-full max-w-5xl gap-4 rounded-lg border border-dashed border-gray-500 bg-white dark:border-neutral-600 dark:bg-black">
                 <FileUpload
                   onChange={handleFileUpload}
                   allowedTypes={["image/*"]}

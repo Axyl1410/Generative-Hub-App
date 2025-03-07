@@ -5,7 +5,6 @@ import { NFTGridLoading } from "@/components/nft/nft-grid";
 import CollectionContract from "@/lib/get-collection-contract";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Hex, NFT as NFTType } from "thirdweb";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
@@ -52,7 +51,7 @@ export function GetItem({ address }: { address: string }) {
         >
           {NFTs && NFTs.length ? (
             NFTs.map((nft: NFTType) => (
-              <Link key={nft.id.toString()} href={`/sell/${address}/${nft.id}`}>
+              <a key={nft.id.toString()} href={`/sell/${address}/${nft.id}`}>
                 <motion.div
                   className="min-h-[400px] cursor-pointer rounded-lg border border-gray-500/50 bg-white/[.04] p-4 transition-all hover:scale-105"
                   initial={{ scale: 0.9, opacity: 0 }}
@@ -70,7 +69,7 @@ export function GetItem({ address }: { address: string }) {
                     <NFTDescription className="mt-2 line-clamp-2 truncate text-sm" />
                   </NFTProvider>
                 </motion.div>
-              </Link>
+              </a>
             ))
           ) : (
             <>
